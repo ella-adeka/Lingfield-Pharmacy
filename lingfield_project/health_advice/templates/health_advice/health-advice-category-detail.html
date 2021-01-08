@@ -1,0 +1,42 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %} 
+    <div class="wrapper">
+        <main data-barba="container" data-barba-namespace='healthadvice-category-detail'>
+            <div class="container">
+                <h1 class="text-center each-page-header" style="font-family: IM Fell DW Pica SC;">HEALTH A-Z</h1>
+                <p class="text-center mt-n3" style="color: #3B945E;">Browse conditions, medicines and health advice</p>
+                
+                <form class="d-inline w-100" action="{% url 'health_advice:search' %}" method="get">
+                    <input name="q_health_advice" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" style="font-family: Garamond;background-color:#65CCB8;color: #3B945E;border: none;border-bottom: 1px solid #2C3531;">
+                    <!-- <button class="btn btn-outline-dark my-2 my-sm-0 text-white" type="submit" style="font-family: Garamond;">Search</button> -->
+                  </form>
+            </div>
+    
+            <div class="container mt-5" style="color:#182628;">
+                    {% for healthadvice in category.healthadvice_set.all %}
+                        <a class="category-detail" href="{{ healthadvice.get_absolute_url }}"  style="text-decoration: none;color: #212529;">
+                            <h4><strong>{{ healthadvice.title }}</strong></h4>
+                            <p style="color:#3e6b72;">{{ healthadvice.list_description }}
+                            </p>
+                            <hr class="featurette-divider">
+                        </a> 
+                    {% empty %}
+                        <h1 class="text-center mt-n4" style="font-size: 100px;color: #3B945E;">Oops!!!</h1>
+                        <h5 class="text-center"><b>No advice available here.</b></h5>
+                        <div class="text-center">
+                            <button class="btn btn-hover" type="submit"><a  data-fancybox-close="" href="{% url 'health_advice:health-advice-category-list' %}" style="text-decoration: none;color: #F2F2F2;">GO TO HEALTH ADVICE LIST</a></button>
+                        </div>  
+                    {% endfor %}
+                </div>
+            </div>      
+        </main>
+    </div>   
+
+<div class="container">
+    <p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+</div>     
+
+{% endblock content %}

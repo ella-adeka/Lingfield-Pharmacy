@@ -1,0 +1,30 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='medicine-category-list'>
+      <div class="container">
+        <h1 class="text-center each-page-header" style="font-family: IM Fell DW Pica SC;">MEDICINES A-Z</h1>
+        <p class="text-center">Browse medicines</p>
+        
+        <form class="d-inline w-100" action="{% url 'medicines:search' %}" method="get">
+            <input name="q_medicines" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" style="font-family: Garamond;background-color:#65CCB8;color: #3B945E;border: none;border-bottom: 1px solid #2C3531;">
+        </form>
+      </div>
+      <div class="container">
+        <div class="health-advice-list">
+            <ul style="text-align: justify;text-justify: inter-word;">
+                {% for category in categories %}
+                <li class="mr-3 mr-lg-5"><a href="{% url 'medicines:medicine-category-detail' category.slug %}">{{ category.title }}</a></li>
+                {% endfor %}
+
+            </ul>
+        </div>
+      </div>
+    </main>
+</div>
+
+{% endblock content %}

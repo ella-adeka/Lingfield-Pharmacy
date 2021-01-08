@@ -1,0 +1,137 @@
+{% load static %}
+<head>
+    <!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+     <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=EB Garamond' rel='stylesheet'>
+   
+    <!-- Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <!-- <style>
+        *{
+            filter: invert(100%) hue-rotate(360deg)
+        }
+
+    </style> -->
+</head>
+
+<body style=" background-color: black;margin: 20px; font-family: EB Garamond;margin-top: 2%;">
+
+    <footer  style="color: white;">
+        <div class="container">
+            <!-- <div class="container" style="height: 20px;">
+                <p class="fixed-top text-center col-lg-12 col-md-12 col-sm-12" ><a href="javascript:void(0)" class="closebtn" onclick="closeFooter()" style="text-decoration: none; margin-left: 10px;color: white;">Close footer &times;</a></p> 
+            </div> -->
+
+            <div class="row">
+                <div class="animate-this col-lg-4 col-md-12 col-sm-12">
+                    <h5>CONTACT</h5>
+                    <hr class="featurette-divider" style="background-color: white;height: 2px;border-radius: 20%;">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="material-icons">place</i>
+                        </div>
+                        <div class="col-7">
+                            <address>Unit 34, Flexspace, Lingfield Way<br>Darlington<br>Durham<br>DLI 4QZ</address>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="material-icons">call</i>
+                        </div>
+                        <div class="col-7">
+                            <p><a href="tel:01325790026" style="text-decoration: none;color: white;">01325 790026</a></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="material-icons">email</i>
+                        </div>
+                        <div class="col-7">
+                            <p><a href="{% url 'lingfield:contact' %}" style="text-decoration: none;color: white;">Contact Us</a></p>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                
+                <div class="animate-this col-lg-4 col-md-12 col-sm-12">
+                    <h5>INFORMATION</h5>
+                    <hr class="featurette-divider" style="background-color: white;height: 2px;border-radius: 20%">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="material-icons">business</i>
+                        </div>
+                        <div class="col-7">
+                        <p>Company Registration:<br>08669440</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div class="col-7">
+                            <p>Premises GPhC Number:<br>9011267</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="material-icons">person</i>
+                        </div>
+                        <div class="col-7">
+                            <p>Superintendent Pharmacist:<br>Philip Okoroafor (2076470)</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="animate-this col-lg-4 col-md-12 col-sm-12">
+                    <h5>OPENING HOURS</h5>
+                    <hr class="featurette-divider" style="background-color: white;height: 2px;border-radius: 20%">
+                    <p>Today <span style="float: right;">09:00 to 18:00</span></p>
+                    <hr class="featurette-divider" style="background-color: white;">
+                    <p>Tomorrow <span style="float: right;">Closed</span></p>
+                    <hr class="featurette-divider" style="background-color: white;">
+                    <p>Sun 20 Sep <span style="float: right;">Closed</span></p>
+                    <hr class="featurette-divider" style="background-color: white;">
+                    <p>Mon 21 Sep <span style="float: right;">09:00 to 18:00</span></p>
+                    <hr class="featurette-divider" style="background-color: white;">
+                    
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="animate-this col-6">
+                    <p style="text-decoration: underline;text-decoration-color: white;"><a href="#" style="color: white;">Cookie Policy</a></p>
+                    <p style="text-decoration: underline;text-decoration-color: white;"><a href="#" style="color: white;">Privacy Policy</a></p>
+                    <p style="text-decoration: underline;text-decoration-color: white;"><a href="#" style="color: white;">Terms and Conditions</a></p>
+                    <br>
+                    <p>Copyright 2019</p>
+                    <p>Powered by <a href="www.thepharmacycentre.com"  style="color: white;text-decoration: underline;text-decoration-color: white;">www.thepharmacycentre.com</a> and <a href="www.medicinechest.co.uk"  style="color: white;text-decoration: underline;text-decoration-color: white;">www.medicinechest.co.uk</a></p>
+                
+                    <div  style="background-image: url(&quot;/MedicineChest/Website/img/General/FooterShopping.png&quot;); background-position: 50% 50%; background-size: contain; display: block;"></div>
+                </div>
+                <div class=" animate-this col-6 float-right">
+                    <p style="text-align:right;"><a href="https://lingfieldpharmacy.co.uk/mhra" style="color: white;">Shopping</a></p>
+                    <p style="text-align:right;"><a href="https://medicine-seller-register.mhra.gov.uk/search-registry/989" style="color: white;" target="_blank">Prescriptions</a></p>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="animate-this"  style="background-image: url(&quot;/MedicineChest/Website/img/General/FooterShopping.png&quot;); background-position: 50% 50%; background-size: contain; display: block;"></div>
+
+        <div class="animate-this" id="b" style="background-image: url(&quot;/MedicineChest/Website/img/Instances/921/CustomContent/1796_20200115163334.png&quot;); background-position: 50% 50%; background-size: contain; display: block;"></div>
+    </footer>
+
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>   
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <script src="{% static 'js/index.js' %}"></script>
+
+</body>

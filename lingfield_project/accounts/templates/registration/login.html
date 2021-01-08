@@ -1,0 +1,43 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='login'>
+        <div class="wrapper1 fadeInDown">
+            <div id="formContent1">
+                <!-- Tabs Titles -->
+                <h2 class="active" style="margin-top:2%;font-family: IM Fell DW Pica SC;"> Login </h2>
+            
+                <!-- Login Form -->
+                <form method="POST" class="form-group" enctype="multipart/form-data">
+                    {% csrf_token %}                              
+                        <div>
+                            {{ form.username|as_crispy_field }}
+                        </div>     
+                        <div>
+                            {{ form.password|as_crispy_field }}
+                        </div>                            
+                    <div class="mt-2 mb-2 custom-control custom-checkbox">
+                        <input id="remember" name="remember" class="custom-control-input"  type="checkbox">
+                        <label class="custom-control-label" for="remember">Remember Me</label>
+                    </div>
+
+                    <button class="btn btn-outline-info" type="submit" class="fadeIn fourth">Login</button>
+                </form>
+                      
+                <!-- Remind Passowrd -->
+                <div id="formFooter">
+                    <a class="underlineHover" href="#">Forgot Password?</a>
+                    <br>
+                    <small class="text-muted">
+                        Create an account with us to access email updates, the latest news and information from our pharmacies, and more <a class="ml-2" href="{% url 'accounts:register' %}">Register Now</a>
+                    </small>
+                </div> 
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock content %}

@@ -1,0 +1,133 @@
+{% load static %}
+<header class="sticky-top " >
+    <nav style="margin: auto;">
+        <div class="row">
+            <span class="animate-this text-left col-lg-4 col-md-4 col-sm-4" style="float: left;color: #182628;"><h3><a href="{% url 'lingfield:home' %}" style="color: #182628;text-decoration: none;font-family: Damion;">+LingField</a></h3></span>
+            <!-- <div class="text-center col-lg-4 col-md-4 col-sm-4">
+                <span class="animate-this mr-2"><a href="#" style="color: black;" data-toggle="tooltip" data-placement="left" title="Mode"><i id="colorModeLight" onclick="colorModesLight(this)" class="far fa-moon"></i></a></span>
+                {% if user.is_authenticated %}
+                <span class="animate-this mr-2"><a href="{% url "logout" %}?next=/" style="color: black; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right" title="Log Out"><i  class="fas fa-sign-out-alt">Logout</i></a></span>
+               
+                {% else %}
+                <span class="animate-this mr-2"><a href="{% url 'login' %}" style="color: black; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right" title="Log in"><i  class="fas fa-sign-in-alt mr-2"></i> Login</a></span>
+                {% endif %}
+            </div> -->
+
+            <div class="text-center col-lg-4 col-md-4 col-sm-4">
+                {% if user.is_authenticated %}
+                <span class="animate-this mr-2" ><a class="cart-icon" href="{% url 'shopping:cart' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> Cart</a></span>
+                <!-- <i class="fas fa-shopping-cart"></i> -->
+                <span class="animate-this" style="border-right: 1px solid #182628;"></span>
+                {% else %}
+                <span></span>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <span class="animate-this ml-2" ><a href="{% url 'accounts:dashboard' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> <i class="fas fa-tachometer-alt"></i></a></span>
+                <!-- <i class="fas fa-tachometer-alt"></i> -->
+                <span class="animate-this ml-2" style="border-right: 1px solid #182628;"></span>
+                {% else %}
+                <span></span>
+                {% endif %}
+                {% if user.is_authenticated %}
+                <span class="animate-this ml-2"><a href="{% url 'logout' %}?next=/" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right">Logout</a></span>
+                <!-- <i class="fas fa-sign-out-alt"></i> -->
+                {% else %}
+                <span class="animate-this"><a href="{% url 'accounts:register' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> Register</a></span>
+                <span class="animate-this ml-2" style="border-right: 1px solid #182628;"></span>
+                <span class="animate-this ml-2"><a href="{% url 'login' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> Login</a></span>
+                <!-- <i class="fas fa-sign-in-alt"></i> -->
+                {% endif %}
+            </div>
+
+            <span class="col-lg-4 col-md-4 col-sm-4 text-right" style="float: right;">
+                <div class="all-nav oneline dropdown">
+                    <span id="disNav" class="dropbtn animate-this" style="color: #182628;cursor: pointer;font-family:IM Fell DW Pica SC;" onclick="openNaviGate()">All Menu</span>
+                <div id="NaviGate" class="navigate">
+                    <nav>
+                        <ul>
+                            <div class="dropdown-content">
+                                <a href="{% url 'lingfield:home'%}">Home</a>
+                                <a href="{% url 'lingfield:about'%}">About</a>
+                                <a href="{% url 'blog:blog_list'%}">Blogs</a>
+                                <a href="{% url 'lingfield:complaints'%}">Complaints</a>
+                                <a href="{% url 'lingfield:contact' %}">Contact</a>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'accounts:dashboard' %}">Dashboard</a>
+                                {% else %}
+                               
+                                {% endif %}
+                                <a href="{% url 'lingfield:download'%}" class="download-nav" style="font-size: 18px;">Download Our App</a>
+                                <a href="{% url 'health_advice:health-advice-category-list' %}">Health Advice</a>
+                                <a href="{% url 'health_news:health-news-list'  %}">Health News</a>
+                                <a href="{% url 'lingfield:leaflets'%}">Leaflets</a>
+                                <a href="{% url 'medicines:medicine-category-list'%}">Medicine A-Z</a>
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'accounts:dashboard' %}">Prescriptions</a>
+                                {% else %}
+                                <a href="{% url 'lingfield:prescriptions'%}">Prescriptions</a>
+                                {% endif %}
+                                {% if user.is_authenticated %}
+                                
+                                {% else %}
+                                <a href="{% url 'accounts:register'%}">Register</a>
+                                {% endif %}
+                                <a href="{% url 'lingfield:services'%}">Services</a>
+                                <a href="{% url 'lingfield:settings'%}">Settings</a>
+                                <a href="{% url 'shopping:product_list'%}" class="mb-3">Shopping</a>
+                                </div>    
+                        </ul>
+                    </nav>
+                </div>
+                </div></span>
+        </div>
+    </nav>
+</header>
+
+<script type="text/javascript">
+
+    var allnav = document.getElementById("disNav");
+
+    allnav.onclick = function openNaviGate() {
+        var div = document.getElementById("NaviGate");
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+            document.getElementById("disNav").textContent = "All Menu";
+            document.g
+            etElementById("NaviGate").style.width = "350px";
+        }
+        else {
+            div.style.display = 'block';
+            document.getElementById("disNav").textContent = "Close";
+            document.getElementById("NaviGate").style.width = "0";
+        }
+    };
+
+    function colorModesLight(x) {
+        x.classList.toggle("fa-sun");
+        
+    }
+
+    // function colorModesLight(x) {
+    //     x.classList.toggle("Dark Mode");
+        
+    // }
+
+    // function signInOut(x) {
+    //     x.classList.toggle("fa-sign-out-alt");
+        
+    // }
+
+    window.onscroll = function() {myFunction()};
+
+    var header = document.getElementById("myHeader");
+    var sticky = header.offsetTop;
+
+    function myFunction() {
+    if (window.pageYOffset > sticky) {
+        header.classList.add("sticky");
+    } else {
+        header.classList.remove("sticky");
+    }
+    }
+
+</script>

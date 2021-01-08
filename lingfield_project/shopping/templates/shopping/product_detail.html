@@ -1,0 +1,135 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='shopping'>     
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <h1 class="text-left each-page-header" style="font-family: IM Fell DW Pica SC;">SHOP</h1>
+                    <p class="text-left" style="margin-top: -1%;">Browse all our products</p>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12" style="display: flex;justify-content: end;align-items: center;">
+                    <form class="d-inline w-100" action="{% url 'shopping:search' %}" method="get" >
+                        <input name="q_shop_product" class="form-control mr-sm-2" type="text" placeholder="Search for Products ..." aria-label="Search" style="font-family: Garamond;background-color:#65CCB8;color: white;border: none;border-bottom: 1px solid #2C3531;">
+                    </form>
+                </div>
+            </div>
+
+            <br>
+
+         <!-- Start Shop Detail  -->
+    <div class="shop-detail-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-5 col-lg-5 col-md-6">
+                    <img class="img-responsive rounded" src="{{ shop.image.url }}" width="100%" height="500px" style="object-fit: cover; ">
+
+                </div>
+                <div class="col-xl-7 col-lg-7 col-md-6">
+                    <div class="single-product-details">
+                        <h2>{{ shop.title }}</h2>
+                        <h5> <del style="font-size: 15px;">£{{ shop.old_price }}</del> £{{ shop.price }}</h5>
+                        <p class="available-stock"><span> In Stock</span><p>
+						<h4>Short Description:</h4>
+						<p>{{ shop.first_description }} </p>
+						<ul style="border: 1px dashed black; padding: 10px;">
+							<li style="list-style: none;">
+								<div class="form-group quantity-box">
+									<label class="control-label">Quantity</label>
+									<input class="form-control" value="0" min="0" max="50" type="number" >
+								</div>
+							</li>
+						</ul>
+
+						<div class="price-box-bar">
+							<div class="cart-and-bay-btn">
+								<button class="btn btn-hover float-right" type="submit"><a  data-fancybox-close="" href="{{ shop.get_add_to_cart_url }}" style="text-decoration: none;color: white;">Add to cart</a></button>
+                                
+                                <a  data-fancybox-close="" href="tel:03003033380"  style="text-decoration: underline;color: black;"><i class="material-icons">call</i> Online Shopping: 0300 303 3380</a>
+							</div>
+						</div>
+
+                    </div>
+                </div>
+            </div>
+			
+			<div class="row my-5">
+				<div class="card card-outline-secondary my-4">
+					<!-- <div class="card-header">
+						<h2>Product Reviews</h2>
+					</div> -->
+					<div class="card-body">
+						<div class="media mb-3">
+							<div class="mr-2"> 
+								<img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
+							</div>
+							<div class="media-body">
+                                <h5>DESCRIPTION</h5>
+								<p>{{ object.second_description }}</p>
+							</div>
+						</div>
+						<hr>
+						<div class="media mb-3">
+							<div class="mr-2"> 
+								<img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
+							</div>
+							<div class="media-body">
+                                <h5>DIRECTIONS</h5>
+								<p>{{ object.directions }}</p>
+							</div>
+						</div>
+						<hr>
+						<div class="media mb-3">
+							<div class="mr-2"> 
+								<img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
+							</div>
+							<div class="media-body">
+                                <h5>WARNINGS</h5>
+								<p>{{ object.warnings }}</p>
+							</div>
+						</div>
+                        <hr>
+                        <div class="media mb-3">
+							<div class="mr-2"> 
+								<img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
+							</div>
+							<div class="media-body">
+                                <h5>INGREDIENTS</h5>
+								<p>{{ object.ingredients }}</p>
+							</div>
+						</div>
+                        <hr>
+                        <div class="media mb-3">
+							<div class="mr-2"> 
+								<img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
+							</div>
+							<div class="media-body">
+                                <h5>DELIVERY</h5>
+								<p>Due to an unusually high number of orders being received dispatch times may be longer than stated. Please allow up to 5 working days for dispatch.</p>
+							</div>
+						</div>
+					</div>
+				  </div>
+			</div>
+
+        </div>
+    </div>
+    <!-- End Cart -->    
+
+
+        </div>
+       
+
+
+    </main>
+</div>
+
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid teal;background-color: teal;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+
+
+{% endblock content %}

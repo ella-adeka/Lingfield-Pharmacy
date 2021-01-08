@@ -1,0 +1,79 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='settings'>
+        <div class="container">
+            <h1 class="col-12 text-center each-page-header" style="font-family: IM Fell DW Pica SC;">SETTINGS</h1>
+        </div>
+<!-- 5fbae9 -->
+        <div class="container">
+            <div class="jumbotron" style="background-color: #57BA98;">
+                <div class="row">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="container mb-4">
+                            <h5>VOLUME</h5>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <div class="container">
+                                    <p>Control Your Volume Here!!!</p>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div class="container">
+                            <h5>TEXT</h5>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <div class="container">
+                                    <p>Text Size</p>
+                                    <div class="container">
+                                        <select class="rounded" style="padding: 8px;background-color: teal;border: teal; color: white;width: 250px;">
+                                            <option>XSmall</option>
+                                            <option>Small</option>
+                                            <option>Medium</option>
+                                            <option selected>Large</option>
+                                            <option>X Large</option>
+                                            <option>XX Large</option>
+                                            <option>XXX Large</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <div class="col-lg-6 col-md-12 col-sm-12">
+                        <div class="container">
+                            <h5>DEVICE</h5>
+                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                <div class="container">
+                                    <p>Click Sound</p>
+                                    <div class="container">
+                                        <select class="rounded" style="padding: 8px;background-color: teal;border: teal; color: white; width: 250px; margin-bottom: 20px;">
+                                            <option >On</option>
+                                            <option>Off</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="container">
+                                    <p>Vibration</p>
+                                    <div class="container">
+                                        <select title="Vibration" class="rounded" style="padding: 8px;background-color: teal;border: teal; color: white;width: 250px; margin-bottom: 20px;">
+                                            <option selected>On</option>
+                                            <option>Off</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>      
+    </main>
+</div>
+
+{% endblock content %}

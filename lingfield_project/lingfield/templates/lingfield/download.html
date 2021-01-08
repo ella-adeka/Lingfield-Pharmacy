@@ -1,0 +1,41 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper" >
+    <main data-barba="container" data-barba-namespace='download'>
+        <div class="container">
+            <h1 class="col-12 text-center each-page-header" style="font-family: IM Fell DW Pica SC;">DOWNLOAD OUR APP</h1>
+        </div>
+
+        <!-- <div class="container">         
+            <img src="{% static 'images\download_1.jpg' %}" width="100%" height="300px" >
+        </div> -->
+
+
+        <div class="container" style="color: #116466;">
+                <br>
+            <div class="row ">
+                <div class=" col-lg-6 col-md-12 col-sm-12 "  >
+                    <div style="margin-bottom: 20px;"><span style="border: 10px solid #182628;background-color: #182628;border-radius: 10%;margin-right: 20px;color: #3B945E;">1</span> DOWNLOAD OUR APP</div>
+                    <div class="_au7" style="background-image: url('../static/images/QR-img-2.png');background-position: center center;background-repeat: no-repeat;background-size: contain;height: 300px;position: relative;width: 100%;"></div>
+                    <div class="_aus" style="text-align: center;"><span id="_5o" class="_auv"><a href="{% static 'images\QRAppStore-img-1.png' %}" style="text-decoration: underline;color: #212529;">Click here</a></span><br><span>or scan the QR code using your smartphone to go to your app store and download the app. Or open your app store and search for</span></div>
+                    <div class="_aui" data-trl1="NATIVEAPPSTEP1SEARCH" style="text-align: center;">the prescription app</div>
+                </div>
+            
+                <div class=" col-lg-6 col-md-12 col-sm-12 " >
+                    <div style="margin-bottom: 20px;"><span style="border: 10px solid #182628;background-color: #182628;border-radius: 10%;margin-right: 20px;color: #3B945E;">2</span>FIND YOU PHARMACY</div>
+                    <div id="_5x" class="_au1" data-webindexmarker="branchqr" style="background-image: url('../static/images/QR-img-2.png');background-position: center center;background-repeat: no-repeat;background-size: contain;height: 300px;position: relative;width: 100%;"></div>
+                    <div class="_aus" data-trl1="NATIVEAPPSTEP2TEXT" style="text-align: center;">Open the app and scan this QR code on your Android device or take a picture on your Apple device. Or you can search for your pharmacy by entering the pharmacy name, branch name or address.</div>
+                </div>
+            </div>
+        </div>
+      
+    </main>
+    <br>
+    <br>
+</div>
+
+{% endblock content %}

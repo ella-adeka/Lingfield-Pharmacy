@@ -1,0 +1,71 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='prescriptions'>
+        <div class="container">
+            <h1 class="text-center each-page-header" style="font-family: IM Fell DW Pica SC;">PRESCRIPTIONS</h1>
+            <p class=" text-center" style="margin-top: -1%;">Easily handle your repeat prescriptions</p>
+        </div>
+       
+        <!-- <div class="container"> -->
+            <!-- Block level -->
+            <!-- <div class="row">
+                <div class="col-2 text-truncate">
+                Praeterea iter est quasdam res quas ex communi.
+                </div>
+            </div>
+
+            <span class="d-inline-block text-truncate" style="max-width: 150px;">
+                Praeterea iter est quasdam res quas ex communi.
+              </span>
+        </div> -->
+
+        <div class="container mb-4">
+            <div class="row">
+                <a href="{% url 'login' %}" class="col-lg-4 col-md-12 col-sm-12 mt-2 offset-lg-1 dashboard-sub-header" style="color: black;text-decoration: none; background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));border-radius: 5px 20px 5px 12px;box-shadow: 0px 20px 16px 0px rgba(0,0,0,0.2)">
+                    <div  style="display: flex;justify-content: center;align-items: center;height: 150px;cursor: pointer;">
+                        <h3 class="text-center">LOGIN</h3>
+                    </div>
+                </a>
+                <a href="{% url 'accounts:register' %}" class="col-lg-4 col-md-12 col-sm-12 mt-2 text-center offset-lg-1 dashboard-sub-header"  style="color: black;text-decoration: none;background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));border-radius: 5px 20px 5px 12px;box-shadow: 0px 20px 16px 0px rgba(0,0,0,0.2)" >
+                    <div style="display: flex;justify-content: center;align-items: center;height: 150px;cursor: pointer;border-radius:10px;">
+                        <h3 class="text-center">REGISTER</h3>
+                    </div>
+                </a>
+            </div>
+
+            <p class="text-center mt-4">Order via your phone, pc or tablet.</p>
+
+           <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12 mt-2 mr-2 dashboard-sub-header" style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));justify-content: center;align-items: center;height: 180px;border-radius: 10px;box-shadow: 0px 20px 16px 0px rgba(0,0,0,0.2)">
+                    <br>
+                    <h5 class="text-center"><b>GET RE-ORDER REMINDERS</b></h5>
+                    <p class="text-center">Don't get your prescription items late ever again. Receive re-ordering reminders on your phone and via email.</p>
+                </div>
+                <div class="col-lg-3 col-md-12 col-sm-12 mt-2 mr-2 dashboard-sub-header" style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));justify-content: center;align-items: center;height: 180px;border-radius: 10px;box-shadow: 0px 20px 16px 0px rgba(0,0,0,0.2)">
+                    <br>
+                    <h5 class="text-center"><b>ORDER WHEREVER YOU ARE WHENEVER YOU WANT</b></h5>
+                    <p class="text-center">No need to order when we are open. Order your items wherever you are, whenever you need, 24/7.</p>
+                </div>
+                <div class="col-lg-4 col-md-12 col-sm-12 mt-2 dashboard-sub-header" style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));justify-content: center;align-items: center;height: 180px;border-radius: 10px;box-shadow: 0px 20px 16px 0px rgba(0,0,0,0.2)">
+                    <br>
+                    <h5 class="text-center"><b>WE KEEP YOU UPDATED</b></h5>
+                    <p class="text-center">No more getting our engaged tone! We keep you updated with the progress of your order so you don't need to call us if you don't want to.</p>
+                </div>
+            </div> 
+        </div>        
+    </main>
+</div>
+
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+
+<script type="text/javascript">
+  
+</script>
+
+{% endblock content %}

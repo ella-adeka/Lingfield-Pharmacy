@@ -1,0 +1,88 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='health-news-list'>
+        <div class="container">
+            <h1 class="col-12 text-center each-page-header" style="font-family: IM Fell DW Pica SC;">HEALTH NEWS</h1>
+            <p class=" text-center mt-n3" style="color: #3B945E;">What we have to say about health and well being</p>
+            <form class="d-inline w-100 mt-4" action="{% url 'health_news:search' %}" method="get">
+                <input name="q_health_news" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" style="font-family: Garamond;background-color:#65CCB8;color: #3B945E;border: none;border-bottom: 1px solid #2C3531;">
+            </form>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12  health-news-months" >
+            <div class=" news-months">
+                <ul>
+                    <li class="font-weight-bolder mr-sm-2"><a href="{% url 'health_news:health-news-list'  %}"  style="font-size: 20px;">All</a></li>
+                    {% for c in categories %}
+                        <li class="font-weight-bolder mr-sm-2 "><a href="{{ c.get_absolute_url }}"   style="font-size: 17px;">{{ c.title }}</a></li>             
+                    {% endfor %}
+                    
+                </ul>
+            </div>
+        </div>
+        
+        <div class="container">
+           
+                <div class="health-news-row">
+                    
+                    <div class="health-news-column mt-3">
+                        {% for x in healthnews %}
+                            <a  href="{{ x.get_absolute_url }}" style="color: #212529;text-decoration: none;">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <img class="rounded" src="{% static '../static/images/_____simplelife.m-___CEoV9j-A-Rr___-.jpg' %}" width="100%" height="150px" style="object-fit: cover;">
+                                    </div>
+                                    <div class="col-lg-9 col-md-9 col-sm-9">
+                                        <h3>{{ x.title }}</h3>
+                                        <p>{{ x.list_description }}</p>
+                                        <div class="row">
+                                            <div class="col-6 text-left">
+                                                <button class="btn btn-dark">Read more</button>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <p style="color: #3B945E;"><b>{{ x.created_at }}</b></p>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </a>
+                            <hr>
+                            {% empty %}
+                            <div class="text-center mt-4">
+                                <h1 class="text-center mt-n4" style="font-size: 100px;color: teal;">Oops!!!</h1>
+                                <h5 class="text-center"><b>No news available here.</b></h5>
+                            </div>
+                         {% endfor %}  
+                    </div> 
+                    
+    
+                </div>
+            
+           </div>
+
+           
+  
+        </main>
+</div>
+
+<!--  <p>
+                                {% if previous_day %}
+                                    Previous Day: {{ previous_day }}
+                                {% endif %}
+                                {% if previous_day and next_day %}--{% endif %}
+                                {% if next_day %}
+                                    Next Day: {{ next_day }}
+                                {% endif %}
+                            </p> -->
+
+<p class="text-right fixed-bottom "><a href="#" style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='health-news-detail'> 
+        <div class="container">
+            <div class="row no-gutters">
+
+                <div class="col-lg-3 col-md-12 col-sm-12 ml-lg-n4 ">
+                    <div class="mt-5">
+                        <button class="btn btn-dark">  <a href="{% url 'health_news:health-news-list'  %}" style="color: white;text-decoration: none; padding: 5px;">In other news!!!</a></button>
+                      
+                    </div>
+                    <div class="mt-3">
+                        <h4 style="font-family: IM Fell DW Pica SC;"><b>{{ healthnews.title }}</b></h4>
+                        <p>{{ healthnews.created_at }}</p>
+                    </div>
+                </div>
+                <br>
+                <div class="col-lg-9 col-md-12 col-sm-12 mt-2 mr-lg-n4">
+                    <img class="rounded" src="{% static '../static/images/_____simplelife.m-___CEoV9j-A-Rr___-.jpg' %}" width="100%" height="300px" style="object-fit: cover;">
+                    <br>
+                    <br>
+                    <p style="text-justify: inter-word;text-align: justify;">{{ healthnews.detail_description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+{% endblock content %}

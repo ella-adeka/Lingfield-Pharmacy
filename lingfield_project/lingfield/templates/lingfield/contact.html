@@ -1,0 +1,87 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='contact'>
+       <div class="container" style="color: #182628;">
+            <div class="col-12" style="position:fixed;top: 30%;">
+                <h4>GENERAL</h4>
+                <div class="row">
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-1">
+                                <i class="material-icons">email</i>
+                            </div>
+                            <div class="col-10">
+                            <p>Need some help?<br>Email Us</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                       <div class="row">
+                            <div class="col-1">
+                                <i class="far fa-building"></i>
+                            </div>
+                            <div class="col-10">
+                            <p>Fax<br><a href="tel:01325790027" style="color: #212529;">01325 790027</a></p>
+                            </div>
+                       </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-1">
+                                <i class="fas fa-ambulance"></i>
+                            </div>
+                            <div class="col-10">
+                            <p>Ambulance<br><a href="tel:999" style="color: #212529;">999</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-1">
+                                <i class="material-icons">call</i>
+                            </div>
+                            <div class="col-10">
+                            <p>NHS<br><a href="tel:111" style="color: #212529;">111</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-12 col-sm-12">
+                        <div class="row">
+                            <div class="col-1">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="col-10">
+                            <p>Online Shopping<br><a href="tel:03003033380" style="color: #212529;">0300 303 3380</a></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+  
+                <h4>PHARMACY</h4>
+                <div class="col-lg-3 col-md-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-1">
+                            <i class="material-icons">call</i>
+                        </div>
+                        <div class="col-10">
+                        <p>Lingfield Pharmacy<br><a href="tel:01325790026" style="color: #212529;">01325 790026</a></p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+       
+       
+       
+      
+    </main>
+</div>
+
+{% endblock content %}

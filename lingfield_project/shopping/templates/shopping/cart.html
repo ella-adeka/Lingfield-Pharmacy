@@ -1,0 +1,161 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='cart'>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-lg-9 col-md-12 col-sm-12">
+                    <h4 class="text-left" style="font-family: IM Fell DW Pica SC;"><u>{{ user.first_name }}'s  Cart</u></h4>
+                </div>              
+            </div>
+        </div>
+            <br>
+
+        <!-- Start Cart  -->
+            <div class="cart-box-main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="container">
+                                <div class="col-lg-6 offset-lg-3">
+                                     {% for message in messages %}
+                                     <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="background-color: transparent;">&times;</button>
+                                         {{ message | safe }}
+                                     </div>
+                                     {% endfor %}
+                                </div>
+                             </div>
+                            <div class="table-main table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th>Images</th>
+                                            <th>Product Name</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order_item in object.items.all %}
+                                        <tr>
+                                            <th scope="row" style="margin-top: 200%;">{{ forloop.counter }}</th>
+                                            <td >
+                                                <a href="{{ order_item.item.get_absolute_url }}" >
+                                                    <img class="rounded" src="{{ order_item.item.image.url }}" alt="" width="200px" height="100px" style="object-fit: cover;"/>
+                                                </a>
+                                            </td>
+                                            <td class="name-pr">
+                                                <a href="{{ order_item.item.get_absolute_url }}" style="text-decoration: none;color: #212529;">
+                                                <b>{{ order_item.item.title }}</b>
+                                        </a>
+                                            </td>
+                                            <td class="price-pr">
+                                                <p>£{{ order_item.item.price|intcomma }}</p>
+                                            </td>
+                                            <td class="quantity-box">
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-12 col-sm-12">
+                                                        <a href="{% url 'shopping:remove_single_item_from_cart' order_item.item.slug %}"><i class="fas fa-minus mr-lg-n2" style="color: teal;"></i></a>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-12">
+                                                        {{ order_item.item_quantity }}
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-12 col-sm-12">
+                                                        <a href="{% url 'shopping:add_to_cart' order_item.item.slug %}"><i class="fas fa-plus ml-lg-n2"  style="color: teal;"></i></a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="total-pr">
+                                                <p>£ {{ order_item.get_total_items_price|floatformat:2|intcomma }}</p>
+                                            </td>
+                                            <td class="remove-pr">
+                                                <a href="{% url 'shopping:remove_from_cart' order_item.item.slug %}"  style="color: teal;">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                            </td>
+                                        </tr>
+                                        {% empty %}
+                                        <tr>
+                                            <td colspan='12' class="text-center"><h4 style="font-family: IM Fell DW Pica SC;">Your cart is empty</h4></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row my-5 ">
+                        <div class="col-lg-3 col-sm-12 text-right order-sm-first order-lg-last">
+                            <div class="update-box ">
+                                <button class="w-100 btn btn-hover float-right" type="submit"><a  data-fancybox-close="" href="{% url 'shopping:product_list' %}" style="text-decoration: none;color: white;">Update Cart</a></button>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-9  col-sm-12   ">
+                            <div class="col-lg-8 col-sm-12"></div>
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="order-box">
+                                    <h3>Order summary</h3>
+                                    <div class="d-flex">
+                                        {% if object.get_total|floatformat:2|intcomma %} <!-- floatformat:"2g" -->
+                                        <h6>Sub Total</h6>
+                                        <div class="ml-auto font-weight-bold"> £ {{ object.get_total|floatformat:2|intcomma }} </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex">
+                                        {% if object.get_total_discount|floatformat:2|intcomma %} 
+                                        <h6>Discount</h6>
+                                        <div class="ml-auto font-weight-bold"> £ {{ object.get_total_discount|floatformat:2|intcomma }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <hr class="my-1">
+                                    <div class="d-flex">
+                                        {% if object.get_total_excl_vat|floatformat:2|intcomma %} 
+                                        <h6>Total Excl VAT</h6>
+                                        <div class="ml-auto font-weight-bold"> £ {{ object.get_total_excl_vat|floatformat:2|intcomma }} </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex">
+                                        {% if object.get_total_vat|floatformat:2|intcomma %} 
+                                        <h6>VAT</h6>
+                                        <div class="ml-auto font-weight-bold"> £ {{ object.get_total_vat|floatformat:2|intcomma }}  </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="d-flex">
+                                        {% if object.get_total_shopping_cost|floatformat:2|intcomma %} 
+                                        <h6>Shipping Cost</h6>
+                                        <div class="ml-auto font-weight-bold"> £ {{ object.get_total_shopping_cost|floatformat:2|intcomma }} </div>
+                                        {% endif %}
+                                    </div>
+                                    <hr>
+                                   
+                                    <div class="d-flex gr-total">
+                                        {% if object.get_grand_total|floatformat:2|intcomma %} 
+                                        <h4>Grand Total</h4>
+                                        <div class="ml-auto h5"> £ {{ object.get_grand_total|floatformat:2|intcomma }} </div>
+                                        {% endif %}
+                                    </div>
+                                    <hr> 
+                                </div>
+
+                                <button class="d-flex w-400 btn btn-hover float-right" type="submit"><a  data-fancybox-close="" href="{% url 'shopping:checkout' %}" style="text-decoration: none;color: white;">Checkout</a></button>
+                            </div>    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- End Cart -->
+    </main>
+</div>
+
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid teal;background-color: teal;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+{% endblock content %}

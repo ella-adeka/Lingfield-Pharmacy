@@ -1,0 +1,248 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='about'>
+       <div class="container">
+           <h1 class="col-12 text-center each-page-header" style="font-family: IM Fell DW Pica SC;">ABOUT</h1>
+       </div>
+
+       <!-- ABOUT US PARAGRAPH -->
+       <div class="container" style="color: #379683;">
+           <div class="col-12">
+            <h4 class="abt-page">About Us</h5>
+            <p class="abt-page" style="text-justify: inter-word;text-align: justify;">Lingfield Pharmacy is an independent delivery only pharmacy based in Darlington, DL1 4QZ.
+             Lingfield Pharmacy offers free Repeat Prescription Service (Prescription Collection & Delivery) to our local customers and nationally. As a distance selling pharmacy we provide a full range of NHS essential services to persons anywhere in England. We providing a reliable and efficient service to your doorstep. We are able to deliver both NHS and Private prescriptions.</p>
+             
+             <p class="abt-page" style="text-justify: inter-word;text-align: justify;">Our aim is to make the process of getting your medicines easier and convenient for you. You can order your medication from the comfort of your own home and we'll deliver it to your door for FREE. We have a team of experienced pharmacists who are happy to help and to answer your queries.
+             </p>            
+             <p class="abt-page" style="text-justify: inter-word;text-align: justify;">We are registered with the General Pharmaceutical Council and also have an NHS contract.
+             </p>            
+             <p class="abt-page" style="text-justify: inter-word;text-align: justify;">Our goal is simple:<br>
+                 We like to be the best pharmacy. We like to be the best in terms of going that extra mile for our customers, the best NHS service provider and the best place to work. We welcome any general comments about the services we provide and any suggestions of ways in which we can improve our services to you. Just contact us for more information on the full range of services we provide.</p>
+           </div>
+       </div> 
+       
+       <!-- IMAGES -->       
+        <div class="row w-100 justify-content-between no-gutters">
+            <div class="abt-page col-lg-5 col-md-12 col-sm-12" >
+                <img id="imageHeadOne" class="rounded-right abt-images mb-3 float-left" src="{% static 'images\pharmacy\Pharmacist\hush-naidoo-yo01Z-9HQAw-unsplash.jpg' %}" width="100%" height="300px" style="object-fit: cover; ">
+           </div>
+               
+            <div class="abt-page col-lg-5 col-md-12 col-sm-12" style="margin-top: 100px;">
+                <img id="imageHeadTwo" class="rounded abt-images mb-3 " src="{% static 'images\pharmacy\medicine\nathaniel-yeo-gUZo-UA0VGQ-unsplash.jpg' %}" width="100%" height="300px" style="object-fit: cover;">
+            </div>
+            <div class="abt-page col-lg-1 col-md-12 col-sm-12 float-right">
+                <img id="imageHeadThree"  class="rounded-left abt-images mb-3" src="{% static 'images\pharmacy\medicine\am-jd-OQYv1-YZkZQ-unsplash.jpg' %}" width="100%" height="250px" style="object-fit: cover;">
+            </div>            
+        </div>
+      
+        <br>
+
+       <div class="container mt-3" style="color: #116466;">
+            <div class="row"  >
+                <div class="abt-content col-lg-5 col-md-5 col-sm-5">
+                    <h3 id="abtContact" class="about-menu abt-page"  onmouseover="togglediv('ContactTable')" onclick="togglediv('ContactTable')"><sup style="font-size: 15px;">01</sup>CONTACT US</h3>
+                    <br>
+                    <h3  id="abtLocation" class="about-menu abt-page" onmouseover="togglediv('LocationTable')"onclick="togglediv('LocationTable')"><sup style="font-size: 15px;">02</sup>LOCATION</h3>
+                    <br>
+                    <h3  id="abtOpenHours" class="about-menu abt-page"  onmouseover="togglediv('OpenHoursTable')" onclick="togglediv('OpenHoursTable')"><sup style="font-size: 15px;">03</sup>OPEN HOURS</h3>
+                    <br>
+                    <h3  id="abtServices" class="about-menu abt-page"  onmouseover="togglediv('ServicesTable')" onclick="togglediv('ServicesTable')"><sup style="font-size: 15px;">04</sup>SERVICES</h3>
+                    <br>
+                    <h3  id="abtOurApp" class="about-menu abt-page"  onmouseover="togglediv('OurAppTable')" onclick="togglediv('OurAppTable')"><sup style="font-size: 15px;">05</sup>OUR APP</h3>
+                    <br>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-7">
+                        <div id="ContactTable" class="AboutBody" style="background-color: #116466;height: 500px;display:none;border-radius: 5px 60px 5px;">
+                            <div style="margin: 5%;">
+                                <br>
+                                <h5 style="color: #F2F2F2;"><strong>Contact Us</strong></h5>
+                                <form>
+                                    <input class="w-100 rounded" type="text" placeholder="Enter Your Name" style="border:none;border-bottom: 2px solid black;margin-top: 5%;height: 50px;">
+                                    <input class="w-100 rounded" type="text" placeholder="Enter Your Email" style="border:none;border-bottom: 2px solid black;margin-top: 5%;height: 50px;">
+                                    <textarea class="w-100 rounded contact-text-area" rows="3"  placeholder="Enter Your Message" title="Enter Your Message" style="border:none;border-bottom: 2px solid black;margin-top: 5%;height: 100px;"></textarea>
+                                    <button class=" btn btn-hover float-right" type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div id="LocationTable" class="AboutBody"  style="height: 500px; display:none;width: 100%;">
+                            <div style="margin: 5%;">
+                               
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d9262.41949257153!2d-1.5093205!3d54.5228295!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xe1be8033a273fee1!2sLingfield%20Pharmacy!5e0!3m2!1sen!2sng!4v1604170562989!5m2!1sen!2sng" width="100%" height="500" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                               
+                                </div>
+                        </div>
+
+                        <div id="OpenHoursTable" class="AboutBody"  style="background-color: #116466;height: auto;display:none;color: #F2F2F2;border-radius: 5px 60px 5px;">
+                            <div style="margin: 5%;">
+                                
+                                <h5 class="mt-3"></h5><strong>OPENS MONDAYS AT 09:00</strong></h5>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <h3>USUAL</h3>
+                                        <p>OPENING HOURS</p>
+                                        <p>Monday <span style="float: right;">09:00 to 18:00</span></p>
+                                        <hr class="featurette-divider">
+                                        <p>Tuesday <span style="float: right;">09:00 to 18:00</span></p>
+                                        <hr class="featurette-divider">
+                                        <p>Wednesday <span style="float: right;">09:00 to 18:00</span></p>
+                                        <hr class="featurette-divider">
+                                        <p>Thursday <span style="float: right;">09:00 to 18:00</span></p>
+                                        <hr class="featurette-divider">
+                                        <p>Friday <span style="float: right;">09:00 to 18:00</span></p>
+                                        <hr class="featurette-divider">
+                                        <p>Saturday <span style="float: right;">Closed</span></p>
+                                        <hr class="featurette-divider">
+                                        <p>Sunday <span style="float: right;">Closed</span></p>
+                                        <hr class="featurette-divider">
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        <h3 style="color: #F2F2F2;">USUAL</h3>
+                                        <p>OPENING HOURS</p>
+                                        <p  class=" mb-4"><span style="color: #182628;font-size: 13px;">Christmas day</span> <span style="float: right;">Closed</span><br><span style="float: left;">25th Dec 2020</span></p>
+                                        <hr class="featurette-divider">
+                                        <p  class=" mb-4"><span style="color: #182628;font-size: 13px;">Boxing day (Substitute day)</span> <span style="float: right;">Closed</span><br><span style="float: left;">28th Dec 2020</span></p>
+                                        <hr class="featurette-divider">
+                                        <p  class=" mb-4"><span style="color: #182628;font-size: 13px;">News Year's day</span> <span style="float: right;">Closed</span><br><span style="float: left;">1st Jan 2021</span></p>
+                                        <hr class="featurette-divider">
+                                        <p  class=" mb-4"><span style="color: #182628;font-size: 13px;">Good Friday</span> <span style="float: right;">Closed</span><br><span style="float: left;">2nd Apr 2021</span></p>
+                                        <hr class="featurette-divider">
+                                        <p  class=" mb-4"><span style="color: #182628;font-size: 13px;">Easter Monday</span> <span style="float: right;">Closed</span><br><span style="float: left;">5th Apr 2021</span></p>
+                                        <hr class="featurette-divider">
+                                        <p  class=" mb-4"><span style="color: #182628;font-size: 13px;">Early May bank holiday</span> <span style="float: right;">Closed</span><br><span style="float: left;">3rd May 20210</span></p>
+                                        <hr class="featurette-divider">
+                                        <p  class=" mb-4"><span style="color: #182628;font-size: 13px;">Spring bank day</span> <span style="float: right;">Closed</span><br><span style="float: left;">31st May 2021</span></p>
+                                        <hr class="featurette-divider">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="ServicesTable" class="AboutBody"  style="background-color: #116466;height: 500px;display:none;color: #F2F2F2;border-radius: 5px 60px 5px;">
+                            
+                            <div style="margin: 5%;">
+                                <br>
+                                <h5 ><strong>SERVICES</strong></h5>
+                                <br>
+                               <ul >
+                                <li class="list-item">DISPOSAL OF UNWANTED MEDICINES</li>
+                                <li>ELECRONIC PRESCRIPTION SERVICE</li>
+                                <li>HEALTH ADVICE AND SELF-CARE</li>
+                                <li>PRESCRIPTION DISPENSING</li>
+                                <li>REPEAT PRESCRIPTION COLLECTION SERVCICE</li>
+                                <li>SIGNPOSTING TO OTHER SERVICES</li>
+                                <li class="mt-3">FREE PRESCRIPTION</li>
+                               </ul>
+                            </div>
+                        </div>
+
+                        <div id="OurAppTable" class="AboutBody"  style="background-color: #116466;height: auto;display:none;color: #F2F2F2;border-radius: 5px 20px 5px;">
+                            <div style="margin: 5%;">
+                                <div class="row ">
+                                    <div class=" col-lg-6 col-md-12 col-sm-12 "  >
+                                        <div class="mt-3"><span class="mr-2">1 )</span> <strong>DOWNLOAD OUR APP</strong></div>
+                                        <div class="_au7" style="background-image: url('../static/images/QR-img-2.png');background-position: center center;background-repeat: no-repeat;background-size: contain;height: 300px;position: relative;width: 100%;"></div>
+                                        <div class="_aus" style="text-align: center;"><span id="_5o" class="_auv"><a href="{% static 'images\QRAppStore-img-1.png' %}" style="text-decoration: underline;color: #212529;">Click here</a></span><br><span>or scan the QR code using your smartphone to go to your app store and download the app. Or open your app store and search for</span></div>
+                                        <div class="_aui" data-trl1="NATIVEAPPSTEP1SEARCH" style="text-align: center;">the prescription app</div>
+                                        <br>
+                                    </div>
+                                
+                                    <div class=" col-lg-6 col-md-12 col-sm-12 " >
+                                        <div class="mt-3"><span class="mr-2">2 )</span><strong>FIND YOU PHARMACY</strong></div>
+                                        <div id="_5x" class="_au1" data-webindexmarker="branchqr" style="background-image: url('../static/images/QR-img-2.png');background-position: center center;background-repeat: no-repeat;background-size: contain;height: 300px;position: relative;width: 100%;"></div>
+                                        <div class="_aus" data-trl1="NATIVEAPPSTEP2TEXT" style="text-align: center;">Open the app and scan this QR code on your Android device or take a picture on your Apple device. Or you can search for your pharmacy by entering the pharmacy name, branch name or address.</div>
+                                        <br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   
+                </div>
+
+            </div>
+       </div>
+
+       <br>
+        
+
+    </main>
+</div>
+
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+
+
+<script>
+    var im = document.getElementById("imageHeadOne");
+    var imagesOne = [ "../static/images/pharmacy/medicine/adam-niescioruk-hWzrJsS8gwI-unsplash.jpg",
+        "../static/images/pharmacy/Pharmacist/3725269.jpg",
+        "../static/images/pharmacy/medicine/drug-1070943_640.jpg",];
+    var index=0;
+
+    function changeImageOne()
+    {
+    im.setAttribute("src", imagesOne[index]);
+    index++;
+    if(index >= imagesOne.length)
+    {
+        index=0;
+    }
+    }
+    setInterval(changeImageOne, 10000);
+
+
+    var imo = document.getElementById("imageHeadTwo");
+    var imagesTwo = [ "../static/images/pharmacy/Pharmacist/kendal-L4iKccAChOc-unsplash.jpg",
+        "../static/images/pharmacy/medicine/united-nations-covid-19-response-AR1M9Qv3R5A-unsplash.jpg",
+        "../static/images/pharmacy/Pharmacist/pharm_person.jpg",];
+    var index=0;
+
+    function changeImageTwo()
+    {
+    imo.setAttribute("src", imagesTwo[index]);
+    index++;
+    if(index >= imagesTwo.length)
+    {
+        index=0;
+    }
+    }
+    setInterval(changeImageTwo, 20000);
+
+
+    var imon = document.getElementById("imageHeadThree");
+    var imagesThree = [ "../static/images/pharmacy/Pharmacist/i-m-ready-listen-beating-your-heart.jpg",
+        "../static/images/pharmacy/Pharmacist/clay-banks-e6pK_snssSY-unsplash.jpg",
+        "../static/images/pharmacy/Pharmacist/national-cancer-institute-O13g6-Gtb5o-unsplash.jpg",];
+    var index=0;
+
+    function changeImageThree()
+    {
+    imon.setAttribute("src", imagesThree[index]);
+    index++;
+    if(index >= imagesThree.length)
+    {
+        index=0;
+    }
+    }
+    setInterval(changeImageThree, 30000);
+
+    
+
+    function togglediv(id) {
+        document.querySelectorAll(".AboutBody").forEach(function(div) {
+            if (div.id == id) {
+            // Toggle specified DIV
+            div.style.display = div.style.display == "none" ? "block" : "none";
+            
+            } else {
+            // Hide other DIVs
+            div.style.display = "none";
+            }
+        });
+        }       
+</script>
+{% endblock content %}

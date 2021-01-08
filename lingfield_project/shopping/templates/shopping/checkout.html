@@ -1,0 +1,185 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='checkout'>
+        <div class="container">
+            <h1 class="text-center each-page-header" style="font-family: IM Fell DW Pica SC;">CHECKOUT</h1>
+            <p class=" text-center" style="margin-top: -1%;">Sign up to our pharmacy and make your repeat prescriptions simple</p>
+        </div>
+
+        <div class="container mb-4">
+            <div class="col-12 text-center">
+                <p>Sign up to our pharmacy and you will be able to order your prescriptions online. We will text or email you to remind you to order and more.</p>
+            </div>
+            <br>
+            <form enctype="multipart/form-data" method="POST" class="needs-validation" novalidate method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-6 col-lg-6 mb-3">
+                        <div class="checkout-address">
+                            <div class="title-left">
+                                <h3>Details</h3>
+                            </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {{ u_form.first_name|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-6 ">
+                                        {{ u_form.last_name|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    {{ u_form.email|as_crispy_field }}
+                                </div>
+                                <div class="mb-3">       
+                                    {{ b_form.birth_date|as_crispy_field }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        {{ p_form.telephone_no|as_crispy_field }}                                     
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        {{ p_form.mobile_no|as_crispy_field }}                                 
+                                    </div>
+                                </div>
+
+                                <!--    DELIVERY ADDRESS   -->
+                                <div class="title-left mt-3">
+                                    <h3>Delivery address</h3>
+                                </div>
+                            
+                                <div class="row">
+                                    <div class="col-md-6 mb-2">
+                                        {{ p_form.country|as_crispy_field }}  
+                                    </div>
+                                    <div class="col-md-6 mb-2">
+                                        {{ p_form.uk_postcode_lookup|as_crispy_field }}                                     
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        {{ p_form.house_number|as_crispy_field }}         
+                                    </div>
+                                    <div class="col-md-9 mb-2">
+                                        {{ p_form.street|as_crispy_field }}  
+                                    </div>
+                                    <div class="col-md-6 mb-2">      
+                                        {{ p_form.town|as_crispy_field }}                              
+                                    </div>
+                                    <div class="col-md-3 mb-2"> 
+                                        {{ p_form.county|as_crispy_field }}                                  
+                                    </div>
+                                    <div class="col-md-3 mb-2">
+                                        {{ p_form.postcode|as_crispy_field }}                                    
+                                    </div>
+                                </div>
+                                
+                               
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-6 mb-3">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                 <!--   PAYMENT  -->
+                                 <div class="title"> <h2><b>Payment</b></h2> </div>
+                                 <div class="d-block my-3">
+                                     {{ delivery_form.payment|as_crispy_field }}
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <!-- <label for="cc-name">Name on card</label>
+                                         <input type="text" class="form-control" id="cc-name" placeholder="" required> <small class="text-muted">Full name as displayed on card</small>
+                                         <div class="invalid-feedback"> Name on card is required </div> -->
+                                         {{ payment_form.name_on_card|as_crispy_field }}
+                                     </div>
+                                     <div class="col-md-6">
+                                         <!-- <label for="cc-number">Credit card number</label>
+                                         <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                         <div class="invalid-feedback"> Credit card number is required </div> -->
+                                         {{ payment_form.credit_card_number|as_crispy_field }}
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <!-- <label for="cc-expiration">Expiration</label>
+                                         <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                                         <div class="invalid-feedback"> Expiration date required </div> -->
+                                         {{ payment_form.expiration|as_crispy_field }}
+                                     </div>
+                                     <div class="col-md-6">
+                                         <!-- <label for="cc-expiration">CVV</label>
+                                         <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                                         <div class="invalid-feedback"> Security code required </div> -->
+                                         {{ payment_form.cvv|as_crispy_field }}
+                                     </div>
+                                     
+                                 </div>
+                                 <hr class="mb-1"> 
+                            </div>
+                            <div class="col-md-12 col-lg-12">
+                                <div class="odr-box">
+                                    <div class="title-left">
+                                        <h3>Shopping cart</h3>
+                                    </div>
+                                    <div class="rounded p-2 bg-light">
+                                        {% for order in order.items.all|slice:":4" %}
+                                        <div class="media mb-2 border-bottom">
+                                            <div class="media-body"> <a href="{{ order.item.get_absolute_url }}" style="color: black;text-decoration: none;"> <b>{{ order.item.title }}</b></a>
+                                                <div class="small text-muted">Price: £{{ order.item.price|floatformat:2|intcomma }} <span class="mx-2">|</span> Qty: {{ order.item_quantity }}<span class="mx-2">|</span> Subtotal: £{{ order.get_total_items_price|floatformat:2|intcomma }}</div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-12">
+                                <div class="order-box">
+                                    <div class="title-left">
+                                        <h3>Your order</h3>
+                                    </div>
+                                    <div class="d-flex">
+                                        <div class="font-weight-bold">Product</div>
+                                        <div class="ml-auto font-weight-bold">Total</div>
+                                    </div>
+                                    <hr class="my-1">
+                                    <div class="d-flex">
+                                        <h5>Sub Total</h5>
+                                        <div class="ml-auto font-weight-bold"> £ {{ order.get_total|floatformat:2|intcomma }} </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <h5>Total Excl VAT</h5>
+                                        <div class="ml-auto font-weight-bold"> £ {{ order.get_total_excl_vat|floatformat:2|intcomma }} </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <h6>VAT</h6>
+                                        <div class="ml-auto font-weight-bold"> £ {{ order.get_total_vat|floatformat:2|intcomma }}  </div>
+                                    </div>
+                                    <div class="d-flex">
+                                        <h6>Shipping Cost</h6>
+                                        <div class="ml-auto font-weight-bold"> £ {{ order.get_total_shopping_cost|floatformat:2|intcomma }} </div>
+                                    </div>
+                                    
+                                    <hr>
+                                    <div class="d-flex gr-total">
+                                        <h4>Grand Total</h4>
+                                        <div class="ml-auto h5"> £ {{ order.get_grand_total|floatformat:2|intcomma }} </div>
+                                    </div>
+                                    <hr> 
+                                </div>
+                            </div>
+                            <div class="col-3"></div>
+                            <button class="col-4 btn btn-hover text-center  ml-auto" type="submit"><a  data-fancybox-close="" href="{% url 'shopping:product_list' %}" style="text-decoration: none;color: white;">Continue Shopping</a></button>
+
+                            <button class="col-4 btn btn-hover text-center ml-auto" type="submit"><a  data-fancybox-close="" href="{% url 'shopping:payment' %}" style="text-decoration: none;color: white;">Place Order</a></button>
+                        </div>
+                    </div>
+                </div>  
+            </form>  
+        </div>
+    </main>
+</div>
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid teal;background-color: teal;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+
+{% endblock content %}

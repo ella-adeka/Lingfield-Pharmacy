@@ -1,0 +1,53 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='shopping'>     
+        <div class="container mb-4">
+            <div class="row">
+                <div class="col-lg-9 col-md-12 col-sm-12">
+                    <h1 class="text-left each-page-header" style="font-family: IM Fell DW Pica SC;">SHOP</h1>
+                    <p class="text-left  mt-n3" style="color: #3B945E;">Browse all our products</p>
+                </div>
+                <div class="col-lg-3 col-md-12 col-sm-12" style="display: flex;justify-content: end;align-items: center;">
+                    <button class="w-100 btn btn-hover float-right" type="submit"><a  data-fancybox-close="" href="{% url 'shopping:product_list' %}" style="text-decoration: none;color: white;">Continue Shopping</a></button>
+                </div>
+               
+            </div>
+
+            <br>
+
+            <div>
+                <p class="text-center">Showing all {{ object_list.count }} result(s)</p>
+            </div>
+
+            <div class="row-shop-view">                             
+                {% for shop in object_list %}
+                <div class="column-shop-view " style="position: relative;">
+                    <a href="{{ shop.get_absolute_url }}" style="text-decoration: none;color: white;">
+                        <img class=" grid-group-img" src="{{ shop.image.url }}" width="100%" height="200px" style="object-fit: cover; border-radius: 2px 60px 0px 0px; ">
+                        <div class="grid-group-text" style="background-color: #65CCB8;padding: 2px 1px 5px 5px;height: 150px;border-radius: 0px 0px  5px 60px;color: #182628"> <!-- #212529 -->
+                            <h4 style="color: #1e4247">{{ shop.title }} </h4>
+                            <h6 class="mt-2" style="color: #1e4247">£{{ shop.price|intcomma }} <span class="ml-2"><del><small>£{{ shop.old_price|intcomma }}</small></del></span></h6>  
+                            {% if user.is_authenticated %}
+                            <a href="{{ shop.get_add_to_cart_url }}"  style="padding-right: 15p;position: absolute;bottom: 10px;right: 10px;color: #F2F2F2;text-decoration: none;">Add to Cart</a>
+                            {% else %}
+                            <a href="{% url 'login' %}"  style="padding-right: 15px;position: absolute;bottom: 20px;right: 10px;color: #F2F2F2;text-decoration: none;">Add to Cart</a>
+                            {% endif %}
+                        </div>  
+                    </a>   
+                </div>
+                {% empty %}
+                <h3>Sorry, item not available. <a href="{% url 'shopping:product_list' %}" style="color: teal;">Click here to continue shopping</a></h3>     
+                {% endfor %}                       
+            </div>
+        </div>
+        <br>
+    </main>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,55 @@
+
+
+
+
+
+
+
+
+
+
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='search'>
+
+        <div class="container">
+            <div class="row w-100">
+                <div class="col-lg-12 col-md-12 col-sm-12" style="margin: auto;">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-12 mt-3">
+                            {% for healthnews in object_list %}
+                                  
+                                    <a href="{{ healthnews.get_absolute_url" style="color: #212529;text-decoration: none;">
+                                        <div class="row">
+                                            <div class="col-lg-3 col-md-3 col-sm-3">
+                                                <img class="rounded" src="{% static '../static/images/_____simplelife.m-___CEoV9j-A-Rr___-.jpg' %}" width="100px" style="object-fit: cover;">
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-sm-9">
+                                                <h3>{{ healthnews.title }}</h3>
+                                                <p>{{ healthnews.list_description }}</p>
+                                                <button class="btn btn-dark">Read more</button>
+                                            </div>
+                                        </div>
+                                    </a>
+                                {% empty %}
+                                    <h1 class="text-center mt-n4" style="font-size: 100px;color: rgba(0, 12, 200, 0.2);">Oops!!!</h1>
+                                    <h5 class="text-center"><b>No news available here.</b></h5>
+                                    <div class="text-center">
+                                        <button class="btn btn-hover" type="submit"><a  data-fancybox-close="" href="{% url 'health_news:health-news-list' %}" style="text-decoration: none;color: white;">GO TO MEDICINE LIST</a></button>
+                                    </div> 
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </main>
+</div>
+
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #5fbae9;background-color: #5fbae9;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+{% endblock content %}

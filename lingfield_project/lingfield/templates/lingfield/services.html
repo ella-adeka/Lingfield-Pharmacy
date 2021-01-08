@@ -1,0 +1,96 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+<!-- style="background-image: url('../static/images/Nhs.png');" -->
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='services'>
+       <div class="container" >
+            <h1 class="col-12 text-center each-page-header" style="font-family: IM Fell DW Pica SC;" >SERVICES</h1>
+            <p class="text-center mt-n3" style="color: #3B945E;">Our Pharmacy Services</p>
+        </div>
+
+        <div class="container" style="margin-bottom: 50px;">
+            <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12 rounded service-head" style="background-color: #182628;">
+                    <h1 class="disposal " >DISPOSAL OF UNWANTED MEDICINES</h1>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 service-para-left" style="display: flex;justify-content: center;align-items: center;">
+                    <p style="text-align: justify;text-justify: auto;">If you have out of date or unwanted medicines, both prescription or over the counter drugs, don’t bin them or flush them. You can take your unwanted or out of date medicines back to your pharmacy for safe disposal, and it’s completely FREE. Each year enormous quantities of unused and expired medications are dumped into bins or flushed down toilets and sinks. The effects on the environment and human health are unclear but evidence is pointing to the presence of chemicals from prescriptions and over-the-counter medications in soil, drinking water and the surrounding environment. Just as proper medication administration is important, so is safe and cautious disposal.</p>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row mt-3 mt-3">
+                <div class="col-lg-4 order-lg-2 col-md-12 col-sm-12 rounded service-head" style="background-color: #182628;">
+                    <h1 class="disposal" >ELECTRONIC PRESCRIPTION SERVICE</h1>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 service-para-right" style="display: flex;justify-content: center;align-items: center;">
+                    <p style="text-align: justify;text-justify: auto;">We are able to obtain your prescriptions electronically without the need for a paper copy. Simply ask your GP Surgery to nominate our pharmacy in order for your prescriptions to be transferred to us automatically.</p>
+                </div>
+            </div>
+            
+            <br>
+            
+            <div class="row mt-3">
+                <div class="col-lg-4 col-md-12 col-sm-12 rounded service-head" style="background-color: #182628;">
+                    <h1 class="disposal" >HEALTH ADVICE AND SELF-CARE</h1>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 service-para-left" style="display: flex;justify-content: center;align-items: center;">
+                    <p style="text-align: justify;text-justify: auto;">The pharmacist and our trained assistants are available for advice on all medicines and minor ailments, in private if required. We can also give you advice on how to live a healthy life, for example, advice on how to stop smoking, or healthy diets. We can direct you to other sources of advice and assistance if we cannot help you ourselves.</p>
+                </div>
+            </div>
+
+            <br>
+            
+            <div class="row mt-3">
+                <div class="col-lg-4 order-lg-2 col-md-12 col-sm-12 rounded service-head" style="background-color: #182628;">
+                    <h1 class="disposal" >PRESCRIPTION DISPENSING</h1>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 service-para-right" style="display: flex;justify-content: center;align-items: center;">
+                    <p style="text-align: justify;text-justify: auto;">We dispense NHS prescriptions and will give advice on how to get the most benefit from your medicines. We keep a comprehensive stock of medicines and use a fast and an efficient wholesaler service to enable us to fill all prescriptions promptly.</p>
+                </div>
+            </div>
+
+            <br>
+            
+            <div class="row mt-3">
+                <div class="col-lg-4 col-md-12 col-sm-12 rounded service-head" style="background-color: #182628;">
+                    <h1 class="disposal" >REPEAT PRESCRIPTION COLLECTION SERVICE</h1>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 service-para-left" style="display: flex;justify-content: center;align-items: center;">
+                    <p style="text-align: justify;text-justify: auto;">We can collect your prescription from selected local surgeries and have it ready for collection</p>
+                </div>
+            </div>
+
+            <br>
+            
+            <div class="row mt-3">
+                <div class="col-lg-4 order-lg-2 col-md-12 col-sm-12 rounded service-head" style="background-color: #182628;">
+                    <h1 class="disposal" >SIGNPOSTING TO OTHER SERVICES</h1>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 service-para-right" style="display: flex;justify-content: center;align-items: center;">
+                    <p style="text-align: justify;text-justify: auto;">If you require additional advice and support from other health professionals, social services, or support organisations, our friendly Pharmacy team can assist you by giving you their contact details.</p>
+                </div>
+            </div>
+
+            <br>
+            
+            <div class="row mt-3">
+                <div class="col-lg-4 col-md-12 col-sm-12 rounded service-head" style="background-color: #182628;">
+                    <h1 class="disposal" >FREE PRESCRIPTION DELIVERY</h1>
+                </div>
+                <div class="col-lg-8 col-md-12 col-sm-12 service-para-left" style="display: flex;justify-content: center;align-items: center;">
+                    <p style="text-align: justify;text-justify: auto;">If you find it difficult to get to the pharmacy and you live locally you can have your prescription delivered to your door by using our Free Prescription Delivery Service. This service is open to all eligible patients in the surrounding areas, please contact us for more info.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+
+
+{% endblock content %}

@@ -1,0 +1,178 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='shopping'>     
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                    <h1 class="text-left each-page-header" style="font-family: IM Fell DW Pica SC;">SHOP</h1>
+                    <p class="text-left  mt-n3" style="color: #3B945E;">Browse all our products</p>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12" style="display: flex;justify-content: end;align-items: center;">
+                    <form class="d-inline w-100" action="{% url 'shopping:search' %}" method="get" >
+                        <input name="q_shop_product" class="form-control mr-sm-2" type="text" placeholder="Search for Products ..." aria-label="Search" style="font-family: Garamond;background-color:#65CCB8;color: #3B945E;border: none;border-bottom: 1px solid #2C3531;">
+                    </form>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-12 col-sm-12 py-sm-3 order-lg-2 order-sm-first" >
+                   <div class="row" style="border-bottom: 1px solid #182628;border-radius: 5%;">
+                        <div class="col-6">
+                            <h4 >Categories</h4>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-right"><a href="#" style="color: black;" data-toggle="tooltip" data-placement="right" title="Mode"><i id="showCategory" onclick="showCategories(this)" class="fas fa-angle-up"></i></a></p>
+                        </div>
+                   </div>
+                    <div id="theCategory" style="border-bottom: 2px solid #182628;border-radius: 5%;padding-bottom: 0.3em;">
+                        <div  class="list-group list-group-collapse list-group-sm list-group-tree" id="list-group-men" data-children=".sub-men" data-in="fadeInDown" data-out="fadeOutUp">
+                            <a href="{% url 'shopping:product_list'  %}" class="list-group-item list-group-item-action"> All Products</a>
+                            
+                            <div class="list-group-collapse sub-men">
+                                {% for c in categories %}
+                                <a class="list-group-item list-group-item-action" href="#sub-men1" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men1">{{ c.title }}<small class="text-muted">({{ c.shops.count }})</small>
+                                </a>
+                                {% for subcategory in c.subcategory_set.all %}
+                                <div class="collapse" id="sub-men1" data-parent="#list-group-men"> <!-- <div class="collapse" id="sub-men1" data-parent="#list-group-men">-->
+                                    <div class="list-group">
+                                        <a href="{{ subcategory.get_absolute_url }}" class="list-group-item list-group-item-action">{{ subcategory.title }} <small class="text-muted">({{ subcategory.shops.count }})</small></a>
+                                    </div>    
+                                </div>
+                                {% endfor %} 
+                                {% endfor %}
+                            </div>
+                         
+                        </div>
+                       
+                    </div>
+                   
+                </div>
+                <div class="col-lg-9 col-md-12 col-sm-12 ">
+                    <div class="shop-sorter" style="border-top: 2px solid #182628;border-bottom: 2px solid #182628;border-radius: 5%;padding: 1px 0px 10px 0px;">
+                        <div class="row">
+                           <div class="col-lg-4 col-md-12 col-sm-12 text-sm-center text-lg-left mt-sm-3">
+                                <span class="mr-1 text-sm-center text-lg-left">Sort By</span>
+                                    <select class="rounded" style="padding: 8px;background-color: #57BA98;border: #57BA98; color: white;">
+                                        <option data-display="Select">All</option>
+                                        <option>Most Relevant</option>
+                                        <option>Price, Low to High</option>
+                                        <option>Price, High to Low</option>
+                                        <option>Savings, Low to High</option>
+                                        <option>Savings, High to Low</option>
+                                    </select>
+                           </div>
+                           <div class="col-lg-5 col-md-12 col-sm-12 text-sm-center text-lg-center  mt-sm-3">
+                                <p class="text-sm-center text-lg-center ">Showing all {{ shop.count }} result(s)</p>
+                            </div>
+                            <div class="col-lg-3 col-md-12 col-sm-12  text-sm-center text-lg-right  mt-sm-3">
+                                <button onclick="gridView()" class="rounded mr-1" style="padding: 4px 6px 4px 6px;background-color: #57BA98;border: #57BA98; color: white;"><i class="fa fa-th-large"></i> </button>
+                                <button onclick="listView()" class="rounded" style="padding: 4px 6px 4px 6px;background-color: #57BA98;border: #57BA98; color: white;"><i class="fa fa-bars"></i> </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+                   
+                    <div class="row-shop-view">                             
+                        {% for x in shop %}
+                        <div class="column-shop-view" style="position: relative;">
+                            <a href="{{ x.get_absolute_url }}" style="text-decoration: none;color: white;">
+                                <img class=" grid-group-img" src="{{ x.image.url }}" width="100%" height="200px" style="object-fit: cover; border-radius: 2px 60px 0px 0px; ">
+                                <div class="grid-group-text" style="background-color: #65CCB8;padding: 2px 1px 5px 5px;height: 150px;border-radius: 0px 0px  5px 60px;color: #182628"> <!-- #212529 -->
+                                    <h4 style="color: #1e4247">{{ x.title }} </h4>
+                                    <h6 class="mt-2" style="color: #1e4247">£{{ x.price|intcomma }} <span class="ml-2"><del><small>£{{ x.old_price|intcomma }}</small></del></span></h6>  
+                                    {% if user.is_authenticated %}
+                                    <a href="{{ x.get_add_to_cart_url }}"  style="padding-right: 15px;position: absolute;bottom: 10px;right: 10px;color: #F2F2F2;text-decoration: none;">Add to Cart</a>
+                                    {% else %}
+                                    <a href="{% url 'login' %}"  style="padding-right: 15px;position: absolute;bottom: 20px;right: 10px;color: #F2F2F2;text-decoration: none;">Add to Cart</a>
+                                    {% endif %}
+                                </div>  
+                            </a>   
+                        </div>
+                        {% empty %}
+                        <h3>Sorry, item not available. <a href="{% url 'shopping:product_list' %}" style="color: teal;">Click here to continue shopping</a></h3>     
+                        {% endfor %}                       
+                    </div>
+
+                </div>  
+
+            </div>
+        </div>
+    </main>
+</div>
+
+
+
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+
+
+<script type="text/javascript"> 
+
+    // document.getElementById('sub-menu1')
+    var allnav = document.getElementById("showCategory");
+
+    allnav.onclick = function showCategories() {
+        var div = document.getElementById("theCategory");
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+            element.classList("fa-angle-down");
+            document.getElementById("theCategory").style.height = " ";
+        }
+        else {
+            div.style.display = 'block';
+            element.classList.toggle("fa-angle-up");
+            document.getElementById("theCategory").style.height = "0";
+        }
+    };
+
+  
+
+    // Get the elements with class="column"
+        var elements = document.getElementsByClassName("column-shop-view");
+
+        // Declare a loop variable
+        var i;
+
+        // if (window.matchMedia("(max-width: 700px)").matches) {
+        //     /* The viewport is less than, or equal to, 700 pixels wide */
+        //     elements[i].style.width = "100%";
+        // } else {
+        //     /* The viewport is greater than 700 pixels wide */
+        //     elements[i].style.width = "50%";
+        // }
+
+        // Grid View
+        function gridView() {
+        for (i = 0; i < elements.length; i++) {
+            if (window.matchMedia("(max-width: 600px)").matches) {
+                /* The viewport is less than, or equal to, 700 pixels wide */
+                elements[i].style.width = "100%";
+            } else {
+                 /* The viewport is greater than 700 pixels wide */
+                elements[i].style.width = "33.33%";
+            }
+        }
+        }
+        
+        // List View
+        function listView() {
+        for (i = 0; i < elements.length; i++) {
+            elements[i].style.width = "100%";
+            
+        }
+        };
+
+        function showCategories(x) {
+        x.classList.toggle("fa-angle-down");
+        };
+
+        
+</script>
+{% endblock content %}

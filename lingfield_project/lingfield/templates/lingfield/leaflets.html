@@ -1,0 +1,27 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='leaflets'>
+        <div class="container">
+            <h1 class="col-12 text-center each-page-header" style="font-family: IM Fell DW Pica SC;">LEAFLETS</h1>
+            <p class=" text-center" style="margin-top: -1%;">Pharmacy and practice leaflets</p>
+        </div>
+
+        <div class="container">
+            <div class="col-12">
+                <h5>PRACTICE LEAFLET</h5>
+                <p>Practice Leaflet</p>
+                <div class="col-6">
+                    <h5><strong>DOWNLOADS</strong></h5>
+                    <p style="margin-bottom: 3px;overflow: hidden;position: relative;text-decoration: underline;"><li style="list-style:  circle ;"><a style="color: #212529;" href="https://lingfieldpharmacy.co.uk/MedicineChest/Website/Uploads/921/3710430_20191230181603.pdf" download="Practice Leaflet" target="_blank">Practice Leaflet</a></li></p>
+                </div>
+            </div> 
+        </div>
+    </main>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='blog'>
+        <div class="container">
+            <h1 class="col-12 text-center each-page-header" style="font-family: IM Fell DW Pica SC;">BLOGS</h1>
+            <p class=" text-center" style="margin-top: -1%;">What we have to say about your health and well being</p>
+        </div>
+
+       <div class="container">
+            <form class="d-inline w-100" action="#" method="get">
+                <input name="q" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" style="font-family: Garamond;background-color:#65CCB8;color: white;border: none;border-bottom: 1px solid #2C3531;">
+                <!-- #859b8e -->
+          </form>
+        </div>
+       
+       
+       
+      
+    </main>
+</div>
+
+{% endblock content %}

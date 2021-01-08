@@ -1,0 +1,43 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    <div class="wrapper">
+        <main data-barba="container" data-barba-namespace='medicines-category-detail'>
+            <div class="container">
+                <h1 class="text-center each-page-header" style="font-family: IM Fell DW Pica SC;">MEDICINES A-Z</h1>
+                <p class="text-center">Browse medicines</p>
+                
+                <form class="d-inline w-100" action="{% url 'medicines:search' %}" method="get">
+                    <input name="q_medicines" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" style="font-family: Garamond;background-color:#65CCB8;color: #3B945E;border: none;border-bottom: 1px solid #2C3531;">
+                    <!-- <button class="btn btn-outline-dark my-2 my-sm-0 text-white" type="submit" style="font-family: Garamond;">Search</button> -->
+                  </form>
+            </div>
+    
+            <div class="container mt-5">
+                <div>
+                    {% for medicine in category.medicine_set.all %}
+                        <a class="category-detail" href="{{ medicine.get_absolute_url }}"  style="text-decoration: none;color: #212529;">
+                            <h4><strong>{{ medicine.title }}</strong></h4>
+                            <p style="color:#3e6b72;">{{ medicine.list_description }}
+                            </p>
+                            <hr class="featurette-divider">
+                        </a> 
+                    {% empty %}
+                        <h1 class="text-center mt-n4" style="font-size: 100px;color: #3B945E;">Oops!!!</h1>
+                        <h5 class="text-center"><b>No medicine available here..</b></h5>
+                        <div class="text-center">
+                            <button class="btn btn-hover" type="submit"><a  data-fancybox-close="" href="{% url 'medicines:medicine-category-list' %}" style="text-decoration: none;color: white;">GO TO MEDICINE LIST</a></button>
+                        </div>  
+                    {% endfor %}
+                </div>
+            </div>      
+        </main>
+    </div>   
+
+    
+    <p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+
+       
+{% endblock content %}

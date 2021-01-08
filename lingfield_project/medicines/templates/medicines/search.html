@@ -1,0 +1,36 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='search'>
+        <div class="container">
+            <h1 class="text-center each-page-header" style="font-family: IM Fell DW Pica SC;">MEDICINES A-Z</h1>
+            <p class="text-center">Browse medicines</p>
+        </div>
+
+        <div class="container mt-5">
+            <div>
+                {% for medicine in object_list %}
+                        <a href="{{ medicine.get_absolute_url }}"  style="text-decoration: none;color: #212529;">
+                            <h4>{{ medicine.title }}</h4>
+                            <p>{{ medicine.list_description }}
+                            </p>
+                        </a> 
+                        <hr class="featurette-divider">
+                    {% empty %}
+                        <h1 class="text-center mt-n4" style="font-size: 100px;color: #3B945E">Oops!!!</h1>
+                        <h5 class="text-center"><b>No medicine available here.</b></h5>
+                        <div class="text-center">
+                            <button class="btn btn-hover" type="submit"><a  data-fancybox-close="" href="{% url 'medicines:medicine-category-list' %}" style="text-decoration: none;color: white;">GO TO MEDICINE LIST</a></button>
+                        </div>                       
+                {% endfor %}
+            </div>
+        </div>      
+    </main>
+</div>
+
+<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #5fbae9;background-color: #5fbae9;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+{% endblock content %}

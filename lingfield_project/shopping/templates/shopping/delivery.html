@@ -1,0 +1,255 @@
+{% extends 'lingfield/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="wrapper">
+    <main data-barba="container" data-barba-namespace='shopping'> 
+        <div class="container">
+            <h1 class="text-center each-page-header" style="font-size: 80px;font-family: IM Fell DW Pica SC;">DELIVERY</h1>
+            <p class=" text-center" style="margin-top: -1%;">Read about our delivery service</p>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-12" >
+                    <h3>WEB ORDERS</h3>
+                    <p>The web team will endeavour to ship your orders in a timely manner. The opening hours for shipping are:</p>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Day</th>
+                                <th>From</th>
+                                <th>To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Monday</td>
+                                <td>09:00</td>
+                                <td>16:30</td>
+                            </tr>
+                            <tr>
+                                <td>Tuesday</td>
+                                <td>09:00</td>
+                                <td>16:30</td>
+                            </tr>
+                            <tr>
+                                <td>Wednesday</td>
+                                <td>09:00</td>
+                                <td>16:30</td>
+                            </tr>
+                            <tr>
+                                <td>Thursday</td>
+                                <td>09:00</td>
+                                <td>16:30</td>
+                            </tr>
+                            <tr>
+                                <td>Friday</td>
+                                <td>09:00</td>
+                                <td>16:30</td>
+                            </tr>
+                            <tr>
+                                <td>Saturday</td>
+                                <td>09:00</td>
+                                <td>11:30</td>
+                            </tr>
+                            <tr>
+                                <td>Monday</td>
+                                <td>N/A</td>
+                                <td>N/A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br>
+
+                    <p>NB: Orders placed on Saturday after 11.30 will be processed on a Monday (except Bank Holidays) and sent out as soon as possible.</p>
+                    <p>All products are packed securely and discreetly.</p>
+                </div>
+
+                <div class="col-lg-6 col-sm-12">
+                    <h3>DELIVERY WITHIN THE UK</h3>
+                    <h5>STORE ITEMS AND OVER THE COUNTER PRODUCTS</h5>
+                    <p style="text-align: justify;text-justify: inter-word;">All delivery dates are estimates and NOT guaranteed unless the Next Day service is selected and paid for. Please note not every item is eligible for Special Next Day Delivery, the customer care colleagues will contact you if this option is selected but cannot be fulfilled. This could occur where additional information is required to authorise the sale of medicines.</p>
+                </div>
+            </div>
+
+            <div>
+                <h3>ROYAL MAIL</h3>
+                <div class="mt-4">
+                    <h4>STANDARD DELIVERY (48-HOUR SERVICE)</h4>
+                    <p>Fully tracked 3-5 working days from the date of dispatch - not guaranteed<br>
+
+                        98% of orders are dispatched within 3 working days and normally delivered to your chosen address within 5 working days.<br>
+                        
+                        <b>FREE for orders over £35 (£3.19 if under £35).</b></p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>TRACKED AND SIGNED (48-HOUR SERVICE)</h4>
+                    <p><b>Cannot be used for orders containing more than 2 aerosols.</b>
+                        2-3 working days from dispatch - not guaranteed. Signature required on delivery<br>
+
+                        Please note dispatch is usually within 1-3 working days from ordering. The 2-3 working days for tracked and signed delivery is on top of the dispatch timescales.<br>
+                        
+                        <b>From £3.49*</b></p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>TRACKED (24-HOUR SERVICE)</h4>
+                    <p><b>Orders containing more than 2 aerosols will be dispatched using DPD.</b><br>
+
+                        Fully tracked 1-3 working days from the date of dispatch - not guaranteed<br>
+                        
+                        98% of orders are dispatched within 1-3 working days and aims to deliver the next working day - not guaranteed<br>
+                        
+                       <b> These orders are not expedited dispatch.</b> Please see our special next day service for expedited delivery.<br>
+                        
+                        <b> From £3.89*</b></p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>TRACKED AND SIGNED (24-HOUR SERVICE)</h4>
+                    <p><b>Orders containing more than 2 aerosols will be dispatched using DPD.</b><br>
+
+                        98% of orders are dispatched within 1-3 working days and aims to deliver the next working day - not guaranteed.<b> Signature required on delivery</b><br>
+                        
+                        Please note dispatch is usually within 1-3 working days from ordering. The 24-hour delivery service is for tracked and signed delivery is on top of the dispatch timescales.<br>
+                        
+                        <b>These orders are not expedited dispatch. </b>Please see our special next day service for expedited delivery.<br>
+                        
+                        <b>From £4.09*</b>
+                        
+                        </p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>SPECIAL NEXT DAY DELIVERY 1PM GUARANTEED.</h4>
+                    <p><b>Not available on orders containing more than 2 aerosols to Ireland and the offshore islands of England and Scotland.<br>
+
+                        Packages containing more than 2 aerosols, to mainland UK, will be sent via DPD next day service, not guaranteed before 1 pm.</b><br>
+                        
+                        Guaranteed next day delivery before 1 pm on orders placed before 3.00pm Monday - Thursday.<br>
+                        
+                        Orders placed on a Friday will require special delivery next day Saturday service.<br>
+                        
+                        Signature required on delivery. (Deliveries not made on Sundays or Bank Holidays)<br>
+                        
+                        <b>From £5.48*</b></p>
+                    
+                    <p class="mt-3">All orders are dispatched using <b>Royal Mail or DPD</b>, dependant on the choices made at checkout, with the exception of those orders containing more than 2 aerosols and heavy/bulky packages and for these our alternative delivery partner, <b>DPD</b> is used.</p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>CUSTOMERS WILL RECEIVE AN EMAIL ON DISPATCH WITH THEIR DPD TRACKING NUMBER AND CONTACT DETAILS.</h4>
+                    <p><b>Deliveries of 2 or more aerosols to Northern Ireland and the offshore islands of England and Scotland (including Highlands)</b> will incur an additional charge of £6. Delivery will be via DPD on a 48-hour service. We may need to split orders to ensure delivery.</p>
+                    <p>For full details of Royal Mail service timescales please <a href="https://www.royalmail.com/business/shipping/uk-services" style="text-decoration: underline;color: #212121;">CLICK HERE</a></p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>CLICK AND COLLECT</h4>
+                    <p><a href="https://www.weldricks.co.uk/click-and-collect" target="_blank" style="text-decoration: underline;color: #212121;">Click here for full details on Click and Collect delivery.</a></p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>COLLECTION AT THE PHARMACY</h4>
+                    <p>You will receive an email when your order is ready to collect. Please note the collection date and time on the e-mail as the item will not be ready to collect until after this point. Pop into your chosen Weldricks Pharmacy to collect your goods at a time convenient to you. Please note we will be unable to dispatch orders to branches Saturday, Sunday and Bank Holidays.</p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>PRESCRIPTIONS</h4>
+                    <p><b>FREE </b>for all NHS Prescriptions<br>
+
+                        Private Prescriptions follow the same charges as normal transactions.</p>
+                </div>  
+                
+                <div class="mt-4">
+                    <h4>NEXT DAY DELIVERY (BEFORE 1 PM)</h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Weight (kg)</th>
+                                <th>Charge  (£)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0 - 0.5kg</td>
+                                <td>5.48</td>
+                            </tr>
+                            <tr>
+                                <td>0.5kg - 10kg</td>
+                                <td>5.95</td>
+                            </tr>
+                            <tr>
+                                <td>10kg+</td>
+                                <td>Order too heavy for Special Delivery</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4">
+                    <h4>SPECIAL SATURDAY DELIVERY</h4>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Weight (kg)</th>
+                                <th>Charge  (£)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>0 - 10kg</td>
+                                <td>5.95</td>
+                            </tr>
+                            <tr>
+                                <td>10kg+</td>
+                                <td>Order too heavy for Special Delivery</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><b>Compensation for loss and damage up to £750. For higher compensation value contact customer services.</b></p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>HEAVY ITEMS</h4>
+                    <p>Heavy items will be sent using our alternative courier, DPD. Additional charges may apply. Customer Services will contact customers if this is the case.</p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>LIQUIDS AND AEROSOLS</h4>
+                    <p>Orders containing more than 2 aerosols cannot be sent using Royal Mail Next Day Delivery and so will be sent using DPD – additional charges will apply. Customer Services will contact customers with further information once an order is received.<br>
+
+                        Unfortunately, we cannot deliver aerosols internationally, to Northern Ireland or to the offshore islands of England and Scotland. We can, however, still deliver to the Scottish Highlands mainland but due to a change of courier service a postage charge may occur, please call our customer services team for more information on 0808 164 3211.
+                        
+                    </p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>DELIVERY OUTSIDE OF THE UK</h4>
+                    <p>We regret that since The European Union Falsified Medicines Directive (FMD) (2011/62/EU) (1) was implemented in the UK on 1st June 2015 we are not allowed to supply UK licensed medicines to any other EU member state, this is because medicines licensed for the UK are not normally licensed for another EU country. <br>
+
+                        We do not offer delivery to non-UK countries.</p>
+                </div>
+
+                <div class="mt-4">
+                    <h4>POSTAGE INSURANCE</h4>
+                    <p>Unfortunately, your order is only covered for contents up to £100, Special Next day Guaranteed service orders are covered for up to £750. If any package is of a higher value than this, then it is the responsibility of the customer to obtain additional postal insurance. Details of these costs can be gained by contacting our Customer Service Department.<br>
+
+                        Deliveries to Northern Ireland and the offshore islands of England and Scotland will incur additional postage charges. Customer Services will contact you with further information once your order is received.
+                        
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div class="container">
+    <p class="text-right fixed-bottom "><a href="#" style="border: 10px solid teal;background-color: teal;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+</div>
+{% endblock content %}

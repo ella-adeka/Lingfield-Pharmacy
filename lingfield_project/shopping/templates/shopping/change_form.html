@@ -1,0 +1,20 @@
+{% extends "admin/change_form.html" %} {% load static %} {% block extrahead %}
+{{ block.super }}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+$(function () {
+// inspect html to check id of category select dropdown.
+$(document).on("change", "select#id_category", function () {
+$.getJSON("/getSubcategory/", { id: $(this).val() }, function (j) {
+var options = '<option value="">---------</option>';
+for (var i = 0; i < j.length; i++) {
+options +=
+'<option value="' + j[i].id + '">' + j[i].name + "</option>";
+}
+// inspect html to check id of subcategory select dropdown.
+$("select#id_subcategory").html(options);
+});
+});
+});
+</script>
+{% endblock %}

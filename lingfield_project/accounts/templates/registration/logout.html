@@ -1,0 +1,57 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<!-- <h2>You have been logged out</h2>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            <a href="{% url 'login' %}">Log In Again</a>
+        </small>
+        <div>
+            <p>Or go <a href="{% url 'lingfield:home' %}">Home</a></p>
+        </div>
+    </div> -->
+
+    <div class="wrapper">
+        <main data-barba="container" data-barba-namespace='login'>
+            <div class="wrapper1 fadeInDown">
+                <div id="formContent1">
+                              <!-- Tabs Titles -->
+                            <h2 class="active" style="margin-top:2%;font-family: IM Fell DW Pica SC;"> You have logged out </h2>
+                          
+                              <!-- Login Form -->
+                            <div class="border-top pt-3">
+                                
+                                    <div class="col-12 mb-3">
+                                        <a href="{% url 'login' %}" style="font-family: IM Fell DW Pica SC;color: black;">Log In Again</a> 
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        Or go
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <a href="{% url 'lingfield:home' %}" style="font-family: IM Fell DW Pica SC;"" >Home</a>
+                                    </div>
+                               
+                                   
+                            </div>
+                          
+                            <!-- Remind Passowrd -->
+                            <div id="formFooter">
+                               
+                                <br>
+                                <small class="text-muted">
+                                </small>
+                            </div>
+                          
+                            </div>
+                          </div>
+           
+           
+           
+          
+        </main>
+    </div>
+{% endblock %}

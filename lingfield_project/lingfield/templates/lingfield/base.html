@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Lingfield</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Google Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=EB Garamond' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Damion' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=IM Fell DW Pica SC' rel='stylesheet'>
+
+    <!-- Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+    <!-- Bootstrap -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+    {% load static %}
+    <link rel='stylesheet' type='text/css' media='screen' href="{% static 'css/main.css' %}">
+    
+</head>
+<body data-barba="wrapper" class="dark-mode">
+    <div id="ImpNotice" style="text-align: center;background-color: #182628;color: #F2F2F2;height: 40px;padding: 1px 0 10px 0;">
+        
+        <div class="container" >
+            <p style="font-size: 12px;"><i class="fas fa-info-circle" style="color: #3B945E;"></i> <span style="color:  #3B945E;">IMPORTANT</span> To read the national and local advice about corona virus, please click <span><a href="https://www.gov.uk/coronavirus" target="_blank"  style="color: #3B945E;" role="link">here!</a><a href="javascript:void(0)" class="closebtn" onclick="closeNotice()" style="float:right;text-decoration: none;color:  #3B945E;">&times;</a></span></p >
+        </div>
+    </div>
+    
+    <!-- <a href='https://pngtree.com/so/drugs'>drugs png from pngtree.com</a> -->
+    <!-- <a href='https://pngtree.com/so/pills'>pills png from pngtree.com</a> -->
+
+    {% include 'lingfield/navbar.html' %}
+    <div id="page-container">
+       
+        {% block content %}
+            {% for message in messages %}
+                <div class="alert {{ message.tags }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="background-color: transparent;">&times;</button>
+                        {{ message | safe }}
+                </div>
+            {% endfor %}
+
+        {% endblock content %}
+    </div>
+
+<!-- <p class=" fixed-bottom text-left" style="width:35px;writing-mode: vertical-rl;text-orientation: upright;background-color: black;padding: 0.6em;left: 0;"><a href="{% url 'lingfield:more-info' %}" style="color: white;" >footer</a></p> -->
+    <div class="container">
+        <p class=" fixed-bottom text-center"><a href="{% url 'lingfield:more-info' %}" style="color: #F2F2F2;" >Click to see footer</a></p> 
+    </div>
+
+
+
+    <script src="https://unpkg.com/@barba/core"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.3.4/gsap.min.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>   
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    <script src="{% static 'js/index.js' %}"></script>
+
+    <script type="text/javascript">
+        function closeNotice() {
+        document.getElementById("ImpNotice").style.display = "none";}
+
+        function colorModesLight(x) {
+        
+        var element = document.body;
+        element.classList.toggle("dark-mode");
+    }
+
+
+
+
+    function contentAnimation() {
+        var tl = gsap.timeline();
+        tl.from(".animate-this", { duration: 1, y: 30, opacity: 0, stagger: 0.4, delay: 0.2 });
+    }
+
+    function aboutAnimation() {
+        var tl = gsap.timeline();
+        tl.from(".abt-page", { duration: 2, y: 100, opacity: 0, stagger: 0.4, delay: 0.3 });
+        tl.from(".abt-images", { duration: 2, y: 100, opacity: 0, stagger: 0.4, delay: 0.5 });
+    }
+
+    function serviceAnimation() {
+        var tl = gsap.timeline();
+        tl.from(".service-head", {duration: 2, x: -30, opacity: 0,stagger: 0.4, delay:0.3});
+        tl.from(".service-para-left", {duration: 2, x: -400,opacity: 0,stagger: 0.4, delay:0.3});
+        tl.from(".service-para-right", {duration: 2, x: 400,opacity: 0,stagger: 0.4, delay:0.2});
+
+        }
+    function delay(n) {
+        n = n || 2000;
+        return new Promise((done) => {
+            setTimeout(() => {
+                done();
+            }, n);
+        });
+    }
+
+
+    barba.init({
+        sync: true,
+
+        transitions: [
+            {
+                async leave(data) {
+                    const done = this.async();
+
+                    pageTransition();
+                    await delay(1000);
+                    done();
+                },
+
+                async enter(data) {
+                    contentAnimation();
+                    aboutAnimation();
+                    serviceAnimation();
+                },
+
+                async once(data) {
+                    contentAnimation();
+                    aboutAnimation();
+                    serviceAnimation();
+                },
+            },
+        ],
+    });
+
+
+
+    </script>
+</body>
+</html>
