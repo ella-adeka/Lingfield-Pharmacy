@@ -39,13 +39,13 @@
                                 {% for c in categories %}
                                 <a class="list-group-item list-group-item-action" href="#sub-men1" data-toggle="collapse" aria-expanded="true" aria-controls="sub-men1">{{ c.title }}<small class="text-muted">({{ c.shops.count }})</small>
                                 </a>
-                                {% for subcategory in c.subcategory_set.all %}
-                                <div class="collapse" id="sub-men1" data-parent="#list-group-men"> <!-- <div class="collapse" id="sub-men1" data-parent="#list-group-men">-->
-                                    <div class="list-group">
-                                        <a href="{{ subcategory.get_absolute_url }}" class="list-group-item list-group-item-action">{{ subcategory.title }} <small class="text-muted">({{ subcategory.shops.count }})</small></a>
-                                    </div>    
-                                </div>
-                                {% endfor %} 
+                                    {% for subcategory in c.subcategory_set.all %}
+                                    <div class="collapse" id="sub-men1" data-parent="#list-group-men"> <!-- <div class="collapse" id="sub-men1" data-parent="#list-group-men">-->
+                                        <div class="list-group">
+                                            <a href="{{ subcategory.get_absolute_url }}" class="list-group-item list-group-item-action">{{ subcategory.title }} <small class="text-muted">({{ subcategory.shops.count }})</small></a>
+                                        </div>    
+                                    </div>
+                                    {% endfor %} 
                                 {% endfor %}
                             </div>
                          

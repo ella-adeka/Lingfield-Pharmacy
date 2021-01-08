@@ -24,12 +24,12 @@ app_name="health_news"
 
 urlpatterns = [
     
-    path('health-news-list/', views.health_news_list, name='health-news-list'),
+    path('news-list/', views.health_news_list, name='health-news-list'),
     path('<slug:category_slug>/', views.health_news_list, name='health-news-list-by-category'),
 
-    path('health-news-detail/<int:id>/', views.health_news_detail, name='health-news-detail'),
+    path('news-detail/<int:id>/', views.health_news_detail, name='health-news-detail'),
     
-    path('search/', SearchResultsView.as_view(), name="search"),
+    path('search-result/', SearchResultsView.as_view(), name="search"),
 
      path('<int:year>/<str:month>/<int:day>/',
          HealthNewsDayArchiveView.as_view(),

@@ -30,7 +30,7 @@ urlpatterns = [
     path('products/<slug:subcategory_slug>/', views.product_list, name='product-list-by-subcategory'),
     path('product-detail/<slug:slug>/', ShopDetailView.as_view(), name='product_detail'),
 
-    path('search/', SearchResultsView.as_view(), name='search'),
+    path('search-result/', SearchResultsView.as_view(), name='search'),
 
     path('products/add_to_cart/<slug>', views.add_to_cart, name='add_to_cart'),
     path('products/remove_from_cart/<slug>', views.remove_from_cart, name='remove_from_cart'),

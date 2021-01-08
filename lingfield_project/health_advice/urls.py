@@ -24,11 +24,11 @@ from .views import HealthAdviceDetailView, HealthAdviceListView, SearchResultsVi
 app_name="health_advice"
 
 urlpatterns = [
-    path('healthadvice-category-detail/<slug:slug>/', CategoryDetailView.as_view(), name='health-advice-category-detail'),
-    path('healthadvice-category-list/', views.health_advice_category_list, name='health-advice-category-list'),
+    path('category/<slug:slug>/', CategoryDetailView.as_view(), name='health-advice-category-detail'),
+    path('category/', views.health_advice_category_list, name='health-advice-category-list'),
     
-    path('healthadvice-detail/<slug:slug>/', HealthAdviceDetailView.as_view(),  name='health-advice-detail'),
+    path('category/detail/<slug:slug>/', HealthAdviceDetailView.as_view(),  name='health-advice-detail'),
     path('healthadvice-list/', HealthAdviceListView.as_view(), name='health-advice-list'),
     
-    path('search/', SearchResultsView.as_view(), name="search"),
+    path('search-result/', SearchResultsView.as_view(), name="search"),
 ]

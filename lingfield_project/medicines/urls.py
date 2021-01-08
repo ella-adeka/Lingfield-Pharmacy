@@ -23,10 +23,10 @@ from .views import MedicineDetailView, MedicineListView, SearchResultsView, Cate
 app_name="medicines"
 
 urlpatterns = [
-    path('medicine-category-detail/<slug:slug>/', CategoryDetailView.as_view(), name='medicine-category-detail'),
-    path('medicine-category-list/', views.medicine_category_list, name='medicine-category-list'),
+    path('category/<slug:slug>/', CategoryDetailView.as_view(), name='medicine-category-detail'),
+    path('category/', views.medicine_category_list, name='medicine-category-list'),
     
-    path('medicine-detail/<slug:slug>/', MedicineDetailView.as_view(), name='medicine-detail'),
+    path('category/detail/<slug:slug>/', MedicineDetailView.as_view(), name='medicine-detail'),
     path('medicine-list/<slug:slug>/', MedicineListView.as_view(), name='medicine-list'),
 
     path('search/', SearchResultsView.as_view(), name="search"),
