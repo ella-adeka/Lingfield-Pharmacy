@@ -319,6 +319,24 @@ main div.container h1.welcome span{
  
 }
 
+.home-page-header{
+  line-height:50px;
+  -webkit-transition: all 2s ease-out;
+  -moz-transition: all 2s ease-out;
+  -o-transition: all 2s ease-out;
+  transition: all .5s ease-in-out .2s; 
+}
+
+.home-page-header span:hover{
+  transform: scale(1.2);
+  font-size: 25vh;
+  
+  cursor: pointer;
+  color: #182628;
+  // -webkit-text-stroke-width: 0.5px;
+  // -webkit-text-stroke-color: #182628;
+  // line-height:20px;
+}
 @media (min-width: 650px){
 .home-page-header {
   font-size: 15vw;
@@ -459,7 +477,7 @@ main div.container-2{
   font-size: 90px;
   color: transparent;
   -webkit-text-stroke-width: 0.5px;
-  -webkit-text-stroke-color: teal;
+  -webkit-text-stroke-color: #182628;
   transform: scale(1.2); //moving/scaling the element on hover
   
 }
