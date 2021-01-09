@@ -28,6 +28,7 @@ urlpatterns = [
     path('delivery/', views.delivery, name='delivery'),
     path('products/', views.product_list, name='product_list'),
     path('products/<slug:subcategory_slug>/', views.product_list, name='product-list-by-subcategory'),
+    # path('products/<subcategory_slug>[\w\-]+/', views.product_list, name='product-list-by-subcategory'),
     path('product-detail/<slug:slug>/', ShopDetailView.as_view(), name='product_detail'),
 
     path('search-result/', SearchResultsView.as_view(), name='search'),

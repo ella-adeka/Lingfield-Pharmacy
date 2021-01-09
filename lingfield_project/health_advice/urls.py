@@ -30,5 +30,5 @@ urlpatterns = [
     path('category/detail/<slug:slug>/', HealthAdviceDetailView.as_view(),  name='health-advice-detail'),
     path('healthadvice-list/', HealthAdviceListView.as_view(), name='health-advice-list'),
     
-    path('search-result/', SearchResultsView.as_view(), name="search"),
+    path('search/', SearchResultsView.as_view(), name="search"),
 ]

@@ -305,7 +305,7 @@ main div.container-2 {
 }
 
 .index-page-text {
-  background-image: url("images/pharmacy/Pharmacist/3725269.jpg");
+  text-shadow: 0px 15px 5px rgba(0, 0, 0, 0.1), 10px 20px 5px rgba(0, 0, 0, 0.05), -10px 20px 5px rgba(0, 0, 0, 0.05);
 }
 
 .index-page-img {

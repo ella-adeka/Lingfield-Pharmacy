@@ -11,10 +11,10 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 
     # path('dashboard/select_surgery/<int:id>/',views.select_surgery, name='select_surgery')
-    path('dashboard/select_surgery/<slug:slug>/', DashboardView.as_view(), name="dashboard-with-surgery"),
-    # path('dashboard/select_surgery/<slug:slug>', views.select_surgery, name="select_surgery"),
+    path('dashboard/hospital/<slug:slug>/', DashboardView.as_view(), name="dashboard-with-surgery"),
+    path('dashboard/hospital/<slug:slug>', views.hospital, name="select_surgery"),
+
     path('dashboard/new_prescription/', views.new_prescription, name="new_prescription"),
-    path('dashboard/new_prescription/<slug:hospital_slug>/', views.new_prescription, name="new_prescription_with_hospital"),
-    path('dashboard/new_prescription/<slug:medicine_slug>/', views.new_prescription, name="new_prescription_with_meds")
+    
 ]
 

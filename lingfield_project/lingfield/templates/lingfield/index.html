@@ -9,20 +9,25 @@
 
        <div class="container">
            
-            <div class="row index-page-text" style="display: flex;justify-content: center;align-items: center;margin-top: 40px;">
-                <div  >
+            <div class="index-page-text" style="margin-top: 40px;">
+                <div class="col-12">
                     <!-- <h4>We are</h4> -->
+                    <img class="index-page-img rounded" src="{% static 'images//pharmacy/Pharmacist/3725269.jpg' %}" width="100%" height="380px" style="object-fit: contain;margin-left: 23%;">
                     <br>
-                    <h1 class="home-page-header text-lg-left text-sm-center" style="width: 100%;font-family: IM Fell DW Pica SC;line-height: 90%;color: #116466;">
+                    <div style="position: relative;width: 100%;" class="col-12">
+                        <h1 class="home-page-header text-lg-left text-sm-center" style="margin-top: -30%;width: 100%;font-family: IM Fell DW Pica SC;line-height: 90%;color: #116466;text-shadow: 0px 15px 5px rgba(0,0,0,0.1),
+                    10px 20px 5px rgba(0,0,0,0.1),
+                    -10px 20px 5px rgba(0,0,0,0.1);">
                         Lingfield <br> <b>Pharmacy</b>
                     </h1>  
-                    <p class="mt-4" style="color: #182628">We are an independent NHS Community Pharmacy serving the <br> people of Darlington.</p>
+                    <p class="mt-4" style="color: #182628;text-shadow: 0px 15px 5px rgba(0,0,0,0.1),10px 20px 5px rgba(0,0,0,0.1),-10px 20px 5px rgba(0,0,0,0.1);">We are an independent NHS Community Pharmacy serving the <br> people of Darlington.</p>
                     <div class="animate-this pres-button mt-4">
                         {% if user.is_authenticated %}
-                            <a href="{% url 'accounts:dashboard' %}">place order</a>
+                            <a href="{% url 'accounts:dashboard' %}" >place order</a>
                         {% else %}
                             <a href="{% url 'lingfield:prescriptions' %}">place order</a>
                         {% endif %}
+                    </div>
                     </div>
                     
                 </div>

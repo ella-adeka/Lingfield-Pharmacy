@@ -284,9 +284,12 @@
                                               <a href="{{ s.get_surgery_url }}">{{ s.clinic_name }}</a>
                                             {% endfor %}
                                             
-                                            {{hospital.clinic_name }}
+                                            {{hospital.hospital.clinic_name }}
                                             {{object.clinic_name }}
+
+                                            {{ get_surgery }}
                                             
+                                           {{ hospital_list.hospital.clinic_name }}
                                         </div>      
                                         <a href="#"><i>Print Surgery Nomination Form</i></a>
                                     </div>
