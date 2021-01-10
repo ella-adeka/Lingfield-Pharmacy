@@ -332,6 +332,7 @@ main div.container h1.welcome span{
 .home-page-header span:hover{
   transform: scale(1.2);
   font-size: 25vh;
+  zoom: 100%;
   
   cursor: pointer;
   color: #182628;
@@ -501,7 +502,7 @@ div.news-months ul li a{
 }
 
 div .news-months ul li a:hover{
-  color: teal;
+  color: #182628;
 }
 
 
@@ -567,6 +568,26 @@ div.news-months ul li {
 box-shadow: 0px 60px 48px 0px rgba(0,0,0,0.2);
 
 }
+
+#grid-group-img-head {
+  display: inline-block;
+  border-radius: 2px 60px 0px 0px;
+  // margin: 20px;
+  // border: 1px solid black;
+  overflow: hidden;            /* clip the excess when child gets bigger than parent */
+}
+#grid-group-img-head img {
+  display: block;
+  transition: transform .4s;   /* smoother zoom */
+}
+#grid-group-img-head:hover img {
+  transform: scale(1.9) rotate(45deg);
+  transform-origin: 50% 50%;
+}
+// .grid-group-img:hover{
+//   transform: scale(1.1) rotate(45deg);
+  
+//   }
 .list-group-item {
   border: none;
   padding: 5px 20px;
