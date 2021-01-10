@@ -195,10 +195,11 @@
                                                     <div style="margin-top: 30px;">
                                                         {% for h in hospital_list %}
                                                             <a href="{{ h.get_absolute_url }}" style="color: black;text-decoration: none;">
-                                                                <p ><b>{{ h.clinic_name }}</b><br>{{ h.hospital }} {{ h.hospital_street }}, {{ h.district }}, {{ h.city }}, {{ h.postal_code }}</p>
-                                                                <hr>
-                                                            </a>
-                                                            
+                                                                <a href="{{ h.get_surgery_url }}" style="color: black;text-decoration: none;">    
+                                                                    <p ><b>{{ h.clinic_name }}</b><br>{{ h.hospital }} {{ h.hospital_street }}, {{ h.district }}, {{ h.city }}, {{ h.postal_code }}</p>
+                                                                    <hr>
+                                                                </a>
+                                                            </a>   
                                                         {% empty %}
                                                             <p>No Clinics Available.</p>
                                                         {% endfor %}
@@ -293,6 +294,10 @@
                                             {{ get_surgery }}
                                             
                                            {{ hospital_list.hospital.clinic_name }}
+
+                                           {{ object.get_surgery }}
+
+                                           {{ hospital.get_surgery }}
                                         </div>      
                                         <a href="#"><i>Print Surgery Nomination Form</i></a>
                                     </div>
@@ -329,9 +334,11 @@
     
                                                 <div style="margin-top: 30px;">
                                                     {% for medicine in medicines %}
-                                                        <a href="#" style="color: black;text-decoration: none;">
-                                                            <p data-toggle="modal" data-target="#selectPrescriptionItem" data-dismiss="modal"><b>{{ medicine.title }}</b></p>
-                                                            <hr>
+                                                        <a href="{{ medicine.get_absolute_url }}" style="color: black;text-decoration: none;">
+                                                            <a href="{{ medicine.get_medicine_url }}">
+                                                                <p data-toggle="modal" data-target="#selectPrescriptionItem" data-dismiss="modal"><b>{{ medicine.title }}</b></p>
+                                                                <hr>
+                                                            </a>
                                                         </a>
                                                     {% empty %}
                                                         <p>No Medicines Available.</p>

@@ -29,27 +29,22 @@ from django.dispatch import receiver
 
 # Create your views here.
 def hospital(value,slug=None):
-    hospital = HospitalList.objects.get(slug=slug)
-    # hospital = get_object_or_404(HospitalList) 
+    hospital = HospitalList.objects.filter(slug=slug)
+    # hospital = get_object_or_404(HospitalList, slug=slug) 
     context = {
         'hospital' : hospital,
     } 
     return redirect('accounts:dashboard')
-def medicine(request):
+
+def medicine(value,slug=None):
+    medicine = Medicine.objects.filter(slug=slug)
+    context = {
+        'medicine' : medicine,
+    } 
     return redirect('accounts:dashboard')
 
-def new_prescription(request):
-    global hospital
-    if hospital(hospital):
-        hospital = HospitalList(
-            user=request.user,
-            slug=hospital_slug,
-        )
-        hospital.save()
-        prescription.hospital = hospital
-        prescription.save()
-    else:
-        messages.info(self.request, "Please select a hospital")
+def new_prescription(request, hospital_slug):
+    hospital = get_object_or_404(HospitalList, slug=hospital_slug)
     return redirect('accounts:dashboard')
 
 
