@@ -35,6 +35,8 @@ def hospital(value,slug=None):
         'hospital' : hospital,
     } 
     return redirect('accounts:dashboard')
+def medicine(request):
+    return redirect('accounts:dashboard')
 
 def new_prescription(request):
     global hospital
