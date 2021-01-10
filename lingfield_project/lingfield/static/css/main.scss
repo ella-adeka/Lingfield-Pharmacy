@@ -8,7 +8,6 @@ body {
   font-family: 'EB Garamond';
   height: 100%;
   background-color: #65CCB8;
-
 // #182628
   
  
@@ -18,7 +17,10 @@ body {
 // }
 
 .dashboard-sub-header:hover {
-  box-shadow: 0px 80px 32px 0px rgba(0,0,0,0.2)
+  box-shadow: 0px 80px 32px 0px rgba(0,0,0,0.2);
+  // display: inline-block;
+  transform: scale(1.1);
+  line-height: 30px;
 }
 // -------------------------- SCROLLBAR ------------------------- /
 /* width */
@@ -1150,4 +1152,28 @@ clear: both;
 }
 }
 
+// .testimonial-group {
+//   scrollbar-width: thin;
+// }
+/* The heart of the matter */
+.testimonial-group > .row {
+  overflow-x: auto;
+  white-space: nowrap;
+  flex-wrap: nowrap;
 
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  
+  }
+.testimonial-group > .row > .col-xs-4 {
+  display: inline-block;
+  float: none;
+  
+}
+
+/* Decorations */
+.col-xs-4 { color: #fff; font-size: 48px; padding-bottom: 20px; padding-top: 18px; }
+// .col-xs-4:nth-child(3n+1) { background: #c69; }
+// .col-xs-4:nth-child(3n+2) { background: #9c6; }
+// .col-xs-4:nth-child(3n+3) { background: #69c; }

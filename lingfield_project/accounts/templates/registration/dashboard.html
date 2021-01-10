@@ -37,24 +37,27 @@
         </div>
 
         <div class="container">
-           <div class="row">
-                <div class="col-lg-2 col-md-4 col-sm-4 mr-lg-4  mt-3 mr-sm-4 dashboard-sub-header" onclick="togglediv('MyInfo')"  style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));display: flex;justify-content: center;align-items: center;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 20px 5px 12px;">
-                    <h5 class="text-center"  style="vertical-align: middle;"><a><b>MY INFO</b></a></h5>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-3 mr-lg-4  mt-3 mr-sm-3 dashboard-sub-header" onclick="togglediv('Order')"  style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));display: flex;justify-content: center;align-items: center;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 20px 5px 12px;">
-                    <h5 class="text-center"><a><b>ORDER</b></a></h5>
-                </div>
-                <div class="col-lg-3 col-md-4 col-sm-4  mt-3 mr-lg-4 ml-sm-1 dashboard-sub-header" onclick="togglediv('MyOrders')"  style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));display: flex;justify-content: center;align-items: center; height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 20px 5px 12px;">
-                    <h5 class="text-center"><a><b>MY ORDERS</b></a></h5>
-                </div>
-                <div class="col-lg-4 col-md-12 col-sm-12  mt-3 ml-lg-3 order-sm-first order-lg-last dashboard-sub-header"  style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 20px 5px 12px;"> <!--rgb(189, 234, 245) , rgb(32, 192, 192))-->
-                    <h5 class="text-center">ACCOUNT INFORMATION<br><span style="font-size: 15px;">Change between your account and your dependents</span></h5>
-                    <h6 class="text-center"><b>{{ user.username }}</b><h6>
-                    <div class="text-center" onclick="togglediv('AddDependent')">
-                        <button class="btn btn-info" >ADD DEPENDENT</button>
-                    </div>  
+            <div class="container testimonial-group" >
+                <div class="row" style="padding:0 1rem 1rem 1rem;scrollbar-width: none;">
+                    <div class=" col-xs-4 mr-4  mt-3 dashboard-sub-header" onclick="togglediv('MyInfo')"  style="background: url('/static/images/pharmacy/medicine/adam-niescioruk-hWzrJsS8gwI-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 20px 5px 12px;padding: 1rem;">
+                        <h5 class="text-center"  style="vertical-align: middle;"><a><b>MY INFO</b></a></h5>
+                    </div>
+                    <div class="  col-xs-4 mr-4 mt-3  dashboard-sub-header" onclick="togglediv('Order')"  style="background: url('/static/images/pharmacy/medicine/christina-victoria-craft-ZHys6xN7sUE-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 20px 5px 12px;padding: 1rem;">
+                        <h5 class="text-center"><a><b>ORDER</b></a></h5>
+                    </div>
+                    <div class="col-xs-4 mr-4 mt-3  dashboard-sub-header" onclick="togglediv('MyOrders')"  style="background: url('/static/images/pharmacy/medicine/halacious-_jbClosDsD4-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 20px 5px 12px;padding: 1rem;">
+                        <h5 class="text-center"><a><b>MY ORDERS</b></a></h5> 
+                    </div>
+                    <div class="col-xs-4 mt-3  dashboard-sub-header"  style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 20px 5px 12px;width: 100%;height: 150px;padding: 1rem;cursor: pointer;"> <!--rgb(189, 234, 245) , rgb(32, 192, 192))-->
+                        <h5 class="text-center">ACCOUNT INFORMATION<br><span style="font-size: 15px;">Change between your account and your dependents</span></h5> 
+                        <h6 class="text-center"><b>{{ user.username }}</b><h6>
+                        <div class="text-center" onclick="togglediv('AddDependent')">
+                            <button class="btn btn-info" >ADD DEPENDENT</button>
+                        </div>  
+                    </div>
                 </div>
             </div>
+          
 
             <div id="MyInfo" class="TableBody  mt-4" style="display:none">
                 <h3>INFO</h3>
