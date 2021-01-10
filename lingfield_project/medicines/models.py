@@ -41,3 +41,8 @@ class Medicine(models.Model):
         return reverse("medicines:medicine-detail", kwargs={
             'slug' : self.slug
         })
+
+    def get_medicine_url(self):
+        return reverse("accounts:medicine", kwargs={
+            'slug' : self.slug
+        })
