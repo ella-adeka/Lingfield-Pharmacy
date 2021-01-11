@@ -268,36 +268,40 @@
                                             <p>{{ h.hospital }},<br>{{ h.hospital_street }},<br>{{ h.city }},<br>{{ h.postal_code }}</p>    
                                             {% endfor %}
     
-                                            {% for hospital in object.items.all %}
-                                                {{ hospital.hospital.city }}
+                                            {% for surgery in object.items.all %}
+                                                {{ surgery.hospital.city }}
                                             {% endfor %}
     
-                                            {% for hospital in object.prescription.all %}
-                                                {{ hospital.prescription.city }}
+                                            {% for surgery in object.prescription.all %}
+                                                {{ surgery.prescription.city }}
                                             {% endfor %}
 
-                                            {% for hospital in hospitals %}
-                                               <a href="{{ hospital.id }}"> {{ hospital.city }}</a>
+                                            {% for surgery in surgeriess %}
+                                               <a href="{{ surgery.id }}"> {{ surgery.city }}</a>
                                             {% endfor %}
 
                                             {% for s in surgery %}
                                               <a href="{{ s.get_surgery_url }}">{{ s.clinic_name }}</a>
                                             {% endfor %}
 
-                                            {% for s in selected_surgery %}
-                                              <a href="{{ s.get_surgery_url }}">{{ s.clinic_name }}</a>
+                                            {% for s in surgery %}
+                                              <a href="{{ s.get_surgery_url }}">{{ s.hospitallist.clinic_name }}</a>
                                             {% endfor %}
                                             
-                                            {{hospital.hospital.clinic_name }}
+                                            {{surgery.hospital.clinic_name }}
                                             {{object.clinic_name }}
 
                                             {{ get_surgery }}
                                             
-                                           {{ hospital_list.hospital.clinic_name }}
+                                           {{ surgery.hospital_list.clinic_name }}
 
                                            {{ object.get_surgery }}
 
-                                           {{ hospital.get_surgery }}
+                                           {{ surgery.get_surgery }}
+
+                                           {{ surgery.clinic_name }}
+
+                                           {{ hospital.surgery }}
                                         </div>      
                                         <a href="#"><i>Print Surgery Nomination Form</i></a>
                                     </div>
