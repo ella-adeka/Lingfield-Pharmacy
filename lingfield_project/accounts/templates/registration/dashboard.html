@@ -199,7 +199,7 @@
                                                                     <p ><b>{{ h.clinic_name }}</b><br>{{ h.hospital }} {{ h.hospital_street }}, {{ h.district }}, {{ h.city }}, {{ h.postal_code }}</p>
                                                                     <hr>
                                                                 </a>
-                                                            </a>   
+                                                            </a>
                                                         {% empty %}
                                                             <p>No Clinics Available.</p>
                                                         {% endfor %}
@@ -276,7 +276,7 @@
                                                 {{ surgery.prescription.city }}
                                             {% endfor %}
 
-                                            {% for surgery in surgeriess %}
+                                            {% for surgery in surgeries %}
                                                <a href="{{ surgery.id }}"> {{ surgery.city }}</a>
                                             {% endfor %}
 
@@ -289,7 +289,8 @@
                                             {% endfor %}
                                             
                                             {{surgery.hospital.clinic_name }}
-                                            {{object.clinic_name }}
+
+                                            {{object.surgery.clinic_name }}
 
                                             {{ get_surgery }}
                                             
@@ -302,6 +303,25 @@
                                            {{ surgery.clinic_name }}
 
                                            {{ hospital.surgery }}
+
+                                           {% for s in surgery %}
+                                                            {{ s.clinic_name }}
+                                                        
+                                                        {% endfor %}
+
+                                                        {% for s in object.surgeries.all %}
+                                                            {{ s.surgery.clinic_name }}
+                                                        {% endfor %}
+
+                                            {{ surgery.get_surgery }}
+
+                                            <!-- {% for surgery in hospitallist %}
+                                            {{ surgery.city }}
+                                            {% endfor %} -->
+
+                                            {% for surgery in hospital_list %}
+                                            {{ surgery.clinic_name }}
+                                            {% endfor %}
                                         </div>      
                                         <a href="#"><i>Print Surgery Nomination Form</i></a>
                                     </div>
