@@ -85,7 +85,7 @@ class HospitalList(models.Model):
         })
 
     def get_surgery_url(self):
-        return reverse("accounts:hospital", kwargs={
+        return reverse("accounts:surgery", kwargs={
             'slug' : self.slug
         })
 
