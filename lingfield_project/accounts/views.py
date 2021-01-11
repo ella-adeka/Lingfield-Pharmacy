@@ -38,10 +38,8 @@ class DashboardView(LoginRequiredMixin, View):
     template_name = "registration/dashboard.html"
 
     def get_context_data(self,slug,*args,**kwargs):
-        context = super(DashboardView, self).get_context_data(*args, **kwargs)
-        context['hospital'] = HospitalList.objects.all()
-        # context['select_surgery'] = HospitalList.objects.filter(user=request.user,slug=slug)  
-        # context['hospital'] = get_object_or_404(HospitalList, user=request.user, slug=slug)  
+        object_list = HospitalList.objects.filter(hospitallist=self.get_object())
+        context = super(DashboardView, self).get_context_data(object_list=object_list, **kwargs)
         return context
 
     def get(self,request,*args,**kwargs):
@@ -87,7 +85,7 @@ class DashboardView(LoginRequiredMixin, View):
             messages.info("You do not have an active order.")
             return redirect("accounts:dashboard")
         
-        surgery = request.POST.get('clinic_name')
+        surgery = HospitalList.objects.get(user=self.request.user)
 
         if request.POST.get("form_type") == 'formOne':  
             u_form = UpdateForm(request.POST,instance=request.user, prefix='info')
@@ -196,7 +194,10 @@ def medicine(value,slug=None):
     return redirect('accounts:dashboard')
 
 def new_prescription(request, hospital_slug=None):
-    # hospital = get_object_or_404(HospitalList, slug=hospital_slug)
+    # surgery = HospitalList.objects.get_or_create(
+    #     user=request.user,
+    #     Hospitallist=hospitallist,
+    #     )
     # p = Person.objects.create(first_name="Bruce", last_name="Springsteen")
     return redirect('accounts:dashboard')
 
