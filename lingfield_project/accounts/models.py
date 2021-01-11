@@ -127,7 +127,7 @@ class SelectSurgery(models.Model):
     
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    hospital = models.ForeignKey(HospitalList, on_delete=models.CASCADE, related_name="prescription_items")
+    surgery = models.ForeignKey(HospitalList, on_delete=models.CASCADE, related_name="prescription_items")
     prescription_item = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name="prescription_items")
     prescription_quantity =  models.IntegerField(default=1, null=True, blank=True) 
     ordered = models.BooleanField(default=False)
@@ -138,8 +138,8 @@ class PrescriptionItem(models.Model):
     # def get_new_prescription(self):
     #     return
 
-    def get_hospital(self):
-        return self.hospital
+    def get_surgery(self):
+        return self.surgery
 
     # def get_remove_hospital(self):
     #     return delete self.hospital
