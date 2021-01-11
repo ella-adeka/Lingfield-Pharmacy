@@ -28,26 +28,6 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 
 # Create your views here.
-def hospital(value,slug=None):
-    hospital = HospitalList.objects.filter(slug=slug)
-    # hospital = get_object_or_404(HospitalList, slug=slug) 
-    context = {
-        'hospital' : hospital,
-    } 
-    return redirect('accounts:dashboard')
-
-def medicine(value,slug=None):
-    medicine = Medicine.objects.filter(slug=slug)
-    context = {
-        'medicine' : medicine,
-    } 
-    return redirect('accounts:dashboard')
-
-def new_prescription(request, hospital_slug):
-    hospital = get_object_or_404(HospitalList, slug=hospital_slug)
-    return redirect('accounts:dashboard')
-
-
 
 class DashboardView(LoginRequiredMixin, View):
     u_form_class = UpdateForm
@@ -74,7 +54,6 @@ class DashboardView(LoginRequiredMixin, View):
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.all()
             medicines = Medicine.objects.all()
-            
             context = {
                 'u_form': u_form,
                 'b_form': b_form,
@@ -84,7 +63,6 @@ class DashboardView(LoginRequiredMixin, View):
                 'dependent_form' : dependent_form,
                 'hospital_list' : hospital_list,
                 'medicines' : medicines,
-                
             }
             return render(self.request, "registration/dashboard.html", context)
         except ObjectDoesNotExist:
@@ -109,6 +87,7 @@ class DashboardView(LoginRequiredMixin, View):
             messages.info("You do not have an active order.")
             return redirect("accounts:dashboard")
         
+        surgery = request.POST.get('clinic_name')
 
         if request.POST.get("form_type") == 'formOne':  
             u_form = UpdateForm(request.POST,instance=request.user, prefix='info')
@@ -143,6 +122,7 @@ class DashboardView(LoginRequiredMixin, View):
             'surgery_form' : surgery_form,
             'dependent_form' : dependent_form,
             'saved_surgery' : saved_surgery,
+            'surgery': surgery,
         }
         return render(request, self.template_name,context)
                 
@@ -195,4 +175,29 @@ def save_surgery(sender, instance, created, **kwargs):
     if created:
         surgery = AddSurgery(user=user)
         surgery.save()
+
+
+def surgery(request,slug=None):
+    surgery = HospitalList.objects.filter(user=request.user, slug=slug)
+    # the_surgery = surgery.create()
+    # hospitals = get_object_or_404(HospitalList, slug=slug) 
+    # context = {
+    #     'surgery' : surgery,
+    #     'the_surgery' : the_surgery,
+    # } 
+    messages.info(request, "Your surgery has been selected!")
+    return redirect('accounts:dashboard')
+
+def medicine(value,slug=None):
+    medicine = Medicine.objects.filter(slug=slug)
+    context = {
+        'medicine' : medicine,
+    } 
+    return redirect('accounts:dashboard')
+
+def new_prescription(request, hospital_slug=None):
+    # hospital = get_object_or_404(HospitalList, slug=hospital_slug)
+    # p = Person.objects.create(first_name="Bruce", last_name="Springsteen")
+    return redirect('accounts:dashboard')
+
 
