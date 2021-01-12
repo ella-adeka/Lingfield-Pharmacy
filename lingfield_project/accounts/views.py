@@ -52,6 +52,7 @@ class DashboardView(LoginRequiredMixin, View):
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.all()
             medicines = Medicine.objects.all()
+            surgery = HospitalList.objects.filter(user=request.user)
             context = {
                 'u_form': u_form,
                 'b_form': b_form,
@@ -61,6 +62,7 @@ class DashboardView(LoginRequiredMixin, View):
                 'dependent_form' : dependent_form,
                 'hospital_list' : hospital_list,
                 'medicines' : medicines,
+                'surgery' : surgery,
             }
             return render(self.request, "registration/dashboard.html", context)
         except ObjectDoesNotExist:
@@ -85,8 +87,8 @@ class DashboardView(LoginRequiredMixin, View):
             messages.info("You do not have an active order.")
             return redirect("accounts:dashboard")
         
-        surgery = HospitalList.objects.get(user=self.request.user)
-
+        surgery = HospitalList.objects.all()
+        
         if request.POST.get("form_type") == 'formOne':  
             u_form = UpdateForm(request.POST,instance=request.user, prefix='info')
             b_form = UserBirthDateForm(request.POST, request.FILES, instance=request.user.userbirthdate, prefix='info')
@@ -120,7 +122,7 @@ class DashboardView(LoginRequiredMixin, View):
             'surgery_form' : surgery_form,
             'dependent_form' : dependent_form,
             'saved_surgery' : saved_surgery,
-            'surgery': surgery,
+            'surgery' : surgery,
         }
         return render(request, self.template_name,context)
                 
@@ -175,16 +177,28 @@ def save_surgery(sender, instance, created, **kwargs):
         surgery.save()
 
 
-def surgery(request,slug=None):
-    surgery = HospitalList.objects.filter(user=request.user, slug=slug)
-    # the_surgery = surgery.create()
-    # hospitals = get_object_or_404(HospitalList, slug=slug) 
-    # context = {
-    #     'surgery' : surgery,
-    #     'the_surgery' : the_surgery,
-    # } 
-    messages.info(request, "Your surgery has been selected!")
-    return redirect('accounts:dashboard')
+def surgery(request,slug):
+    try:
+        surgery = HospitalList.objects.get(slug=slug)
+    except ObjectDoesNotExist:
+        return HttpResponse(status=404)
+    return render(request, 'registration/dashboard.html', {'surgery': surgery})
+    # # surgery = HospitalList.objects.get(user=request.user,slug=slug)
+    # surgery = HospitalList.objects.filter(user=request.user, slug=slug)
+    # # surgery = get_object_or_404(HospitalList,id = hospitallist_id, slug=slug)
+    # # the_surgery = HospitalList.objects.filter(clinic_name=clinic_name)
+    # the_surgery = HospitalList.objects.get().first()
+    # print(surgery)
+    # # print(the_surgery)
+    
+    # # the_surgery = surgery.create()
+    # # hospitals = get_object_or_404(HospitalList, slug=slug) 
+    # # context = {
+    # #     'surgery' : surgery,
+    # #     'the_surgery' : the_surgery,
+    # # } 
+    # messages.info(request, "Your surgery has been selected!")
+    # return redirect('accounts:dashboard')
 
 def medicine(value,slug=None):
     medicine = Medicine.objects.filter(slug=slug)
