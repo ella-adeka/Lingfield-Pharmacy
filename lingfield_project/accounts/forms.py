@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserBirthDate, UserProfile, AddSurgery, Dependent,PrescriptionItem
+from .models import UserBirthDate, UserProfile, AddSurgery, Dependent,PrescriptionItem, MedicineItems
 from medicines.models import Medicine
 from crispy_forms.helper import FormHelper
 from django.contrib.auth.models import User
@@ -136,13 +136,26 @@ class DependentForm(forms.ModelForm):
 # ---------------------------------------------------------------   END OF DEPENDENT FORM    ----------------------------------------------------------------------------------#
 
 
-# ---------------------------------------------------------------   PRESCRIPTION ITEM FROM    ----------------------------------------------------------------------------------#
 
-class PrescriptionItemForm(forms.ModelForm):
+# ---------------------------------------------------------------   MEDICINE FORM    ----------------------------------------------------------------------------------#
+
+class MedicineItemsForm(forms.ModelForm):
     reminder = forms.ChoiceField(label='Remind me to order this item',required=True, choices=REMINDER_CHOICES, initial='N')
     class Meta():
-        model = PrescriptionItem
-        fields = {'prescription_item','prescription_quantity','reminder'}
+        model = MedicineItems
+        fields = {'quantity','reminder'}
+        
+# ---------------------------------------------------------------   END OF PRESCRIPTION FORM    ----------------------------------------------------------------------------------#
+
+
+
+# ---------------------------------------------------------------   PRESCRIPTION ITEM FROM    ----------------------------------------------------------------------------------#
+
+# class PrescriptionItemForm(forms.ModelForm):
+#     reminder = forms.ChoiceField(label='Remind me to order this item',required=True, choices=REMINDER_CHOICES, initial='N')
+#     class Meta():
+#         model = PrescriptionItem
+#         fields = {'prescription_item','prescription_quantity','reminder'}
         
 # ---------------------------------------------------------------   END OF PRESCRIPTION FORM    ----------------------------------------------------------------------------------#
 
