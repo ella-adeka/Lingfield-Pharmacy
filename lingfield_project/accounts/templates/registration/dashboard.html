@@ -194,7 +194,7 @@
     
                                                     <div style="margin-top: 30px;">
                                                         {% for h in hospital_list %}
-                                                            <a href="{% url 'accounts:surgery' h.id %}" style="color: black;text-decoration: none;">
+                                                            <a href="{% url 'accounts:surgery' h.slug %}" style="color: black;text-decoration: none;">
                                                                 <a href="{{ h.get_surgery_url }}" style="color: black;text-decoration: none;">    
                                                                     <p ><b>{{ h.clinic_name }}</b><br>{{ h.hospital }} {{ h.hospital_street }}, {{ h.district }}, {{ h.city }}, {{ h.postal_code }}</p>
                                                                     <hr>
@@ -309,7 +309,7 @@
                                            {{ hospital.surgery }}
 
                                            {% for s in surgery %}
-                                                            {{ s.clinic_name }}
+                                                            {{ s.surgery.clinic_name }}
                                                         
                                                         {% endfor %}
 
@@ -332,7 +332,32 @@
                                             {% for the_surgery in surgery %}
                                             <a href="{{ the_surgery.get_absolute_url }}"> <b>{{ the_surgery.city }}</b></a>
                                             {% endfor %}
+
+                                            {{ surgery }}
+                                            {{ the_surgery }}
                                             
+                                            {{ selected_surgery }}
+
+                                            {% for s in selected_surgery %}
+                                            <a href="{{ s.get_absolute_url }}"> <b>{{ s.city }}</b></a>
+                                            {% endfor %}
+
+                                            {% for s in selected_surgery.surgery.all %}
+                                            <a href="#"> <b>{{ s.city }}</b></a>
+                                            {% endfor %}
+
+                                            {{surgery.hospital_list}}
+
+                                            {% for h in surgery %}
+                                                            <a href="{% url 'accounts:surgery' h.slug %}" style="color: black;text-decoration: none;">
+                                                                <a href="{{ h.get_surgery_url }}" style="color: black;text-decoration: none;">    
+                                                                    <p ><b>{{ h.clinic_name }}</b><br>{{ h.hospital }} {{ h.hospital_street }}, {{ h.district }}, {{ h.city }}, {{ h.postal_code }}</p>
+                                                                    <hr>
+                                                                </a>
+                                                            </a>
+                                                        {% empty %}
+                                                            <p>No Clinics Available.</p>
+                                                        {% endfor %}
                                         </div>      
                                         <a href="#"><i>Print Surgery Nomination Form</i></a>
                                     </div>
@@ -340,7 +365,11 @@
                             </div>
     
                             <div class="col-lg-6 col-md-12 col-sm-12 mt-lg-n1 mt-sm-4">
-                                <h5><strong>2 ) SETUP PRESCRIPTION ITEMS</strong></h5>                       
+                                <h5><strong>2 ) SETUP PRESCRIPTION ITEMS</strong></h5>     
+                                {{ the_item.medicines.title }}
+                                {% for x in the_item.medicines.all %}
+                                        {{ x.title }}
+                                {% endfor %}                  
                                 <div class="row">
                                     <br>
                                     <div class="col-lg-8 col-md-12 col-sm-12">
@@ -371,7 +400,7 @@
                                                     {% for medicine in medicines %}
                                                         <a href="{{ medicine.get_absolute_url }}" style="color: black;text-decoration: none;">
                                                             <a href="{{ medicine.get_medicine_url }}">
-                                                                <p data-toggle="modal" data-target="#selectPrescriptionItem" data-dismiss="modal"><b>{{ medicine.title }}</b></p>
+                                                                <p ><b>{{ medicine.title }}</b></p>
                                                                 <hr>
                                                             </a>
                                                         </a>
@@ -400,12 +429,7 @@
                                             </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form enctype="multipart/form-data" method="POST" id="formTwo">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="form_type" value="formTwo">
-                                                        
-                                                        <button class="btn btn-primary" type="submit" name="addsurgery">SAVE</button>
-                                                </form>
+                                                
                                             </div>
                                         </div>
                                         </div>
@@ -415,7 +439,8 @@
                                 </div>
                             </div>
                        </div>
-    
+                       
+                       
                        <div class="row float-right " style="margin-top: 30px;">
                             <button class="btn btn-outline-info order-sm-first order-lg-last mr-sm-3" type="submit" >SAVE</button>
                             <button class="btn btn-outline-info mr-3" type="submit">SAVE AND ORDER</button>
