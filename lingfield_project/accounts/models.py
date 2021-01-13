@@ -124,6 +124,19 @@ class SelectSurgery(models.Model):
     def __str__(self):
         return self.surgery.clinic_name
 
+class MedicineItems(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name="medicineitems")
+    item = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    quantity =  models.IntegerField(default=1, null=True, blank=True)
+    added = models.BooleanField(default=False) 
+
+    class Meta():
+        verbose_name = 'Medicine Item'
+        verbose_name_plural = 'Medicine Items'
+
+    def __str__(self):
+        return "{} of {}".format(self.quantity,self.item)
+
     
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
