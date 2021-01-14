@@ -154,7 +154,7 @@
                             <p><i>Click 'New Prescription' to setup the items you order on your prescription</i></p>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12 text-lg-left text-sm-center" >
-                            <button class="btn btn-info mt-3"><a href="{% url 'accounts:new_prescription' %}" style="text-decoration: none;color: #F2F2F2;">NEW PRESCRIPTION</a></button>
+                            <button class="btn btn-info mt-3"><a href="{{ get_new_prescription_url }}" style="text-decoration: none;color: #F2F2F2;">NEW PRESCRIPTION</a></button>
                             <!-- <button class="btn btn-info mt-3" onclick="ShowPrescriptionTable()" >NEW PRESCRIPTION</button> -->
                         </div>
                     </div>
@@ -337,9 +337,14 @@
                                             {{ the_surgery }}
                                             
                                             {{ selected_surgery }}
+                                            
+                                            {{ surgery.clinic_name }}
+                                            {{ the_surgery.city }}
+                                            
+                                            {{ selected_surgery.hospital }}
 
                                             {% for s in selected_surgery %}
-                                            <a href="{{ s.get_absolute_url }}"> <b>{{ s.city }}</b></a>
+                                            <a href="{{ s.get_absolute_url }}"><b>{{ s.city }}</b></a>
                                             {% endfor %}
 
                                             {% for s in selected_surgery.surgery.all %}
@@ -358,6 +363,10 @@
                                                         {% empty %}
                                                             <p>No Clinics Available.</p>
                                                         {% endfor %}
+
+                                            {% for the_surgery in object.surgeries.all %}
+                                                            {{ the_surgery.surgery.city }}
+                                            {% endfor %}
                                         </div>      
                                         <a href="#"><i>Print Surgery Nomination Form</i></a>
                                     </div>
@@ -378,6 +387,7 @@
                                     <div class="col-lg-4 col-md-12 col-sm-12" >
                                         <!-- LINK TRIGGER FOR MODAL FOR SELECTING A SURGERY -->
                                         <a href="#" data-toggle="modal" data-target=".meds"><button class="btn btn-info mt-3" >ADD AN ITEM</button></a>
+
                                     
                                     <!-- MODAL FOR SELECTING MEDICINE -->
                                     <div class="modal fade meds" id="medicineList" tabindex="-1" role="dialog" aria-labelledby="medicineListTitle" aria-hidden="true">
@@ -400,7 +410,7 @@
                                                     {% for medicine in medicines %}
                                                         <a href="{{ medicine.get_absolute_url }}" style="color: black;text-decoration: none;">
                                                             <a href="{{ medicine.get_medicine_url }}">
-                                                                <p ><b>{{ medicine.title }}</b></p>
+                                                                <p data-toggle="modal" data-target="#selectPrescriptionItem" data-dismiss="modal"><b>{{ medicine.title }}</b></p>
                                                                 <hr>
                                                             </a>
                                                         </a>
@@ -429,7 +439,14 @@
                                             </button>
                                             </div>
                                             <div class="modal-body">
-                                                
+                                                <form enctype="multipart/form-data" method="POST" id="formFour">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="form_type" value="formFour">
+                                                        {{ medicineitems_form.item|as_crispy_field }}
+                                                        {{ medicineitems_form.quantity|as_crispy_field }}
+                                                        {{ medicineitems_form.reminder|as_crispy_field }}
+                                                        <button class="btn btn-primary" type="submit" name="medicine">SAVE</button>
+                                                </form> 
                                             </div>
                                         </div>
                                         </div>
@@ -453,6 +470,14 @@
 
             <div id="MyOrders" class="TableBody  text-center mt-4" style="display:none">
                 <h3><strong>MY ORDERS</strong></h3>
+                {% for x in saved_medicine_items %}
+                    <p>
+                        <b>{{ x.item }}, {{ x.quantity }}, {{ x.reminder }}</b>
+                    </p>
+                    {% empty %}
+                    <div class="text-center"><b>You have not added any items yet</b></div>
+                {% endfor %}
+
                 {% for prescription in prescription.items.all %}
                     {{ prescription.hospital.clinic_name }}
                     {{ prescription.prescription_quantity }}
