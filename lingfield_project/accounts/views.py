@@ -28,14 +28,13 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 
 # Create your views here.
-
 class DashboardView(LoginRequiredMixin, View):
     u_form_class = UpdateForm
     b_form_class = UserBirthDateForm
     p_form_class = UserProfileForm
     surgery_form_class = AddSurgeryForm
     dependent_form_class = DependentForm
-    # medicineitems_form_class = MedicineItemsForm
+    medicineitems_form_class = MedicineItemsForm
     template_name = "registration/dashboard.html"
 
     # def get_context_data(self,slug,*args,**kwargs):
@@ -50,11 +49,12 @@ class DashboardView(LoginRequiredMixin, View):
             p_form = self.p_form_class(instance=request.user.userprofile, prefix='info')
             surgery_form = self.surgery_form_class(instance=request.user.addsurgery, prefix='addsurgery')
             dependent_form = self.dependent_form_class(instance=request.user.dependent,prefix='dependent')
-            # medicineitems_form = self.medicineitems_form_class(instance=request.user.medicineitems,prefix='medicineitems')
+            medicineitems_form = self.medicineitems_form_class(instance=request.user,prefix='medicineitems')
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.all()
             medicines = Medicine.objects.all()
-            selected_surgery= surgery
+            saved_medicine_items = MedicineItems.objects.all() 
+            # sel_surg = SelectSurgery.objects.get(user=request.user, added=False, slug=hospitallist_slug)
             context = {
                 'u_form': u_form,
                 'b_form': b_form,
@@ -62,10 +62,11 @@ class DashboardView(LoginRequiredMixin, View):
                 'surgery_form' : surgery_form,
                 'saved_surgery' : saved_surgery,
                 'dependent_form' : dependent_form,
-                # 'medicineitems_form' : medicineitems_form,
+                'medicineitems_form' : medicineitems_form,
                 'hospital_list' : hospital_list,
                 'medicines' : medicines,
-                'selected_surgery' :selected_surgery,
+                'saved_medicine_items' : saved_medicine_items,
+                # 'sel_surg' :sel_surg,
             }
             return render(self.request, "registration/dashboard.html", context)
         except ObjectDoesNotExist:
@@ -82,13 +83,13 @@ class DashboardView(LoginRequiredMixin, View):
             messages.warning(self.request, "You don't have an active order.")
             return redirect("accounts:dashboard")
 
-    def post(self, request,slug, *args, **kwargs):
-        try:
-            prescription = Prescription.objects.get(user=self.request.user, ordered=False)
-            return redirect("accounts:dashboard")
-        except ObjectDoesNotExist:
-            messages.info("You do not have an active order.")
-            return redirect("accounts:dashboard")
+    def post(self, request,slug=None, *args, **kwargs):
+        # try:
+        #     prescription = Prescription.objects.get(user=self.request.user, ordered=False)
+        #     return redirect("accounts:dashboard")
+        # except ObjectDoesNotExist:
+        #     messages.info("You do not have an active order.")
+        #     return redirect("accounts:dashboard")
         
         
         if request.POST.get("form_type") == 'formOne':  
@@ -117,22 +118,27 @@ class DashboardView(LoginRequiredMixin, View):
                 dependent_form.save()
                 messages.info(request,  f'Dependent details updated!')
                 return redirect('accounts:dashboard')
-        # elif request.POST.get("form_type") == 'formFour':
-        #     medicineitems_form = MedicineForm(request.POST,instance=request.user.medicineitems, prefix='medicineitems')
-        #     if medicineitems_form.is_valid():
-        #         medicineitems_form.save()
-        #         messages.info(request,  f'Item updated!')
-        #         return redirect('accounts:dashboard')
-        selected_surgery= surgery
+        elif request.POST.get("form_type") == 'formFour':
+            medicineitems_form = MedicineItemsForm(request.POST,instance=request.user, prefix='medicineitems')
+            if medicineitems_form.is_valid():
+                saved_medicine_items = medicineitems_form.cleaned_data['item']
+                medicineitems_form.save()
+                messages.info(request,  f'Item updated!')
+                context = {
+                    'saved_medicine_items' : saved_medicine_items,
+                }
+                return redirect('accounts:dashboard')
+        selected_surgery = val()
         context = {
             'u_form': u_form,
             'b_form': b_form,
             'p_form': p_form,
             'surgery_form' : surgery_form,
             'dependent_form' : dependent_form,
-            # 'medicineitems_form' : medicineitems_form,
+            'medicineitems_form' : medicineitems_form,
             'saved_surgery' : saved_surgery,
             'selected_surgery' :selected_surgery,
+            'saved_medicine_items' : saved_medicine_items,
         }
         return render(request, self.template_name,context)
                 
@@ -186,29 +192,45 @@ def save_surgery(sender, instance, created, **kwargs):
         surgery = AddSurgery(user=user)
         surgery.save()
 
-# global surgery
+@receiver(post_save, sender=User, dispatch_uid='save_medicine')
+def save_medicine_item(sender, instance, created, **kwargs):
+    user = instance
+    if created:
+        saved_medicine_items = MedicineItems(user=user)
+        saved_medicine_items.save()
+
+
+
+global surgery
 def surgery(request,slug):
     surgery=None
-    # # surgery = HospitalList.objects.get(user=request.user,slug=slug)
-    # surgery = HospitalList.objects.filter(user=request.user, slug=slug)
     surgery = get_object_or_404(HospitalList, slug=slug)
-    the_surgery = surgery
-    # # the_surgery = HospitalList.objects.filter(clinic_name=clinic_name)
-    # the_surgery = HospitalList.objects.get().first()
-    print(surgery)
+    the_surgery = SelectSurgery.objects.create(
+        user=request.user,
+        surgery=surgery,
+        added=False,
+        # surgery__slug=surgery.slug,
+    )
+    # print(surgery)
     print(the_surgery)
     messages.info(request, "Your surgery has been selected!")
     return redirect('accounts:dashboard')
 
-def item(request,slug,id=None):
-    medicines = Medicine.objects.all()
+
+def item(request,slug):
+    # medicines = Medicine.objects.all()
     item = get_object_or_404(Medicine, slug=slug)
-    the_item = medicines.filter(id=id)
+    the_item = MedicineItems.objects.create(
+        user=request.user,
+        item=item,
+        added=False,
+    )
     messages.info(request, "Your item has been added!")
-    print(item)
+    print(the_item)
     return redirect('accounts:dashboard')
 
-def new_prescription(request, hospital_slug=None):
+def new_prescription(request,surgery=None, slug=None):
+    surgery = get_object_or_404(HospitalList, slug=slug)
     # surgery = HospitalList.objects.get_or_create(
     #     user=request.user,
     #     Hospitallist=hospitallist,
