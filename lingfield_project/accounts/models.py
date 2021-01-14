@@ -89,6 +89,11 @@ class HospitalList(models.Model):
             'slug' : self.slug
         })
 
+    def get_new_prescription_url(self):
+        return reverse("accounts:new_prescription", kwargs={
+            'slug' : self.slug
+        })
+
     def save(self, *args, **kwargs):
         super(HospitalList, self).save(*args, **kwargs)
 
@@ -125,7 +130,7 @@ class SelectSurgery(models.Model):
         return self.surgery.clinic_name
 
 class MedicineItems(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name="medicineitems")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Medicine, on_delete=models.CASCADE)
     quantity =  models.IntegerField(default=1, null=True, blank=True)
     added = models.BooleanField(default=False) 
