@@ -1,5 +1,5 @@
 from django import forms
-from .models import UserBirthDate, UserProfile, AddSurgery, Dependent,PrescriptionItem, MedicineItems
+from .models import *
 from medicines.models import Medicine
 from crispy_forms.helper import FormHelper
 from django.contrib.auth.models import User
@@ -15,17 +15,19 @@ from django_countries.fields import CountryField
 
 # Create your form choices here.
 GENDER_CHOICES = (
-    ('F','Female'),
-    ('M','Male'),
-    ('N','Not Set'),
-    ('O','Other'),
+    ('Female','Female'),
+    ('Male','Male'),
+    ('Not Set','Not Set'),
+    ('Other','Other'),
 )
 
+
 REMINDER_CHOICES = (
-    ('N','Never'),
-    ('O','Once'),
-    ('R','Regularly'),
+    ('Never','Never'),
+    ('Once','Once'),
+    ('Regularly','Regularly'),
 )
+
 
 # Create your forms here.
 class UserRegisterForm(UserCreationForm):
@@ -116,7 +118,7 @@ class AddSurgeryForm(forms.ModelForm):
 
 # ---------------------------------------------------------------   DEPENDENT FORM    ----------------------------------------------------------------------------------#
 class DependentForm(forms.ModelForm):
-    gender = forms.ChoiceField(label='Gender',required=True, choices=GENDER_CHOICES, initial='N')
+    gender = forms.ChoiceField(label='Gender',required=True, choices=GENDER_CHOICES, initial='None')
 
     vulnerable_patient = forms.BooleanField(required=False)
     housebound_patient = forms.BooleanField(required=False)
@@ -139,12 +141,18 @@ class DependentForm(forms.ModelForm):
 
 # ---------------------------------------------------------------   MEDICINE FORM    ----------------------------------------------------------------------------------#
 
+# class MedicineItemsForm(forms.ModelForm):
+#     reminder = forms.ChoiceField(label='Remind me to order this item',required=True, choices=REMINDER_CHOICES, initial='N')
+#     class Meta():
+#         model = MedicineItems
+#         fields = {'item','quantity','reminder'}
+
 class MedicineItemsForm(forms.ModelForm):
     reminder = forms.ChoiceField(label='Remind me to order this item',required=True, choices=REMINDER_CHOICES, initial='N')
     class Meta():
         model = MedicineItems
         fields = {'item','quantity','reminder'}
-        
+               
 # ---------------------------------------------------------------   END OF PRESCRIPTION FORM    ----------------------------------------------------------------------------------#
 
 
