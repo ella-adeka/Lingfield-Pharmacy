@@ -12,11 +12,12 @@ urlpatterns = [
 
     path('dashboard/hospital/<slug:slug>/', DashboardView.as_view(), name="dashboard-with-surgery"),
     path('dashboard/surgery/<slug:slug>/', views.surgery, name="surgery"),
+    # path('dashboard/surgery/<int:id>/', views.surgery, name="surgery"),
     
     path('dashboard/item/<slug:slug>/', views.item, name="item"),
 
-    # path('dashboard/new_prescription/', views.new_prescription, name="new_prescription"),
-    path('dashboard/new_prescription/<slug:slug>/', views.new_prescription, name="new_prescription"),
+    path('dashboard/new_prescription/', views.new_prescription, name="new_prescription"),
+    # path('dashboard/new_prescription/<slug:slug>/', views.new_prescription, name="new_prescription"),
 
         # path('dashboard/select_surgery/<int:id>/',views.select_surgery, name='select_surgery')
 
