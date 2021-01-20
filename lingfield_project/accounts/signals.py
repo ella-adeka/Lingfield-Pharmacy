@@ -49,8 +49,8 @@ def save_surgery(sender, instance, created, **kwargs):
 def save_medicine_item(sender, instance, created, **kwargs):
     user = instance
     if created:
-        saved_medicine_items = MedicineItems(user=user)
-        saved_medicine_items.save()
+        item = MedicineItems(user=user)
+        item.save()
 
 
 # @receiver(post_save, sender=User, dispatch_uid='save_new_add_surgery')
