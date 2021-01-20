@@ -4,6 +4,22 @@ from django.shortcuts import reverse
 from django_countries.fields import CountryField
 from medicines.models import Medicine
 
+
+# Create your choices here
+GENDER_CHOICES = (
+    ('Female','Female'),
+    ('Male','Male'),
+    ('Not Set','Not Set'),
+    ('Other','Other'),
+)
+
+
+REMINDER_CHOICES = (
+    ('Never','Never'),
+    ('Once','Once'),
+    ('Regularly','Regularly'),
+)
+
 # Create your models here.
 class UserBirthDate(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True, related_name="userbirthdate")
@@ -89,10 +105,6 @@ class HospitalList(models.Model):
             'slug' : self.slug
         })
 
-    def get_new_prescription_url(self):
-        return reverse("accounts:new_prescription", kwargs={
-            'slug' : self.slug
-        })
 
     def save(self, *args, **kwargs):
         super(HospitalList, self).save(*args, **kwargs)
@@ -131,8 +143,9 @@ class SelectSurgery(models.Model):
 
 class MedicineItems(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Medicine, on_delete=models.CASCADE)
+    item = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name="medicineitems")
     quantity =  models.IntegerField(default=1, null=True, blank=True)
+    reminder = models.CharField(choices=REMINDER_CHOICES, max_length=30, default='None')
     added = models.BooleanField(default=False) 
 
     class Meta():
@@ -142,7 +155,16 @@ class MedicineItems(models.Model):
     def __str__(self):
         return "{} of {}".format(self.quantity,self.item)
 
-    
+# class MedicineItem(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     item = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name="medicineitem")
+#     quantity =  models.IntegerField(default=1, null=True, blank=True)
+#     added = models.BooleanField(default=False)
+
+#     def __str__(self):
+#         return "{} of {}".format(self.quantity,self.item)
+
+
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     surgery = models.ForeignKey(HospitalList, on_delete=models.CASCADE, related_name="prescription_items")
