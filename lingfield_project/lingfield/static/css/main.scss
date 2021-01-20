@@ -18,6 +18,11 @@ body {
 //   content: "Dashboard";
 // }
 
+.dashboard-sub-header {
+
+  transition: all .2s ease-out;
+  
+}
 .dashboard-sub-header:hover {
   box-shadow: 0px 80px 32px 0px rgba(0,0,0,0.2);
   // display: inline-block;
@@ -417,6 +422,10 @@ main div.container-2{
 
 .each-page-header{
   color: #182628;
+  text-shadow: -10px 10px 0px #00e6e6,
+                 -20px 20px 0px #01cccc,
+                 -30px 30px 0px #64c1ae;
+                 margin-bottom: 20px;
 }
 
 @media (max-width: 650px){
@@ -1185,11 +1194,11 @@ clear: both;
   white-space: nowrap;
   flex-wrap: nowrap;
 
-  ::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     display: none;
   }
   
-  }
+}
 .testimonial-group > .row > .col-xs-4 {
   display: inline-block;
   float: none;
