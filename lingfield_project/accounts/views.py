@@ -51,7 +51,7 @@ class DashboardView(LoginRequiredMixin, View):
             saved_surgery = AddSurgery.objects.filter(user=request.user)
             medicines = Medicine.objects.all()
             saved_medicine_items = MedicineItems.objects.filter(user=request.user, added=False)
-            selected_surgeries = SelectSurgery.objects.filter(user=request.user)
+            selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=False)
             context = {
                 'u_form': u_form,
                 'b_form': b_form,
@@ -70,26 +70,8 @@ class DashboardView(LoginRequiredMixin, View):
             messages.warning(self.request,"No information available here!")
             return redirect("accounts:dashboard")
 
-        # try:
-        #     prescription = Prescription.objects.get(user=self.request.user, ordered=False)
-        #     context = {
-        #         'prescription' : prescription,
-        #     }
-        #     return render(self.request, "registration/dashboard.html", context)
-        # except ObjectDoesNotExist:
-        #     messages.warning(self.request, "You don't have an active order.")
-        #     return redirect("accounts:dashboard")
 
     def post(self, request,slug=None, *args, **kwargs):  
-        # try:
-        #     prescription = Prescription.objects.get(user=self.request.user, ordered=False)
-        #     context = {
-        #         'prescription' : prescription,
-        #     }
-        #     return render(self.request, "registration/dashboard.html", context)
-        # except ObjectDoesNotExist:
-        #     messages.warning(self.request, "You don't have an active order.")
-        #     return redirect("accounts:dashboard")
       
         if request.POST.get("form_type") == 'formOne':  
             u_form = UpdateForm(request.POST,instance=request.user, prefix='info')
@@ -204,15 +186,14 @@ global surgery
 def surgery(request,slug):
     surgery=None
     surgery = get_object_or_404(HospitalList, slug=slug)
-    the_surgery = SelectSurgery.objects.get_or_create(
+    the_surgery, created = SelectSurgery.objects.get_or_create(
         user=request.user,
         surgery=surgery,
         added=False,
         # surgery__slug=surgery.slug,
     )
-    # the_surgery.save()
+    the_surgery.save()
     print(surgery)
-    # print(the_surgery)
     messages.info(request, "Your surgery has been selected!")
     return redirect('accounts:dashboard')
 
@@ -220,20 +201,20 @@ global item
 def item(request,slug):
     item=None
     item = get_object_or_404(Medicine, slug=slug)
-    the_item = MedicineItems.objects.create(
+    the_item, created = MedicineItems.objects.get_or_create(
         user=request.user,
         item=item,
         added=False,
     )
     messages.info(request, "Your item has been added!")
-    print(the_item)
-    print(item)
-    print(quantity)
+    # print(the_item)
+    # print(item)
+    # print(quantity)
     return redirect('accounts:dashboard')
 
 def new_prescription(request):
-
-    the_surgery = SelectSurgery.objects.filter(user=request.user)
+    if created:
+        the_surgery = SelectSurgery.objects.filter(user=request.user)
     # medicineitem = get_object_or_404(MedicineItems, slug=slug)
     print(surgery)
     # prescription_item, created = PrescriptionItem.objects.get_or_create(
