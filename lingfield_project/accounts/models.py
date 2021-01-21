@@ -155,15 +155,6 @@ class MedicineItems(models.Model):
     def __str__(self):
         return "{} of {}".format(self.quantity,self.item)
 
-# class MedicineItem(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     item = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name="medicineitem")
-#     quantity =  models.IntegerField(default=1, null=True, blank=True)
-#     added = models.BooleanField(default=False)
-
-#     def __str__(self):
-#         return "{} of {}".format(self.quantity,self.item)
-
 
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
