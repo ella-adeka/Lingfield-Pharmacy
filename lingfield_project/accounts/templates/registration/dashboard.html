@@ -218,7 +218,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
                                                 <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                                 </div>
@@ -304,7 +303,7 @@
                                                 <!-- LINK FOR MODAL FOR SELECTING A PRESCRIPTION ITEMS -->    
                                                 <div style="margin-top: 30px;">
                                                     {% for medicine in medicines %}
-                                                            <a href="#">
+                                                            <a href="{% url 'accounts:item' medicine.slug %}">
                                                                 <p data-toggle="modal" data-target="#selectPrescriptionItem" data-dismiss="modal"><b>{{ medicine.title }}</b></p>
                                                                 <hr>
                                                             </a>
@@ -349,7 +348,7 @@
                                     </div>
                                 </div>
 
-                                {% if saved_medicine_items %}
+                                {% if medicine_items %}
                                 <div class="cart-box-main mt-sm-4">
                                     <div class="container">
                                         <div class="row">
@@ -365,7 +364,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {% for x in saved_medicine_items.all %}
+                                                            {% for x in medicine_items.all %}
                                                             <tr>
                                                                 <th scope="row" style="margin-top: 200%;">{{ forloop.counter }}</th>
                                                                 <td class="name-pr">
