@@ -12,7 +12,7 @@ urlpatterns = [
 
     path('dashboard/hospital/<slug:slug>/', DashboardView.as_view(), name="dashboard-with-surgery"),
     path('dashboard/surgery/<slug:slug>/', views.surgery, name="surgery"),
-    # path('dashboard/surgery/<int:id>/', views.surgery, name="surgery"),
+    # path('dashboard/surgery/<int:surgery_id>/', views.surgery, name="surgery"),
     
     path('dashboard/item/<slug:slug>/', views.item, name="item"),
 
