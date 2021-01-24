@@ -154,6 +154,9 @@ class MedicineItems(models.Model):
 
     def __str__(self):
         return "{} of {}".format(self.quantity,self.item)
+    
+    def save(self, *args, **kwargs):
+        super(MedicineItems, self).save(*args, **kwargs)
 
 
 class PrescriptionItem(models.Model):
