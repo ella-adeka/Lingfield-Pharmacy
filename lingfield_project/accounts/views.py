@@ -17,7 +17,6 @@ from .models import *
 from medicines.models import Medicine
 
 from operator import attrgetter
-from django.contrib import messages
 # from lingfield.views import get_item_queryset
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -36,7 +35,7 @@ class DashboardView(LoginRequiredMixin, View):
     p_form_class = UserProfileForm
     surgery_form_class = AddSurgeryForm
     dependent_form_class = DependentForm
-    medicineitems_form_class = MedicineItemsForm
+    medicine_form_class = MedicineItemsForm
     template_name = "registration/dashboard.html"
 
     def get(self,request,*args,**kwargs):
@@ -46,7 +45,7 @@ class DashboardView(LoginRequiredMixin, View):
             p_form = self.p_form_class(instance=request.user.userprofile, prefix='info')
             surgery_form = self.surgery_form_class(instance=request.user.addsurgery, prefix='addsurgery')
             dependent_form = self.dependent_form_class(instance=request.user.dependent,prefix='dependent')
-            medicineitems_form = self.medicineitems_form_class(instance=request.user,prefix='medicineitems')
+            medicine_form = self.medicine_form_class(instance=request.user,prefix='medicineitems')
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.filter(user=request.user)
             medicines = Medicine.objects.all()
@@ -59,7 +58,7 @@ class DashboardView(LoginRequiredMixin, View):
                 'surgery_form' : surgery_form,
                 'saved_surgery' : saved_surgery,
                 'dependent_form' : dependent_form,
-                'medicineitems_form' : medicineitems_form,
+                'medicine_form' : medicine_form,
                 'hospital_list' : hospital_list,
                 'medicines' : medicines,
                 'medicine_items' : medicine_items,
@@ -88,6 +87,7 @@ class DashboardView(LoginRequiredMixin, View):
             if surgery_form.is_valid():
                 saved_surgery = surgery_form.cleaned_data['surgery_name']
                 surgery_form.save()
+                print(saved_surgery)
                 messages.info(request,  f'Your information has been added successful!')
                 context = {
                     'saved_surgery' : saved_surgery,
@@ -100,15 +100,10 @@ class DashboardView(LoginRequiredMixin, View):
                 messages.info(request,  f'Dependent details updated!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFour':
-            medicineitems_form = MedicineItemsForm(request.POST,instance=request.user, prefix='medicineitems')
-            if medicineitems_form.is_valid():
-                medicine_items = medicineitems_form.cleaned_data['item']
-                medicineitems_form.save()
+            medicine_form = MedicineItemsForm(request.POST,instance=request.user, prefix='medicineitems')
+            if medicine_form.is_valid():
+                medicine_form.save()
                 messages.info(request,  f'Item saved!')
-                print(medicine_items)
-                context = {
-                    'medicine_items' : medicine_items,
-                }
                 return redirect('accounts:dashboard')
         context = {
             'u_form': u_form,
@@ -116,10 +111,9 @@ class DashboardView(LoginRequiredMixin, View):
             'p_form': p_form,
             'surgery_form' : surgery_form,
             'dependent_form' : dependent_form,
-            'medicineitems_form' : medicineitems_form,
+            'medicine_form' : medicine_form,
             'saved_surgery' : saved_surgery,
             'selected_surgeries' :selected_surgeries,
-            'medicine_items' : medicine_items,
         }
         return render(request, self.template_name,context)
                 
@@ -181,12 +175,12 @@ def save_surgery(sender, instance, created, **kwargs):
 #         item = MedicineItems(user=user)
 #         item.save()
 
-@receiver(post_save, sender=User, dispatch_uid='save_medicine')
-def save_medicine_item(sender, instance, created, **kwargs):
-    user = instance
-    if created:
-        saved_medicine_items = MedicineItems(user=user)
-        saved_medicine_items.save()
+# @receiver(post_save, sender=User, dispatch_uid='save_medicine')
+# def save_medicine_item(sender, instance, created, **kwargs):
+#     user = instance
+#     if created:
+#         medicine_items = MedicineItems(user=user)
+#         medicine_items.save()
 
 
 
@@ -218,21 +212,29 @@ def surgery(request,slug):
         messages.warning(self.request,"Surgery Does Not Exist!")
         return redirect("accounts:dashboard")
 
-global item
-def item(request,slug):
-    item=None
-    item = get_object_or_404(Medicine, slug=slug)
-    the_item, created = MedicineItems.objects.get_or_create(
-        user=request.user,
-        item=item,
-        added=False,
-    )
-    the_item.save()
-    messages.info(request, "Your item has been added!")
+# global item
+# def item(request,slug):
+#     context = {}
+#     medicine_form = MedicineItemsForm(request.POST or None)
+#     if request.method == "POST":
+#         if medicine_form.is_valid():
+#             medicine_form.save()
+#             messages.info(request,  f'Item saved!')
+#         return redirect('accounts:dashboard')
+
+    # item=None
+    # item = get_object_or_404(Medicine, slug=slug)
+    # the_item, created = MedicineItems.objects.get_or_create(
+    #     user=request.user,
+    #     item=item,
+    #     added=False,
+    # )
+    # the_item.save()
+    # messages.info(request, "Your item has been added!")
     # print(the_item)
     # print(item)
     # print(quantity)
-    return redirect('accounts:dashboard')
+    # return redirect('accounts:dashboard')
 
 # def register(request):
 #     if request.method=='POST':
