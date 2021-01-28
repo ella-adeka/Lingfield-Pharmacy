@@ -21,7 +21,6 @@ GENDER_CHOICES = (
     ('Other','Other'),
 )
 
-
 REMINDER_CHOICES = (
     ('Never','Never'),
     ('Once','Once'),
@@ -143,10 +142,17 @@ class DependentForm(forms.ModelForm):
 
 
 class MedicineItemsForm(forms.ModelForm):
+    # item = models.ForeignKey(Medicine, on_delete=models.CASCADE)
     reminder = forms.ChoiceField(label='Remind me to order this item',required=True, choices=REMINDER_CHOICES, initial='N')
     class Meta():
         model = MedicineItems
-        fields = {'item','quantity','reminder'}
+        fields = {'item','quantity'}
+
+    def save(self, commit=True):
+        instance =  super(MedicineItemsForm, self).save(commit=False)
+        if commit:
+            instance.save()
+        return instance
                
 # ---------------------------------------------------------------   END OF PRESCRIPTION FORM    ----------------------------------------------------------------------------------#
 
