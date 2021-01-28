@@ -134,7 +134,7 @@ class AddSurgery(models.Model):
         super(AddSurgery, self).save(*args, **kwargs) 
 
 class SelectSurgery(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     surgery = models.ForeignKey(HospitalList, on_delete=models.CASCADE)
     added = models.BooleanField(default=False)
 
