@@ -301,16 +301,14 @@
                                             
                                             <div class="modal-body">
                                                 <!-- LINK FOR MODAL FOR SELECTING A PRESCRIPTION ITEMS -->    
-                                                <div style="margin-top: 30px;">
-                                                    {% for medicine in medicines %}
-                                                            <a href="{% url 'accounts:item' medicine.slug %}">
-                                                                <p data-toggle="modal" data-target="#selectPrescriptionItem" data-dismiss="modal"><b>{{ medicine.title }}</b></p>
-                                                                <hr>
-                                                            </a>
-                                                    {% empty %}
-                                                        <p>No Medicines Available.</p>
-                                                    {% endfor %}
-                                                </div>
+                                                <form  enctype="multipart/form-data" method="POST" id="formFour">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="form_type" value="formFour">
+                                                        {{ medicine_form.item|as_crispy_field }}
+                                                        {{ medicine_form.quantity|as_crispy_field }}
+                                                        {{ medicine_form.reminder|as_crispy_field }}
+                                                    <button class="btn btn-primary" type="submit" name="medicineitems">SAVE</button>
+                                                </form> 
                                             </div>
                                             
                                             <div class="modal-footer">
@@ -322,7 +320,7 @@
                                     <!-- END OF MODAL FOR SELECTING A SURGERY -->
     
                                     <!-- MODAL  FOR  ADDING SURGERY-->
-                                    <div class="modal fade" id="selectPrescriptionItem" tabindex="-1" role="dialog" aria-labelledby="selectPrescriptionItemLabel" aria-hidden="true">
+                                    <!-- <div class="modal fade" id="selectPrescriptionItem" tabindex="-1" role="dialog" aria-labelledby="selectPrescriptionItemLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -332,18 +330,18 @@
                                             </button>
                                             </div>
                                             <div class="modal-body">
-                                                <form enctype="multipart/form-data" method="POST" id="formFour">
+                                                <form  enctype="multipart/form-data" method="POST" id="formFour">
                                                     {% csrf_token %}
                                                     <input type="hidden" name="form_type" value="formFour">
-                                                        {{ medicineitems_form.item|as_crispy_field }}
-                                                        {{ medicineitems_form.quantity|as_crispy_field }}
-                                                        {{ medicineitems_form.reminder|as_crispy_field }}
+                                                        {{ medicine_form.item|as_crispy_field }}
+                                                        {{ medicine_form.quantity|as_crispy_field }}
+                                                        {{ medicine_form.reminder|as_crispy_field }}
                                                     <button class="btn btn-primary" type="submit" name="medicineitems">SAVE</button>
                                                 </form> 
                                             </div>
                                         </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- END OF MODAL  FOR  ADDING SURGERY-->
                                     </div>
                                 </div>
