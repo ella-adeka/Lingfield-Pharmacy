@@ -70,9 +70,6 @@ class Dependent(models.Model):
     county = models.CharField(max_length=1000)
     postcode = models.CharField(max_length=1000)
 
-    # def __str__(self):
-    #     return self.user.username
-
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
     
@@ -116,6 +113,7 @@ class AddSurgery(models.Model):
     uk_postcode_lookup = models.CharField(max_length=100)
     house_number = models.CharField(max_length=1000)
     address = models.CharField(max_length=2000)
+    saved = models.BooleanField(default=False)
     
     class Meta():
         verbose_name = 'Add Surgery'
@@ -126,9 +124,6 @@ class AddSurgery(models.Model):
 
     def __str__(self):
         return self.surgery_name
-    
-    # def get_surgery(self):
-    #     return "{}".format(self.surgery_name)
 
     def save(self, *args, **kwargs):
         super(AddSurgery, self).save(*args, **kwargs) 
@@ -143,7 +138,7 @@ class SelectSurgery(models.Model):
 
 class MedicineItems(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name="medicineitems")
+    item = models.ForeignKey(Medicine, null=True, on_delete=models.CASCADE)
     quantity =  models.IntegerField(default=1, null=True, blank=True)
     reminder = models.CharField(choices=REMINDER_CHOICES, max_length=30, default='None')
     added = models.BooleanField(default=False) 
@@ -155,19 +150,18 @@ class MedicineItems(models.Model):
     def __str__(self):
         return "{} of {}".format(self.quantity,self.item)
     
-    def save(self, *args, **kwargs):
-        super(MedicineItems, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     super(MedicineItems, self).save(*args, **kwargs)
 
 
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    surgery = models.ForeignKey(HospitalList, on_delete=models.CASCADE, related_name="prescription_items")
-    prescription_item = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name="prescription_items")
-    prescription_quantity =  models.IntegerField(default=1, null=True, blank=True) 
+    selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE, related_name="prescription_items")
+    med_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE, related_name="prescription_items")
     ordered = models.BooleanField(default=False)
 
     def __str__(self):
-        return "{} of {}".format(self.prescription_quantity,self.prescription_item)
+        return "{}".format(self.prescription_item)
     
     # def get_new_prescription(self):
     #     return
