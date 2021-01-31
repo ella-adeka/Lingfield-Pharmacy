@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render,redirect, get_object_or_404, get_list_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
@@ -54,6 +54,7 @@ class DashboardView(LoginRequiredMixin, View):
             medicines = Medicine.objects.all()
             medicine_items = MedicineItems.objects.filter(user=request.user, added=False)
             selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=False)
+            prescription = PrescriptionItem.objects.filter(user=self.request.user, ordered=False)
             context = {
                 'u_form': u_form,
                 'b_form': b_form,
@@ -66,6 +67,7 @@ class DashboardView(LoginRequiredMixin, View):
                 'medicines' : medicines,
                 'medicine_items' : medicine_items,
                 'selected_surgeries' :selected_surgeries,
+                'prescription' : prescription,
             }
             return render(self.request, "registration/dashboard.html", context)
         except ObjectDoesNotExist:
@@ -78,13 +80,15 @@ class DashboardView(LoginRequiredMixin, View):
         # try:
         #     selected_surgery = SelectSurgery.objects.get(user=request.user, added=False)
         #     medicine_item = MedicineItems.objects.get(user=request.user, added=False)
-        #     prescription_item, created = PrescriptionItem.get_or_create(
+        #     prescription_item = PrescriptionItem.objects.create(
         #         user=request.user,
         #         selected_surgery=selected_surgery,
         #         medicine_item=medicine_item,
         #         ordered=False
         #     )
-        #     prescription_qs = Prescription.objects.filter(user=reques.user, ordered=False)
+        #     prescription_qs = Prescription.objects.filter(user=request.user, ordered=False)
+        #     print(selected_surgery)
+        #     print(medicine_item)
         # except ObjectDoesNotExist:
         #     messages.warning(request,"Prescription Not Created!")
         #     return redirect("accounts:dashboard")
@@ -112,7 +116,7 @@ class DashboardView(LoginRequiredMixin, View):
                 }
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formThree':
-            medicine_form = MedicineItemsForm(request.POST,instance=request.user, prefix='medicineitems')
+            medicine_form = MedicineItemsForm(request.POST, prefix='medicineitems')
             if medicine_form.is_valid():
                 item = medicine_form.cleaned_data.get('item')
                 quantity = medicine_form.cleaned_data.get('quantity')
@@ -221,25 +225,38 @@ def surgery(request,slug):
         messages.warning(self.request,"Surgery Does Not Exist!")
         return redirect("accounts:dashboard")
 
+# orders = Order.objects.filter(customer=customer, complete=False)
+
+# if not orders.exists():
+#     order = Order.objects.create(customer=customer, complete=False)
+# else:
+#     order = orders.last()
+
 def new_prescription(request):
     try:
         # selected_surgery = SelectSurgery.objects.get(user=request.user, added=False)
-        # med_item = MedicineItems.objects.filter(user=request.user, added=False)
-        selected_surgery = get_object_or_404(SelectSurgery, user=request.user,)
-        med_item = get_object_or_404(MedicineItems, user=request.user)
-        prescription_item = PrescriptionItem.objects.get_or_create(
+        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False)
+        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
+        # medicine_item = get_list_or_404(MedicineItems, user=request.user, added=False)
+        prescription_item = PrescriptionItem.objects.filter(
             user=request.user,
             selected_surgery=selected_surgery,
-            med_item=med_item,
+            medicine_item=medicine_item,
             ordered=False
         )
         prescription_qs = Prescription.objects.filter(user=request.user, complete=False)
+        # prescription_item.save()
         print(selected_surgery)
-        print(med_item)
+        print(medicine_item)
         messages.success(request,"Prescription Created!")
     except ObjectDoesNotExist:
         messages.warning(request,"Prescription Not Created!")
         return redirect("accounts:dashboard")
+    # except ValueError:
+    #     print(selected_surgery)
+    #     print(med_item)
+    #     messages.warning(request,"med-item not instance of MedicineItems!")
+    #     return redirect("accounts:dashboard")
     return redirect("accounts:dashboard")
 
 
