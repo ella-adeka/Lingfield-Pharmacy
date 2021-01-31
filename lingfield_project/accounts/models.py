@@ -154,23 +154,34 @@ class MedicineItems(models.Model):
     #     super(MedicineItems, self).save(*args, **kwargs)
 
 
+# class PrescriptionItem(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE)
+#     medicine_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE)
+#     ordered = models.BooleanField(default=False)
+
+#     def __str__(self):
+#         return "{}".format(self.med_item)
+
+#     def get_surgery(self):
+#         return self.surgery
+
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE, related_name="prescription_items")
-    med_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE, related_name="prescription_items")
+    selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE)
+    medicine_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
 
+    class Meta():
+        verbose_name = 'Prescription Item'
+        verbose_name_plural = 'Prescription Items'
+
     def __str__(self):
-        return "{}".format(self.prescription_item)
-    
-    # def get_new_prescription(self):
-    #     return
+        return "{}".format(self.medicine_item)
 
     def get_surgery(self):
         return self.surgery
 
-    # def get_remove_hospital(self):
-    #     return delete self.hospital
 
 class Prescription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
