@@ -409,6 +409,15 @@
                     <div class="text-center"><b>You do not have any current prescription order</b></div>
                 {% endfor %}
 
+                {% for x in prescription %}
+                    {{ x.selected_surgery }}
+                    {{ x.medicine_item }}
+                    <!-- <a href="{% url 'accounts:new_prescription'  %}"><i class="fas fa-minus mr-lg-n2" style="color: teal;"></i>Click Me!</a> -->
+                    <br>
+                {% empty %}
+                    <div class="text-center"><b>You do not have any current prescription order</b></div>
+                {% endfor %}
+
 
 
                 {% for prescription in prescription_item.items.all %}
