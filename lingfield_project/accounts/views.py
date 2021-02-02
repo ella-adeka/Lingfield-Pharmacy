@@ -235,17 +235,19 @@ def surgery(request,slug):
 def new_prescription(request):
     try:
         # selected_surgery = SelectSurgery.objects.get(user=request.user, added=False)
-        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False)
-        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
+        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False) #objects.select_related().filter(programme = programme_id)
+        medicine_item = MedicineItems.objects.select_related().filter( user=request.user, added=False)
+        # medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
+        # medicine_item = MedicineItems.objects.get(user=request.user, added=False)
         # medicine_item = get_list_or_404(MedicineItems, user=request.user, added=False)
-        prescription_item = PrescriptionItem.objects.filter(
+        prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
             medicine_item=medicine_item,
             ordered=False
         )
         prescription_qs = Prescription.objects.filter(user=request.user, complete=False)
-        # prescription_item.save()
+        prescription_item.save()
         print(selected_surgery)
         print(medicine_item)
         messages.success(request,"Prescription Created!")
