@@ -18,7 +18,7 @@ urlpatterns = [
     # path('dashboard/item/<slug:slug>/', views.item, name="item"),
 
     path('dashboard/new_prescription/', views.new_prescription, name="new_prescription"),
-    # path('dashboard/new_prescription/<slug:slug>/', views.new_prescription, name="new_prescription"),
+    path('dashboard/new_prescription/<int:item_id>/', views.new_prescription, name="new_prescription"),
 
         # path('dashboard/select_surgery/<int:id>/',views.select_surgery, name='select_surgery')
 
