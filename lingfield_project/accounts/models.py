@@ -142,6 +142,7 @@ class MedicineItems(models.Model):
     quantity =  models.IntegerField(default=1, null=True, blank=True)
     reminder = models.CharField(choices=REMINDER_CHOICES, max_length=30, default='None')
     added = models.BooleanField(default=False) 
+    # prescriptionitems = models.ManyToManyField(PrescriptionItem)
 
     class Meta():
         verbose_name = 'Medicine Item'
