@@ -129,10 +129,6 @@ class ShopListView(ListView):
 
 
 # Create your views here.
-# @login_required
-# def checkout(request):
-#     return render(request, 'shopping/checkout.html')
-
 @login_required
 def delivery(request):
     return render(request, 'shopping/delivery.html')
