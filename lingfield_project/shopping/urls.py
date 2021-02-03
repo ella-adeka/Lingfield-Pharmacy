@@ -22,7 +22,6 @@ app_name="shopping"
 
 urlpatterns = [
     path('cart/', CartView.as_view(), name='cart'),
-    # path('checkout/', views.checkout, name='checkout'),
     path('checkout/', CheckOutView.as_view(), name='checkout'),
     path('payment/', views.payment, name='payment'),
     path('delivery/', views.delivery, name='delivery'),
@@ -36,6 +35,4 @@ urlpatterns = [
     path('products/add_to_cart/<slug>', views.add_to_cart, name='add_to_cart'),
     path('products/remove_from_cart/<slug>', views.remove_from_cart, name='remove_from_cart'),
     path('products/remove_single_item_from_cart/<slug>', views.remove_single_item_from_cart, name='remove_single_item_from_cart'),
-
-    # path('products/<slug:category_slug>/', views.product_list, name='product-list-by-category'), #<slug:subcategory_slug>/
 ]
