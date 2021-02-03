@@ -154,14 +154,14 @@
                             <p><i>Click 'New Prescription' to setup the items you order on your prescription</i></p>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12 text-lg-left text-sm-center" >
-                            <button class="btn btn-info mt-3"><a href="#" style="text-decoration: none;color: #F2F2F2;">NEW PRESCRIPTION</a></button>
-                            <!-- <button class="btn btn-info mt-3" onclick="ShowPrescriptionTable()" >NEW PRESCRIPTION</button> -->
+                            <!-- <button class="btn btn-info mt-3"><a href="#" style="text-decoration: none;color: #F2F2F2;">NEW PRESCRIPTION</a></button> -->
+                            <button class="btn btn-info mt-3" onclick="ShowPrescriptionTable()" >NEW PRESCRIPTION</button>
                         </div>
                     </div>
                     <br>
                    
-                    <div id="PrescriptionTable" class=" PresciptionBody" style="margin-bottom: 50px;">
-                        <!-- <div id="PrescriptionTable" class=" PresciptionBody" style="display:none;margin-bottom: 50px;"> -->
+                    <!-- <div id="PrescriptionTable" class=" PresciptionBody" style="margin-bottom: 50px;"> -->
+                    <div id="PrescriptionTable" class=" PresciptionBody" style="display:none;margin-bottom: 50px;">
                         <p class="text-muted ">You are creating a new prescription...</p>
                         
                         <div class="row">
@@ -332,16 +332,15 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">#</th>
                                                                 <th>Medicine</th>
                                                                 <th>Quantity</th>
                                                                 <th>Reminder</th>
+                                                                <th>Delete</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {% for x in medicine_items.all %}
                                                             <tr>
-                                                                <th scope="row" style="margin-top: 200%;">{{ forloop.counter }}</th>
                                                                 <td class="name-pr">
                                                                     <a href="{{ x.item.get_absolute_url }}" style="text-decoration: none;color: #212529;">
                                                                         <b>{{ x.item }}</b>
@@ -352,6 +351,9 @@
                                                                 </td>
                                                                 <td class="total-pr">
                                                                     <p>{{ x.reminder }}</p>
+                                                                </td>
+                                                                <td>
+                                                                    <p><a href="{% url 'accounts:delete_medicine' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></p>
                                                                 </td>
                                                             </tr>
                                                             {% empty %}
@@ -370,11 +372,11 @@
                             </div>
                        </div>
                        
-                       
+                       <span><small class="text-muted">*Note: Deleting a MedicineItem will delete a PrescriptionItem if created!</small></span>
                        <div class="row float-right " style="margin-top: 30px;">
                             <button class="btn btn-outline-info order-sm-first order-lg-last mr-sm-3" type="submit" >SAVE</button>
-                            <button class="btn btn-outline-info mr-3" type="submit"><a href="{% url 'accounts:new_prescription' %}">SAVE AND ORDER</a></button>
-                            <button class="btn btn-outline-info order-lg-first order-sm-last mr-lg-3" type="submit" >CANCEL</button>
+                            <button class="btn btn-outline-info mr-3" type="submit"><a href="{% url 'accounts:new_prescription' %}" style="text-decoration: none;color: #F2F2F2;">SAVE AND ORDER</a></button>
+                            <button class="btn btn-outline-info order-lg-first order-sm-last mr-lg-3" type="submit" ><a href="{% url 'lingfield:home' %}" style="text-decoration: none;color: #F2F2F2;">CANCEL</a></button>
                         </div>
                     </div>
                 
@@ -382,52 +384,25 @@
 
 
             <div id="MyOrders" class="TableBody  text-center mt-4" style="display:none">
-                <h3><strong>MY ORDERS</strong></h3>             
-                {% for prescription in prescription.items.all %}
-                    {{ prescription.hospital.clinic_name }}
-                    {{ prescription.prescription_quantity }}
-                    {{ prescription.item.title }}
-                    {{ prescription.item.medicine }}
-                    {{ prescription.prescription_quanitity }}
-                {% empty %}
-                    <div class="text-center"><b>You do not have any current prescription order</b></div>
-                {% endfor %}
-                
-                {% for prescription_item in object.items.all %}
-                    {{ prescription_item.hospital.clinic_name }}
-                {% empty %}
-                <div class="text-center"><b>You do not have any current prescription order</b></div>
-                {% endfor %}
-
-                {% for prescription_item in object.items.all %}
-                    {{ prescription_item.medicine.title }}
-                    {{ prescription_item.item.medicine }}
-                    {{ prescription_item.prescription_quantity }}
-                    <a href="{% url 'accounts:new_prescription' prescription_item.medicine.slug %}"><i class="fas fa-minus mr-lg-n2" style="color: teal;"></i></a>
-
-                {% empty %}
-                    <div class="text-center"><b>You do not have any current prescription order</b></div>
-                {% endfor %}
-
-                {% for x in prescription %}
-                    {{ x.selected_surgery }}
-                    {{ x.medicine_item }}
-                    <!-- <a href="{% url 'accounts:new_prescription'  %}"><i class="fas fa-minus mr-lg-n2" style="color: teal;"></i>Click Me!</a> -->
-                    <br>
-                {% empty %}
-                    <div class="text-center"><b>You do not have any current prescription order</b></div>
-                {% endfor %}
-
-
-
-                {% for prescription in prescription_item.items.all %}
-                    {{ prescription.prescription_item.title }}
-                    {{ prescription.prescription_quantity }}
+                <h3><strong>MY ORDER</strong></h3>             
+                    {% for x in prescription %}
+                        <div class="jumbotron" style="background: #64c1ae;color: #182628;">
+                            <div class="row">
+                                <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
+                                    {{ x.selected_surgery }}
+                                </div>
+                                <div class="col-lg-4 col-sm-12">
+                                    {{ x.medicine_item }}
+                                </div>
+                                <div class="col-lg-1 col-sm-12">
+                                    <span><a href="{% url 'accounts:delete_prescription' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
                     {% empty %}
-                    <div class="text-center"><b>You do not have any current prescription order</b></div>
-                {% endfor %}
-
-                
+                        <div class="text-center"><b>You do not have any current prescription order</b></div>
+                    {% endfor %}
             </div>
 
             <div id="AddDependent" class="TableBody  mt-4" style="display:none">
