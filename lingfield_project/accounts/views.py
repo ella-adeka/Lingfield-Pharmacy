@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import View, ListView, DetailView,  TemplateView, FormView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from .forms import *
 from .models import *
@@ -52,7 +52,7 @@ class DashboardView(LoginRequiredMixin, View):
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.filter(user=request.user,saved=False)
             medicines = Medicine.objects.all()
-            medicine_items = MedicineItems.objects.filter(user=request.user, added=False)
+            medicine_items = MedicineItems.objects.filter(user=request.user, added=False)[:1]
             selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=False)
             prescription = PrescriptionItem.objects.filter(user=self.request.user, ordered=False)
             context = {
@@ -76,23 +76,6 @@ class DashboardView(LoginRequiredMixin, View):
 
 
     def post(self, request,slug=None, *args, **kwargs):  
-
-        # try:
-        #     selected_surgery = SelectSurgery.objects.get(user=request.user, added=False)
-        #     medicine_item = MedicineItems.objects.get(user=request.user, added=False)
-        #     prescription_item = PrescriptionItem.objects.create(
-        #         user=request.user,
-        #         selected_surgery=selected_surgery,
-        #         medicine_item=medicine_item,
-        #         ordered=False
-        #     )
-        #     prescription_qs = Prescription.objects.filter(user=request.user, ordered=False)
-        #     print(selected_surgery)
-        #     print(medicine_item)
-        # except ObjectDoesNotExist:
-        #     messages.warning(request,"Prescription Not Created!")
-        #     return redirect("accounts:dashboard")
-        # return redirect("accounts:dashboard")
       
         if request.POST.get("form_type") == 'formOne':  
             u_form = UpdateForm(request.POST,instance=request.user, prefix='info')
@@ -129,6 +112,30 @@ class DashboardView(LoginRequiredMixin, View):
                     added=False,
                 )
                 medicine_item.save()
+                # for med in medicine_item[2:]:
+                #     med.delete()
+                #     messages.info(request,  f'Delete previously selected item!')
+                #     return redirect('accounts:dashboard')
+                # med_item = medicine_item[len(medicine_item)]
+                # if medicine_item.count() == 1:
+                #     medicine_item.save()
+                # else:
+                #     messages.info(request,  f'Delete previously selected item!')
+                #     return redirect('accounts:dashboard')
+                
+                # if  medicine_item:
+                #     medicine_item.delete()
+                #     messages.info(request,  f'Could not save item. Delete preselected item before adding a new one!')
+                #     return redirect('accounts:dashboard')
+                # else: 
+                #     medicine_item.save()
+                   
+                # if medicine_item == 1 :
+                #     medicine_item.save()
+                # else: 
+                #     medicine_item.delete()
+                #     messages.info(request,  f'Cannot save item!')
+                #     return redirect('accounts:dashboard')
                 messages.info(request,  f'Item saved!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFour':
@@ -232,14 +239,26 @@ def surgery(request,slug):
 # else:
 #     order = orders.last()
 
+
+def delete_medicine(request, id):
+    item = get_object_or_404(MedicineItems, id=id)
+    item.delete()
+    messages.info(request, "Item was deleted.")
+    return redirect("accounts:dashboard")
+
+def delete_prescription(request, id):
+    pres_item = get_object_or_404(PrescriptionItem, id=id)
+    pres_item.delete()
+    messages.info(request, "PrescriptionItem was deleted.")
+    return redirect("accounts:dashboard")
+
+
 def new_prescription(request):
     try:
-        # selected_surgery = SelectSurgery.objects.get(user=request.user, added=False)
         selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False) #objects.select_related().filter(programme = programme_id)
-        medicine_item = MedicineItems.objects.select_related().filter( user=request.user, added=False)
-        # medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
-        # medicine_item = MedicineItems.objects.get(user=request.user, added=False)
-        # medicine_item = get_list_or_404(MedicineItems, user=request.user, added=False)
+        # medicine_item = MedicineItems.objects.select_related().filter( user=request.user, added=False)
+        # medicine_item = MedicineItems.objects.filter(user=request.user, added=False)[1]
+        medicine_item = MedicineItems.objects.get(user=request.user, added=False)
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
@@ -254,49 +273,14 @@ def new_prescription(request):
     except ObjectDoesNotExist:
         messages.warning(request,"Prescription Not Created!")
         return redirect("accounts:dashboard")
-    # except ValueError:
-    #     print(selected_surgery)
-    #     print(med_item)
-    #     messages.warning(request,"med-item not instance of MedicineItems!")
-    #     return redirect("accounts:dashboard")
-    return redirect("accounts:dashboard")
-
-
-
-    # item = get_object_or_404(Shop,slug=slug)
-    # order_item, created = OrderItem.objects.get_or_create(
-    #     user = request.user,
-    #     item=item,
-    #     ordered = False
-    # )
-    # order_qs = Order.objects.filter(user=request.user, ordered=False)
-    # if order_qs.exists():
-    #     order = order_qs[0]
-    #     # check if the order item is in the order
-    #     if order.items.filter(item__slug=item.slug).exists():
-    #         order_item.item_quantity += 1
-    #         order_item.save()
-    #         messages.info(request, "This item quantity was updated.")
-    #         return redirect("shopping:cart")
-    #     else:
-    #         order.items.add(order_item)
-    #         messages.info(request, "This item was added to your cart.")
-    #         return redirect("shopping:cart")
-    # else:
-    #     date_ordered = timezone.now()
-    #     order = Order.objects.create(
-    #         user=request.user, date_ordered=date_ordered)
-    #     order.items.add(order_item)
-    #     messages.info(request, "This item was added to your cart.")
-    #     return redirect("shopping:cart")
-
-
-    # def new_prescription(request):
-    # try:
-    #     selected_surgeries = SelectSurgery.objects.get(user=request.user, added=False)
-    #     medicine_item = MedicineItems.objects.get(user=request.user, added=False)
-    #     # selected_surgeries = SelectSurgery.objects.get(user=request.user, added=False)
-    # except ObjectDoesNotExist:
+    # except MultipleObjectsReturned:
+    #     medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
+    #     print(medicine_item)
     #     messages.warning(request,"Prescription Not Created!")
     #     return redirect("accounts:dashboard")
-    # return redirect("accounts:dashboard")
+    except ValueError:
+        print(selected_surgery)
+        print(medicine_item)
+        messages.warning(request,"Cannot assign 'QuerySet [<MedicineItems: item>]': 'PrescriptionItem.medicine_item' must be a 'MedicineItems' instance.!")
+        return redirect("accounts:dashboard")
+    return redirect("accounts:dashboard")
