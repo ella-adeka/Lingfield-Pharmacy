@@ -52,7 +52,7 @@ class DashboardView(LoginRequiredMixin, View):
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.filter(user=request.user,saved=False)
             medicines = Medicine.objects.all()
-            medicine_items = MedicineItems.objects.filter(user=request.user, added=False)[:1]
+            medicine_items = MedicineItems.objects.filter(user=request.user, added=False) #[::-1]
             selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=False)
             prescription = PrescriptionItem.objects.filter(user=self.request.user, ordered=False)
             context = {
@@ -112,6 +112,10 @@ class DashboardView(LoginRequiredMixin, View):
                     added=False,
                 )
                 medicine_item.save()
+                if medicine_item == 'None':
+                    medicine_item.delete()
+                if medicine_item == None:
+                    medicine_item.delete()
                 # for med in medicine_item[2:]:
                 #     med.delete()
                 #     messages.info(request,  f'Delete previously selected item!')
@@ -257,8 +261,8 @@ def new_prescription(request):
     try:
         selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False) #objects.select_related().filter(programme = programme_id)
         # medicine_item = MedicineItems.objects.select_related().filter( user=request.user, added=False)
-        # medicine_item = MedicineItems.objects.filter(user=request.user, added=False)[1]
-        medicine_item = MedicineItems.objects.get(user=request.user, added=False)
+        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)[0]
+        # medicine_item = MedicineItems.objects.get(user=request.user, added=False)
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
