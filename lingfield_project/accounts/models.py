@@ -138,7 +138,7 @@ class SelectSurgery(models.Model):
 
 class MedicineItems(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Medicine, null=True, on_delete=models.CASCADE)
+    item = models.ForeignKey(Medicine,null=True, on_delete=models.CASCADE)
     quantity =  models.IntegerField(default=1, null=True, blank=True)
     reminder = models.CharField(choices=REMINDER_CHOICES, max_length=30, default='None')
     added = models.BooleanField(default=False) 
