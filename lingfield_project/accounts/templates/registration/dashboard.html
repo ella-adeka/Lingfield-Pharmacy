@@ -149,19 +149,19 @@
                 <h3 class=" text-center"><strong>ORDER</strong></h3>
                 <br>
                 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12t">
                             <p><i>Click 'New Prescription' to setup the items you order on your prescription</i></p>
                         </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 text-lg-left text-sm-center" >
+                        <div class="col-lg-6 col-md-12 col-sm-12 text-lg-left text-sm-center" > -->
                             <!-- <button class="btn btn-info mt-3"><a href="#" style="text-decoration: none;color: #F2F2F2;">NEW PRESCRIPTION</a></button> -->
-                            <button class="btn btn-info mt-3" onclick="ShowPrescriptionTable()" >NEW PRESCRIPTION</button>
+                            <!-- <button class="btn btn-info mt-3" onclick="ShowPrescriptionTable()" >NEW PRESCRIPTION</button>
                         </div>
                     </div>
-                    <br>
+                    <br> -->
                    
                     <!-- <div id="PrescriptionTable" class=" PresciptionBody" style="margin-bottom: 50px;"> -->
-                    <div id="PrescriptionTable" class=" PresciptionBody" style="display:none;margin-bottom: 50px;">
+                    <div id="PrescriptionTable" class=" PresciptionBody" style="margin-bottom: 50px;">
                         <p class="text-muted ">You are creating a new prescription...</p>
                         
                         <div class="row">
@@ -322,6 +322,7 @@
                                     
                                     </div>
                                 </div>
+                        
 
                                 {% if medicine_items %}
                                 <div class="cart-box-main mt-sm-4">
@@ -339,7 +340,7 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {% for x in medicine_items.all %}
+                                                            {% for x in medicine_items %}
                                                             <tr>
                                                                 <td class="name-pr">
                                                                     <a href="{{ x.item.get_absolute_url }}" style="text-decoration: none;color: #212529;">
