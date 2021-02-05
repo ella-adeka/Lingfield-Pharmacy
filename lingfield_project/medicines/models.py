@@ -23,7 +23,6 @@ class Category(models.Model):
 
 
 class Medicine(models.Model):
-    # user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, verbose_name="Category",on_delete=models.CASCADE)
     title = models.CharField(max_length=1000,unique=False)
     list_description = models.CharField(max_length=1000)
