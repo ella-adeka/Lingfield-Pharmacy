@@ -2,13 +2,6 @@ from django.shortcuts import render
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-
-# from .forms import UserInfoForm, UserAddressForm
-# from .models import UserInfo, UserAddress
-
-# from accounts.forms import UserRegisterForm, UserProfileForm, UpdateForm
-# from accounts.models import UserProfile
-
 from operator import attrgetter
 from django.contrib import messages
 # Create your views here.
@@ -48,12 +41,7 @@ def leaflets(request):
     return render(request, 'lingfield/leaflets.html')
 
 
-
 def prescriptions(request):
-    # if request.user.is_authenticated():
-    #     return HttpResponseRedirect('accounts:dashboard')
-    # else:
-    #     return login(request)
     return render(request, 'lingfield/prescriptions.html')
 
 def register(request):
