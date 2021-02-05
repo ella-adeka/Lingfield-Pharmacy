@@ -44,22 +44,3 @@ def medicine_category_list(request):
     context = {'categories':Category.objects.all()}
     return render(request, 'medicines/medicine-category-list.html',context)
 
-def medicine_category_detail(request):
-    category = Category.objects.get(slug=category_slug)
-    medicines = Medicine.objects.filter(category__slug=category_slug)
-    context = {'category':category,'medicines': medicines}
-    return render(request, 'medicines/medicine-category-detail.html', context)
-
-
-def medicine_list(request):
-    categories =  Category.objects.all()
-    medicines = Medicine.objects.all()
-    context = {'medicines': medicines,'categories':categories}
-    return render(request, 'medicines/medicine-list.html',context)
-
-def medicine_detail(request,pk):
-    categories = Category.objects.filter()
-    medicines = get_object_or_404(Medicine, pk=pk)
-    context = {'medicines':medicines, 'categories':categories}
-    return render(request, 'medicines/medicine-detail.html',context)
-
