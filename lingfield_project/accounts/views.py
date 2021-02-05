@@ -38,8 +38,6 @@ class DashboardView(LoginRequiredMixin, View):
     medicine_form_class = MedicineItemsForm
     template_name = "registration/dashboard.html"
 
-    def get_queryset(self):
-        return MedicineItems.objects.filter(owner=self.kwargs['pk'])
 
     def get(self,request,*args,**kwargs):
         try:
@@ -52,7 +50,7 @@ class DashboardView(LoginRequiredMixin, View):
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.filter(user=request.user,saved=False)
             medicines = Medicine.objects.all()
-            medicine_items = MedicineItems.objects.filter(user=request.user, added=False) #[::-1]
+            medicine_items = MedicineItems.objects.filter(user=request.user, added=False)
             selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=False)
             prescription = PrescriptionItem.objects.filter(user=self.request.user, ordered=False)
             context = {
@@ -111,35 +109,12 @@ class DashboardView(LoginRequiredMixin, View):
                     reminder=reminder,
                     added=False,
                 )
-                medicine_item.save()
-                if medicine_item == 'None':
+                if (MedicineItems.objects.filter(user=request.user).count() > 1):
                     medicine_item.delete()
-                if medicine_item == None:
-                    medicine_item.delete()
-                # for med in medicine_item[2:]:
-                #     med.delete()
-                #     messages.info(request,  f'Delete previously selected item!')
-                #     return redirect('accounts:dashboard')
-                # med_item = medicine_item[len(medicine_item)]
-                # if medicine_item.count() == 1:
-                #     medicine_item.save()
-                # else:
-                #     messages.info(request,  f'Delete previously selected item!')
-                #     return redirect('accounts:dashboard')
-                
-                # if  medicine_item:
-                #     medicine_item.delete()
-                #     messages.info(request,  f'Could not save item. Delete preselected item before adding a new one!')
-                #     return redirect('accounts:dashboard')
-                # else: 
-                #     medicine_item.save()
-                   
-                # if medicine_item == 1 :
-                #     medicine_item.save()
-                # else: 
-                #     medicine_item.delete()
-                #     messages.info(request,  f'Cannot save item!')
-                #     return redirect('accounts:dashboard')
+                    messages.info(request,  f'Delete previously selected item in order to save a new one!')
+                    return redirect('accounts:dashboard')
+                else:
+                   medicine_item.save()
                 messages.info(request,  f'Item saved!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFour':
@@ -148,6 +123,7 @@ class DashboardView(LoginRequiredMixin, View):
                 dependent_form.save()
                 messages.info(request,  f'Dependent details updated!')
                 return redirect('accounts:dashboard')
+           
         context = {
             'u_form': u_form,
             'b_form': b_form,
@@ -236,13 +212,6 @@ def surgery(request,slug):
         messages.warning(self.request,"Surgery Does Not Exist!")
         return redirect("accounts:dashboard")
 
-# orders = Order.objects.filter(customer=customer, complete=False)
-
-# if not orders.exists():
-#     order = Order.objects.create(customer=customer, complete=False)
-# else:
-#     order = orders.last()
-
 
 def delete_medicine(request, id):
     item = get_object_or_404(MedicineItems, id=id)
@@ -259,10 +228,8 @@ def delete_prescription(request, id):
 
 def new_prescription(request):
     try:
-        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False) #objects.select_related().filter(programme = programme_id)
-        # medicine_item = MedicineItems.objects.select_related().filter( user=request.user, added=False)
-        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)[0]
-        # medicine_item = MedicineItems.objects.get(user=request.user, added=False)
+        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=True)
+        medicine_item = MedicineItems.objects.filter(user=request.user, added=True)[0]
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
@@ -277,11 +244,11 @@ def new_prescription(request):
     except ObjectDoesNotExist:
         messages.warning(request,"Prescription Not Created!")
         return redirect("accounts:dashboard")
-    # except MultipleObjectsReturned:
-    #     medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
-    #     print(medicine_item)
-    #     messages.warning(request,"Prescription Not Created!")
-    #     return redirect("accounts:dashboard")
+    except MultipleObjectsReturned:
+        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
+        print(medicine_item)
+        messages.warning(request,"Prescription Not Created!")
+        return redirect("accounts:dashboard")
     except ValueError:
         print(selected_surgery)
         print(medicine_item)
