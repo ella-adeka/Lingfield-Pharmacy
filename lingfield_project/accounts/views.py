@@ -102,19 +102,26 @@ class DashboardView(LoginRequiredMixin, View):
                 item = medicine_form.cleaned_data.get('item')
                 quantity = medicine_form.cleaned_data.get('quantity')
                 reminder = medicine_form.cleaned_data.get('reminder')
-                medicine_item, created = MedicineItems.objects.get_or_create(
+                medicine_item = MedicineItems.objects.get(
                     user=request.user,
                     item=item,
                     quantity=quantity,
                     reminder=reminder,
-                    added=False,
                 )
+                MedicineItems.objects.filter(item="None").delete()
+                # if (MedicineItems.objects.filter(user=request.user,item=None)):
+                #     medicine_item.delete()
+                #     messages.info(request,  f'None value deleted!')
+                #     return redirect('accounts:dashboard')
                 if (MedicineItems.objects.filter(user=request.user).count() > 1):
                     medicine_item.delete()
                     messages.info(request,  f'Delete previously selected item in order to save a new one!')
                     return redirect('accounts:dashboard')
                 else:
-                   medicine_item.save()
+                    MedicineItems.objects.filter(item='None', id=id).delete()
+                    medicine_item.save()
+                    # if (MedicineItems.medicine_item.item == "None"):
+                    #     medicine_item.delete()
                 messages.info(request,  f'Item saved!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFour':
@@ -190,6 +197,8 @@ def save_medicine_item(sender, instance, created, **kwargs):
     user = instance
     if created:
         medicine_item = MedicineItems(user=user)
+        # if (MedicineItems.objects.filter(item="None")):
+        #     medicine_item.item.delete()
         medicine_item.save()
 
 
@@ -228,8 +237,8 @@ def delete_prescription(request, id):
 
 def new_prescription(request):
     try:
-        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=True)
-        medicine_item = MedicineItems.objects.filter(user=request.user, added=True)[0]
+        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False)
+        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)[0]
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
