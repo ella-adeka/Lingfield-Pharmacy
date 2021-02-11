@@ -273,11 +273,7 @@
                             </div>
     
                             <div class="col-lg-6 col-md-12 col-sm-12 mt-lg-n1 mt-sm-4">
-                                <h5><strong>2 ) SETUP PRESCRIPTION ITEMS</strong></h5>     
-                                {{ the_item.medicines.title }}
-                                {% for x in the_item.medicines.all %}
-                                        {{ x.title }}
-                                {% endfor %}                  
+                                <h5><strong>2 ) SETUP PRESCRIPTION ITEMS</strong></h5>                     
                                 <div class="row">
                                     <br>
                                     <div class="col-lg-8 col-md-12 col-sm-12">
@@ -322,7 +318,6 @@
                                     
                                     </div>
                                 </div>
-                        
 
                                 {% if medicine_items %}
                                 <div class="cart-box-main mt-sm-4">
@@ -384,11 +379,11 @@
             </div>
 
 
-            <div id="MyOrders" class="TableBody  text-center mt-4" style="display:none">
-                <h3><strong>MY ORDER</strong></h3>             
+            <div id="MyOrders" class="TableBody mt-4" style="display:none">
+                <h3 class="text-center"><strong>MY ORDER</strong></h3>             
                     {% for x in prescription %}
-                        <div class="jumbotron" style="background: #64c1ae;color: #182628;">
-                            <div class="row">
+                        <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
+                            <div class="row ">
                                 <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
                                     {{ x.selected_surgery }}
                                 </div>
@@ -404,6 +399,62 @@
                     {% empty %}
                         <div class="text-center"><b>You do not have any current prescription order</b></div>
                     {% endfor %}
+                <div class="float-right mt-3">
+                    <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
+                </div>
+
+                <!-- MODAL FOR CONFIRMING ORDER -->
+                <div class="modal fade order-modal" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="orderModalTitle"><b>CONFIRM ORDER</b></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        
+                        <div class="modal-body">
+                            <div >
+                                <div>
+                                    <p class="text-muted mb-n2"><i>You are ordering a prescription from...</i></p>
+                                    {% for x in prescription %}
+                                    <b> {{ x.selected_surgery }}</b>
+                                    <hr class="featurette-divider">
+                                    <div class="row" style="display: flex;justify-content: center;align-items: center;">
+                                        <div class="col-1">
+                                            <h1><b>+</b></h1>
+                                        </div>
+                                        <div class="col-11">
+                                            <h3>{{ x.medicine_item.quantity }} <span class="ml-4">{{ x.medicine_item.item }}</span></h3>
+                                        </div>
+                                    </div>
+                                    
+                                    {% endfor %}
+                                </div>
+                                <hr class="featurette-divider mb-4">
+                                <form enctype="multipart/form-data" method="POST" id="formFive" class="mt-4"> <!-- -->
+                                    {% csrf_token %}
+                                    <input type="hidden" name="form_type" value="formFive"> <!-- -->
+                                        {{order_form.receival|as_crispy_field }}
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                {{ order_form.prescription_note|as_crispy_field }}
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                {{ order_form.delivery_note|as_crispy_field }}
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary" type="submit" name="order">ORDER</button>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!-- END OF MODAL FOR CONFIRMING ORDER -->
             </div>
 
             <div id="AddDependent" class="TableBody  mt-4" style="display:none">
@@ -497,7 +548,6 @@
                 
             </div>
 
-            <div id="SchoolTable" class="TableBody  text-center mt-4" style="display:none">School </div>
         </div>      
     </main>
     <br>
