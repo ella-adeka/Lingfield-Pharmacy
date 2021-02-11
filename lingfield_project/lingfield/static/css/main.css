@@ -294,10 +294,11 @@ main div.container h1.welcome span {
   color: #182628;
 }
 
-@media (min-width: 650px) {
+@media screen and (min-width: 480px) {
   .home-page-header {
-    font-size: 15vw;
+    font-size: 120px;
     word-break: break-all;
+    margin-top: -50px;
   }
 }
 
@@ -340,6 +341,13 @@ main div.container-2 {
 .index-page-img {
   z-index: 999;
   width: 90%;
+  display: none;
+}
+
+@media screen and (min-width: 480px) {
+  .index-page-img {
+    display: none;
+  }
 }
 
 .each-page-header {

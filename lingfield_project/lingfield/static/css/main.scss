@@ -342,19 +342,19 @@ main div.container h1.welcome span{
   transform: scale(1.2);
   font-size: 25vh;
   zoom: 100%;
-  
   cursor: pointer;
   color: #182628;
   // -webkit-text-stroke-width: 0.5px;
   // -webkit-text-stroke-color: #182628;
   // line-height:20px;
 }
-@media (min-width: 650px){
-.home-page-header {
-  font-size: 15vw;
-  word-break: break-all;
-  
-}
+@media screen and (min-width : 480px) {
+  .home-page-header {
+    font-size: 120px;
+    word-break: break-all;
+    margin-top: -50px;
+    
+  }
 }
 
 @media (min-width: 900px){
@@ -416,8 +416,15 @@ main div.container-2{
   z-index: 999;
   // position: absolute;
   width: 90%;
+  display: none;
   // clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
   // clip-path: polygon(100% 0, 100% 80%, 0 80%, 0 23%);
+}
+
+@media screen and (min-width : 480px) {
+  .index-page-img{
+    display: none;
+  }
 }
 // -------------------------    END OF WRAPPER  ---------------------------------------/
 
