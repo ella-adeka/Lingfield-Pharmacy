@@ -36,6 +36,7 @@ class DashboardView(LoginRequiredMixin, View):
     surgery_form_class = AddSurgeryForm
     dependent_form_class = DependentForm
     medicine_form_class = MedicineItemsForm
+    order_form_class = OrderForm
     template_name = "registration/dashboard.html"
 
 
@@ -47,6 +48,7 @@ class DashboardView(LoginRequiredMixin, View):
             surgery_form = self.surgery_form_class(instance=request.user.addsurgery, prefix='addsurgery')
             dependent_form = self.dependent_form_class(instance=request.user.dependent,prefix='dependent')
             medicine_form = self.medicine_form_class(instance=request.user,prefix='medicineitems')
+            order_form = self.order_form_class(instance=request.user,prefix='order')
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.filter(user=request.user,saved=False)
             medicines = Medicine.objects.all()
@@ -61,6 +63,7 @@ class DashboardView(LoginRequiredMixin, View):
                 'saved_surgery' : saved_surgery,
                 'dependent_form' : dependent_form,
                 'medicine_form' : medicine_form,
+                'order_form' : order_form,
                 'hospital_list' : hospital_list,
                 'medicines' : medicines,
                 'medicine_items' : medicine_items,
@@ -102,26 +105,19 @@ class DashboardView(LoginRequiredMixin, View):
                 item = medicine_form.cleaned_data.get('item')
                 quantity = medicine_form.cleaned_data.get('quantity')
                 reminder = medicine_form.cleaned_data.get('reminder')
-                medicine_item = MedicineItems.objects.get(
+                medicine_item = MedicineItems.objects.create(
                     user=request.user,
                     item=item,
                     quantity=quantity,
                     reminder=reminder,
+                    added=False
                 )
-                MedicineItems.objects.filter(item="None").delete()
-                # if (MedicineItems.objects.filter(user=request.user,item=None)):
-                #     medicine_item.delete()
-                #     messages.info(request,  f'None value deleted!')
-                #     return redirect('accounts:dashboard')
                 if (MedicineItems.objects.filter(user=request.user).count() > 1):
                     medicine_item.delete()
                     messages.info(request,  f'Delete previously selected item in order to save a new one!')
                     return redirect('accounts:dashboard')
                 else:
-                    MedicineItems.objects.filter(item='None', id=id).delete()
                     medicine_item.save()
-                    # if (MedicineItems.medicine_item.item == "None"):
-                    #     medicine_item.delete()
                 messages.info(request,  f'Item saved!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFour':
@@ -130,6 +126,12 @@ class DashboardView(LoginRequiredMixin, View):
                 dependent_form.save()
                 messages.info(request,  f'Dependent details updated!')
                 return redirect('accounts:dashboard')
+        elif request.POST.get("form_type") == 'formFive':
+            order_form = OrderForm(request.POST,instance=request.user, prefix='order')
+            if order_form.is_valid():
+                order_form.save()
+                messages.info(request,  f'Order Confirmed!')
+                return redirect('accounts:dashboard')
            
         context = {
             'u_form': u_form,
@@ -137,6 +139,7 @@ class DashboardView(LoginRequiredMixin, View):
             'p_form': p_form,
             'surgery_form' : surgery_form,
             'dependent_form' : dependent_form,
+            'order_form' : order_form,
             'saved_surgery' : saved_surgery,
             'selected_surgeries' :selected_surgeries,
         }
@@ -192,14 +195,14 @@ def save_surgery(sender, instance, created, **kwargs):
         surgery = AddSurgery(user=user)
         surgery.save()
 
-@receiver(post_save, sender=User, dispatch_uid='save_medicine')
-def save_medicine_item(sender, instance, created, **kwargs):
-    user = instance
-    if created:
-        medicine_item = MedicineItems(user=user)
-        # if (MedicineItems.objects.filter(item="None")):
-        #     medicine_item.item.delete()
-        medicine_item.save()
+# @receiver(post_save, sender=User, dispatch_uid='save_medicine')
+# def save_medicine_item(sender, instance, created, **kwargs):
+#     user = instance
+#     if created:
+#         medicine_item = MedicineItems(user=user)
+#         # if (MedicineItems.objects.filter(item="None")):
+#         #     medicine_item.item.delete()
+#         medicine_item.save()
 
 
 global surgery
@@ -249,14 +252,14 @@ def new_prescription(request):
         prescription_item.save()
         print(selected_surgery)
         print(medicine_item)
-        messages.success(request,"Prescription Created!")
+        messages.success(request,"Order Created!")
     except ObjectDoesNotExist:
-        messages.warning(request,"Prescription Not Created!")
+        messages.warning(request,"Order Not Created!")
         return redirect("accounts:dashboard")
     except MultipleObjectsReturned:
         medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
         print(medicine_item)
-        messages.warning(request,"Prescription Not Created!")
+        messages.warning(request,"Order Not Created!")
         return redirect("accounts:dashboard")
     except ValueError:
         print(selected_surgery)
@@ -264,3 +267,12 @@ def new_prescription(request):
         messages.warning(request,"Cannot assign 'QuerySet [<MedicineItems: item>]': 'PrescriptionItem.medicine_item' must be a 'MedicineItems' instance.!")
         return redirect("accounts:dashboard")
     return redirect("accounts:dashboard")
+
+
+# def order(request):
+#     date_ordered = timezone.now()
+#     order = Order.objects.create(
+#         user=request.user, date_ordered=date_ordered)
+#     order.items.add(order_item)
+#     messages.info(request, "This item was added to your cart.")
+#     return redirect("shopping:cart")
