@@ -14,6 +14,7 @@
             </div> -->
 
             <div class="text-center col-lg-4 col-md-4 col-sm-4">
+                {% if items %}
                 {% if user.is_authenticated %}
                 <span class="animate-this mr-2" ><a class="cart-icon" href="{% url 'shopping:cart' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> Cart</a></span>
                 <!-- <i class="fas fa-shopping-cart"></i> -->
@@ -21,8 +22,9 @@
                 {% else %}
                 <span></span>
                 {% endif %}
+                {% endif %}
                 {% if user.is_authenticated %}
-                <span class="animate-this ml-2" ><a href="{% url 'accounts:dashboard' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> <i class="fas fa-tachometer-alt"></i></a></span>
+                <span class="animate-this ml-2" ><a href="{% url 'accounts:dashboard' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right">Dashboard</a></span>
                 <!-- <i class="fas fa-tachometer-alt"></i> -->
                 <span class="animate-this ml-2" style="border-right: 1px solid #182628;"></span>
                 {% else %}
