@@ -14,12 +14,16 @@ GENDER_CHOICES = (
     ('Other','Other'),
 )
 
-
 REMINDER_CHOICES = (
     ('Never','Never'),
     ('Once','Once'),
     ('Regularly','Regularly'),
 )
+
+RECEIVAL_CHOICES = (
+    ('Courier','Courier'),
+)
+
 
 def validate_only_one_instance(obj):
     model = obj.__class__
@@ -92,7 +96,6 @@ class Dependent(models.Model):
         super(Dependent, self).save(*args, **kwargs)
         
 class HospitalList(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     clinic_name = models.CharField(max_length=1000)
     hospital = models.CharField(max_length=1000)
     hospital_street = models.CharField(max_length=1000)
@@ -152,8 +155,8 @@ class SelectSurgery(models.Model):
 
 class MedicineItems(models.Model): #SingleInstanceMixin,
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    item = models.ForeignKey(Medicine,null=True,blank=True, on_delete=models.CASCADE)
-    quantity =  models.IntegerField(default=1, null=False, blank=True)
+    item = models.ForeignKey(Medicine,null=True, on_delete=models.CASCADE)
+    quantity =  models.IntegerField(default=1)
     reminder = models.CharField(choices=REMINDER_CHOICES, max_length=30, default='None')
     added = models.BooleanField(default=False) 
     # prescriptionitems = models.ManyToManyField(PrescriptionItem)
@@ -172,18 +175,6 @@ class MedicineItems(models.Model): #SingleInstanceMixin,
     #     super(MedicineItems, self).save(*args, **kwargs)
 
 
-# class PrescriptionItem(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE)
-#     medicine_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE)
-#     ordered = models.BooleanField(default=False)
-
-#     def __str__(self):
-#         return "{}".format(self.med_item)
-
-#     def get_surgery(self):
-#         return self.surgery
-
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE)
@@ -200,10 +191,13 @@ class PrescriptionItem(models.Model):
     def get_surgery(self):
         return self.surgery
 
-
+# 'receival','prescription_note','delivery_note'
 class Prescription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(PrescriptionItem)
+    receival = models.CharField(choices=RECEIVAL_CHOICES, max_length=30, default='Courier')
+    prescription_note = models.CharField(max_length=1000)
+    delivery_note = models.CharField(max_length=1000)
     date_ordered = models.DateTimeField()    
     ordered = models.BooleanField(default=False)
     complete = models.BooleanField(default=False)
