@@ -27,6 +27,10 @@ REMINDER_CHOICES = (
     ('Regularly','Regularly'),
 )
 
+RECEIVAL_CHOICES = (
+    ('Courier','Courier'),
+)
+
 
 # Create your forms here.
 class UserRegisterForm(UserCreationForm):
@@ -147,14 +151,8 @@ class MedicineItemsForm(forms.ModelForm):
     class Meta():
         model = MedicineItems
         fields = {'item','quantity'}
-
-    def save(self, commit=True):
-        instance =  super(MedicineItemsForm, self).save(commit=False)
-        if commit:
-            instance.save()
-        return instance
                
-# ---------------------------------------------------------------   END OF PRESCRIPTION FORM    ----------------------------------------------------------------------------------#
+# ---------------------------------------------------------------   END OF MEDICINE FORM    ----------------------------------------------------------------------------------#
 
 
 
@@ -167,4 +165,22 @@ class MedicineItemsForm(forms.ModelForm):
 #         fields = {'prescription_item','prescription_quantity','reminder'}
         
 # ---------------------------------------------------------------   END OF PRESCRIPTION FORM    ----------------------------------------------------------------------------------#
+
+# ---------------------------------------------------------------   ORDER FORM    ----------------------------------------------------------------------------------#
+
+class OrderForm(forms.ModelForm):
+    receival = forms.ChoiceField(label='Remind me to order this item',required=True, choices=RECEIVAL_CHOICES, initial='N')
+    class Meta():
+        model = Prescription
+        fields = {'receival','prescription_note','delivery_note'}
+
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['receival'].label = "How do you want to receive your prescription?"
+        self.fields['prescription_note'].label = "Add a note to your prescription order..."
+        self.fields['delivery_note'].label = "Add a delivery note..."
+
+    
+        
+# ---------------------------------------------------------------   END OF ORDER FORM    ----------------------------------------------------------------------------------#
 
