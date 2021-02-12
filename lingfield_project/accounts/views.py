@@ -17,7 +17,6 @@ from .models import *
 from medicines.models import Medicine
 
 from operator import attrgetter
-# from lingfield.views import get_item_queryset
 from django.contrib import messages
 from django.core.mail import send_mail
 
@@ -130,9 +129,10 @@ class DashboardView(LoginRequiredMixin, View):
             order_form = OrderForm(request.POST,instance=request.user, prefix='order')
             if order_form.is_valid():
                 order_form.save()
+                prescription_item = PrescriptionItem.objects.get(user=request.user)
+                print(prescription_item)
                 messages.info(request,  f'Order Confirmed!')
-                return redirect('accounts:dashboard')
-           
+                return redirect('accounts:dashboard')  
         context = {
             'u_form': u_form,
             'b_form': b_form,
@@ -195,15 +195,6 @@ def save_surgery(sender, instance, created, **kwargs):
         surgery = AddSurgery(user=user)
         surgery.save()
 
-# @receiver(post_save, sender=User, dispatch_uid='save_medicine')
-# def save_medicine_item(sender, instance, created, **kwargs):
-#     user = instance
-#     if created:
-#         medicine_item = MedicineItems(user=user)
-#         # if (MedicineItems.objects.filter(item="None")):
-#         #     medicine_item.item.delete()
-#         medicine_item.save()
-
 
 global surgery
 def surgery(request,slug):
@@ -265,6 +256,9 @@ def new_prescription(request):
         print(selected_surgery)
         print(medicine_item)
         messages.warning(request,"Cannot assign 'QuerySet [<MedicineItems: item>]': 'PrescriptionItem.medicine_item' must be a 'MedicineItems' instance.!")
+        return redirect("accounts:dashboard")
+    except IndexError:
+        messages.warning(request,"Please select an Item!")
         return redirect("accounts:dashboard")
     return redirect("accounts:dashboard")
 
