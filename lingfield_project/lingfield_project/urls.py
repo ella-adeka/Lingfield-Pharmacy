@@ -43,3 +43,5 @@ urlpatterns = [
     
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# handler404 = 'admin.views.my_custom_page_not_found_view'
+# handler500 = 'mysite.views.my_custom_error_view'
