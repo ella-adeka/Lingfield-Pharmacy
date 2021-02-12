@@ -6,6 +6,17 @@ from operator import attrgetter
 from django.contrib import messages
 # Create your views here.
 
+# ADMIN
+# The 404 (page not found) view¶
+def handler404(request, exception, template_name='admin/404.html'):
+    response = render_to_response(template_name)
+    response.status_code = 404
+    return response
+
+def handler500(request, exception, template_name='admin/500.html'):
+    response = render_to_response(template_name)
+    response.status_code = 500
+    return response
 
 def index(request):
     return render(request, 'lingfield/index.html')
