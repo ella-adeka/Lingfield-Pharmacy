@@ -191,7 +191,6 @@ class PrescriptionItem(models.Model):
     def get_surgery(self):
         return self.surgery
 
-# 'receival','prescription_note','delivery_note'
 class Prescription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     items = models.ManyToManyField(PrescriptionItem)
