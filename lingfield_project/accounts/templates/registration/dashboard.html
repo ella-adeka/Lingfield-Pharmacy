@@ -145,7 +145,7 @@
                 </form>           
             </div>
             
-            <div id="Order" class="TableBody  mt-4" >
+            <div id="Order" class="TableBody  mt-4">
                 <h3 class=" text-center"><strong>ORDER</strong></h3>
                 <br>
                 
@@ -381,6 +381,7 @@
 
             <div id="MyOrders" class="TableBody mt-4" style="display:none">
                 <h3 class="text-center"><strong>MY ORDER</strong></h3>             
+                <div style="margin-bottom: 50px;">
                     {% for x in prescription %}
                         <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
                             <div class="row ">
@@ -399,10 +400,14 @@
                     {% empty %}
                         <div class="text-center"><b>You do not have any current prescription order</b></div>
                     {% endfor %}
-                <div class="float-right mt-3">
-                    <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
+                    <div class="float-right mt-3">
+                        {% if prescription %}
+                            <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
+                        {% endif %}
+                    </div>
                 </div>
 
+                
                 <!-- MODAL FOR CONFIRMING ORDER -->
                 <div class="modal fade order-modal" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalTitle" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
@@ -421,15 +426,7 @@
                                     {% for x in prescription %}
                                     <b> {{ x.selected_surgery }}</b>
                                     <hr class="featurette-divider">
-                                    <div class="row" style="display: flex;justify-content: center;align-items: center;">
-                                        <div class="col-1">
-                                            <h1><b>+</b></h1>
-                                        </div>
-                                        <div class="col-11">
-                                            <h3>{{ x.medicine_item.quantity }} <span class="ml-4">{{ x.medicine_item.item }}</span></h3>
-                                        </div>
-                                    </div>
-                                    
+                                    <h3>{{ x.medicine_item.quantity }} <span class="ml-4">{{ x.medicine_item.item }}</span></h3>
                                     {% endfor %}
                                 </div>
                                 <hr class="featurette-divider mb-4">
@@ -455,6 +452,7 @@
                     </div>
                 </div>
                 <!-- END OF MODAL FOR CONFIRMING ORDER -->
+               
             </div>
 
             <div id="AddDependent" class="TableBody  mt-4" style="display:none">
