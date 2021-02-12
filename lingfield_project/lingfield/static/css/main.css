@@ -341,7 +341,6 @@ main div.container-2 {
 .index-page-img {
   z-index: 999;
   width: 90%;
-  display: none;
 }
 
 @media screen and (min-width: 480px) {
