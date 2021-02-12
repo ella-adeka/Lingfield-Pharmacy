@@ -54,7 +54,7 @@ class CartView(LoginRequiredMixin, View):
             return render(self.request, 'shopping/cart.html', context)
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
-            return redirect("lingfield:home")
+            return redirect("shopping:product_list")
 
 class CheckOutView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
