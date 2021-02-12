@@ -3,41 +3,25 @@
     <nav style="margin: auto;">
         <div class="row">
             <span class="animate-this text-left col-lg-4 col-md-4 col-sm-4" style="float: left;color: #182628;"><h3><a href="{% url 'lingfield:home' %}" style="color: #182628;text-decoration: none;font-family: Damion;">+LingField</a></h3></span>
-            <!-- <div class="text-center col-lg-4 col-md-4 col-sm-4">
-                <span class="animate-this mr-2"><a href="#" style="color: black;" data-toggle="tooltip" data-placement="left" title="Mode"><i id="colorModeLight" onclick="colorModesLight(this)" class="far fa-moon"></i></a></span>
-                {% if user.is_authenticated %}
-                <span class="animate-this mr-2"><a href="{% url "logout" %}?next=/" style="color: black; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right" title="Log Out"><i  class="fas fa-sign-out-alt">Logout</i></a></span>
-               
-                {% else %}
-                <span class="animate-this mr-2"><a href="{% url 'login' %}" style="color: black; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right" title="Log in"><i  class="fas fa-sign-in-alt mr-2"></i> Login</a></span>
-                {% endif %}
-            </div> -->
-
             <div class="text-center col-lg-4 col-md-4 col-sm-4">
-                {% if items %}
                 {% if user.is_authenticated %}
                 <span class="animate-this mr-2" ><a class="cart-icon" href="{% url 'shopping:cart' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> Cart</a></span>
-                <!-- <i class="fas fa-shopping-cart"></i> -->
                 <span class="animate-this" style="border-right: 1px solid #182628;"></span>
                 {% else %}
                 <span></span>
                 {% endif %}
-                {% endif %}
                 {% if user.is_authenticated %}
                 <span class="animate-this ml-2" ><a href="{% url 'accounts:dashboard' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right">Dashboard</a></span>
-                <!-- <i class="fas fa-tachometer-alt"></i> -->
                 <span class="animate-this ml-2" style="border-right: 1px solid #182628;"></span>
                 {% else %}
                 <span></span>
                 {% endif %}
                 {% if user.is_authenticated %}
                 <span class="animate-this ml-2"><a href="{% url 'logout' %}?next=/" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right">Logout</a></span>
-                <!-- <i class="fas fa-sign-out-alt"></i> -->
                 {% else %}
                 <span class="animate-this"><a href="{% url 'accounts:register' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> Register</a></span>
                 <span class="animate-this ml-2" style="border-right: 1px solid #182628;"></span>
                 <span class="animate-this ml-2"><a href="{% url 'login' %}" style="color: #182628; font-family:IM Fell DW Pica SC;" data-toggle="tooltip" data-placement="right"> Login</a></span>
-                <!-- <i class="fas fa-sign-in-alt"></i> -->
                 {% endif %}
             </div>
 
@@ -109,27 +93,17 @@
         
     }
 
-    // function colorModesLight(x) {
-    //     x.classList.toggle("Dark Mode");
-        
-    // }
-
-    // function signInOut(x) {
-    //     x.classList.toggle("fa-sign-out-alt");
-        
-    // }
-
     window.onscroll = function() {myFunction()};
 
     var header = document.getElementById("myHeader");
     var sticky = header.offsetTop;
 
     function myFunction() {
-    if (window.pageYOffset > sticky) {
-        header.classList.add("sticky");
-    } else {
-        header.classList.remove("sticky");
-    }
+        if (window.pageYOffset > sticky) {
+            header.classList.add("sticky");
+        } else {
+            header.classList.remove("sticky");
+        }
     }
 
 </script>
