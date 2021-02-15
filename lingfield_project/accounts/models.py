@@ -4,7 +4,8 @@ from django.shortcuts import reverse
 from django_countries.fields import CountryField
 from medicines.models import Medicine
 from django.core.exceptions import ValidationError
-
+from django.utils import timezone
+import datetime
 
 # Create your choices here
 GENDER_CHOICES = (
@@ -159,7 +160,6 @@ class MedicineItems(models.Model): #SingleInstanceMixin,
     quantity =  models.IntegerField(default=1)
     reminder = models.CharField(choices=REMINDER_CHOICES, max_length=30, default='None')
     added = models.BooleanField(default=False) 
-    # prescriptionitems = models.ManyToManyField(PrescriptionItem)
 
     class Meta():
         verbose_name = 'Medicine Item'
@@ -168,40 +168,27 @@ class MedicineItems(models.Model): #SingleInstanceMixin,
     def __str__(self):
         return "{} of {}".format(self.quantity,self.item)
 
-    # def clean(self):
-    #     validate_only_one_instance(self)
-    
-    # def save(self, *args, **kwargs):
-    #     super(MedicineItems, self).save(*args, **kwargs)
 
 
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE)
     medicine_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE)
+    receival = models.CharField(choices=RECEIVAL_CHOICES, max_length=30, default='Courier')
+    prescription_note = models.CharField(max_length=1000)
+    delivery_note = models.CharField(max_length=1000)
+    date_ordered = models.DateTimeField(auto_now_add=True) 
     ordered = models.BooleanField(default=False)
+    complete = models.BooleanField(default=False)
 
     class Meta():
         verbose_name = 'Prescription Item'
         verbose_name_plural = 'Prescription Items'
 
     def __str__(self):
-        return "{}".format(self.medicine_item)
+        return "{}".format(self.user)
 
     def get_surgery(self):
         return self.surgery
-
-class Prescription(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField(PrescriptionItem)
-    receival = models.CharField(choices=RECEIVAL_CHOICES, max_length=30, default='Courier')
-    prescription_note = models.CharField(max_length=1000)
-    delivery_note = models.CharField(max_length=1000)
-    date_ordered = models.DateTimeField()    
-    ordered = models.BooleanField(default=False)
-    complete = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.user.username
 
 
