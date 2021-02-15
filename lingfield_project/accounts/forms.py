@@ -171,14 +171,16 @@ class MedicineItemsForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     receival = forms.ChoiceField(label='Remind me to order this item',required=True, choices=RECEIVAL_CHOICES, initial='N')
     class Meta():
-        model = Prescription
+        model = PrescriptionItem
         fields = {'receival','prescription_note','delivery_note'}
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
         self.fields['receival'].label = "How do you want to receive your prescription?"
         self.fields['prescription_note'].label = "Add a note to your prescription order..."
+        self.fields['prescription_note'].required = False
         self.fields['delivery_note'].label = "Add a delivery note..."
+        self.fields['delivery_note'].required = False
 
     
         
