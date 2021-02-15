@@ -47,7 +47,7 @@ class DashboardView(LoginRequiredMixin, View):
             surgery_form = self.surgery_form_class(instance=request.user.addsurgery, prefix='addsurgery')
             dependent_form = self.dependent_form_class(instance=request.user.dependent,prefix='dependent')
             medicine_form = self.medicine_form_class(instance=request.user,prefix='medicineitems')
-            order_form = self.order_form_class(instance=request.user,prefix='order')
+            order_form = self.order_form_class(instance=request.user,prefix='prescriptionitem')
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.filter(user=request.user,saved=False)
             medicines = Medicine.objects.all()
@@ -126,11 +126,20 @@ class DashboardView(LoginRequiredMixin, View):
                 messages.info(request,  f'Dependent details updated!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFive':
-            order_form = OrderForm(request.POST,instance=request.user, prefix='order')
+            order_form = OrderForm(request.POST, prefix='prescriptionitem')
             if order_form.is_valid():
+                prescription_note = order_form.cleaned_data.get('prescription_note')
+                delivery_note = order_form.cleaned_data.get('delivery_note')
                 order_form.save()
-                prescription_item = PrescriptionItem.objects.get(user=request.user)
-                print(prescription_item)
+                prescription_item = PrescriptionItem.objects.get(
+                    user=request.user,
+                    prescription_note=prescription_note,
+                    delivery_note=delivery_note
+                ) #.update(ordered=True, complete=True)
+                # prescription_item.ordered = True
+                prescription_item.complete = True
+                prescription_item.save()
+                print(prescription_item, "just placed and order.")
                 messages.info(request,  f'Order Confirmed!')
                 return redirect('accounts:dashboard')  
         context = {
@@ -225,7 +234,7 @@ def delete_medicine(request, id):
 def delete_prescription(request, id):
     pres_item = get_object_or_404(PrescriptionItem, id=id)
     pres_item.delete()
-    messages.info(request, "PrescriptionItem was deleted.")
+    messages.info(request, "Order was deleted.")
     return redirect("accounts:dashboard")
 
 
@@ -233,13 +242,15 @@ def new_prescription(request):
     try:
         selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False)
         medicine_item = MedicineItems.objects.filter(user=request.user, added=False)[0]
+        date_ordered = timezone.now()
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
             medicine_item=medicine_item,
-            ordered=False
-        )
-        prescription_qs = Prescription.objects.filter(user=request.user, complete=False)
+            date_ordered=date_ordered,
+            ordered=False,
+            complete=False,
+        ) #.update(ordered=True)
         prescription_item.save()
         print(selected_surgery)
         print(medicine_item)
@@ -261,12 +272,3 @@ def new_prescription(request):
         messages.warning(request,"Please select an Item!")
         return redirect("accounts:dashboard")
     return redirect("accounts:dashboard")
-
-
-# def order(request):
-#     date_ordered = timezone.now()
-#     order = Order.objects.create(
-#         user=request.user, date_ordered=date_ordered)
-#     order.items.add(order_item)
-#     messages.info(request, "This item was added to your cart.")
-#     return redirect("shopping:cart")
