@@ -38,12 +38,12 @@ def save_dependent(sender, instance, created, **kwargs):
         dependent = Dependent(user=user)
         dependent.save()
 
-@receiver(post_save, sender=User, dispatch_uid='save_new_surgery')
-def save_surgery(sender, instance, created, **kwargs):
-    user = instance
-    if created:
-        surgery = AddSurgery(user=user)
-        surgery.save()
+# @receiver(post_save, sender=User, dispatch_uid='save_new_surgery')
+# def save_surgery(sender, instance, created, **kwargs):
+#     user = instance
+#     if created:
+#         surgery = AddSurgery(user=user)
+#         surgery.save()
 
 # @receiver(post_save, sender=User, dispatch_uid='save_medicine')
 # def save_medicine_item(sender, instance, created, **kwargs):
