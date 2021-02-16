@@ -44,16 +44,16 @@ class DashboardView(LoginRequiredMixin, View):
             u_form = self.u_form_class(instance=request.user,prefix='info')
             b_form = self.b_form_class(instance=request.user.userbirthdate, prefix='info')
             p_form = self.p_form_class(instance=request.user.userprofile, prefix='info')
-            surgery_form = self.surgery_form_class(instance=request.user.addsurgery, prefix='addsurgery')
+            surgery_form = self.surgery_form_class(instance=request.user, prefix='addsurgery')
             dependent_form = self.dependent_form_class(instance=request.user.dependent,prefix='dependent')
             medicine_form = self.medicine_form_class(instance=request.user,prefix='medicineitems')
-            order_form = self.order_form_class(instance=request.user,prefix='prescriptionitem')
+            order_form = self.order_form_class(instance=request.user,prefix='prescription')
             hospital_list = HospitalList.objects.all() 
-            saved_surgery = AddSurgery.objects.filter(user=request.user,saved=False)
+            saved_surgery = AddSurgery.objects.filter(user=request.user)
             medicines = Medicine.objects.all()
             medicine_items = MedicineItems.objects.filter(user=request.user, added=False)
             selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=False)
-            prescription = PrescriptionItem.objects.filter(user=self.request.user, ordered=False)
+            prescription_item = PrescriptionItem.objects.filter(user=self.request.user, ordered=False)
             context = {
                 'u_form': u_form,
                 'b_form': b_form,
@@ -67,7 +67,7 @@ class DashboardView(LoginRequiredMixin, View):
                 'medicines' : medicines,
                 'medicine_items' : medicine_items,
                 'selected_surgeries' :selected_surgeries,
-                'prescription' : prescription,
+                'prescription_item' : prescription_item,
             }
             return render(self.request, "registration/dashboard.html", context)
         except ObjectDoesNotExist:
@@ -91,7 +91,7 @@ class DashboardView(LoginRequiredMixin, View):
             surgery_form = AddSurgeryForm(request.POST, prefix='addsurgery')
             if surgery_form.is_valid():
                 saved_surgery = surgery_form.cleaned_data.get('surgery_name')
-                saved_surgery.save()
+                surgery_form.save()
                 print(saved_surgery)
                 messages.info(request,  f'Your information has been added successful!')
                 context = {
@@ -126,20 +126,22 @@ class DashboardView(LoginRequiredMixin, View):
                 messages.info(request,  f'Dependent details updated!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFive':
-            order_form = OrderForm(request.POST, prefix='prescriptionitem')
+            order_form = OrderForm(request.POST, prefix='prescription')
             if order_form.is_valid():
+                receival = order_form.cleaned_data.get('receival')
                 prescription_note = order_form.cleaned_data.get('prescription_note')
                 delivery_note = order_form.cleaned_data.get('delivery_note')
-                order_form.save()
-                prescription_item = PrescriptionItem.objects.get(
+                prescription = Prescription.objects.create(
                     user=request.user,
+                    # items=items,
+                    receival=receival,
                     prescription_note=prescription_note,
                     delivery_note=delivery_note
-                ) #.update(ordered=True, complete=True)
-                # prescription_item.ordered = True
-                prescription_item.complete = True
-                prescription_item.save()
-                print(prescription_item, "just placed and order.")
+                ) 
+                # prescription.ordered = True
+                prescription.complete = True
+                prescription.save()
+                print(prescription, "just placed and order.")
                 messages.info(request,  f'Order Confirmed!')
                 return redirect('accounts:dashboard')  
         context = {
@@ -148,7 +150,6 @@ class DashboardView(LoginRequiredMixin, View):
             'p_form': p_form,
             'surgery_form' : surgery_form,
             'dependent_form' : dependent_form,
-            'order_form' : order_form,
             'saved_surgery' : saved_surgery,
             'selected_surgeries' :selected_surgeries,
         }
@@ -197,13 +198,6 @@ def save_dependent(sender, instance, created, **kwargs):
         dependent = Dependent(user=user)
         dependent.save()
      
-@receiver(post_save, sender=User, dispatch_uid='save_new_surgery')
-def save_surgery(sender, instance, created, **kwargs):
-    user = instance
-    if created:
-        surgery = AddSurgery(user=user)
-        surgery.save()
-
 
 global surgery
 def surgery(request,slug):
@@ -247,10 +241,8 @@ def new_prescription(request):
             user=request.user,
             selected_surgery=selected_surgery,
             medicine_item=medicine_item,
-            date_ordered=date_ordered,
             ordered=False,
-            complete=False,
-        ) #.update(ordered=True)
+        )
         prescription_item.save()
         print(selected_surgery)
         print(medicine_item)
