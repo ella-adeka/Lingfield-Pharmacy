@@ -343,12 +343,6 @@ main div.container-2 {
   width: 90%;
 }
 
-@media screen and (min-width: 480px) {
-  .index-page-img {
-    display: none;
-  }
-}
-
 .each-page-header {
   color: #182628;
   text-shadow: -10px 10px 0px #00e6e6, -20px 20px 0px #01cccc, -30px 30px 0px #64c1ae;
