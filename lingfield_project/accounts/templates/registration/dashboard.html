@@ -207,6 +207,7 @@
                                                         </div>
                                                         <hr class="featurette-divider w-100">
                                                         <div>
+                                                            {{ saved_surgeries.surgery_name}}
                                                             {% for s in saved_surgery %}
                                                                 <a  href="#" style="color: black;text-decoration: none;">
                                                                     <p> {{ s.surgery_name }}</p>
@@ -382,7 +383,7 @@
             <div id="MyOrders" class="TableBody mt-4" style="display:none">
                 <h3 class="text-center"><strong>MY ORDER</strong></h3>             
                 <div style="margin-bottom: 50px;">
-                    {% for x in prescription %}
+                    {% for x in prescription_item %}
                         <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
                             <div class="row ">
                                 <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
@@ -401,7 +402,7 @@
                         <div class="text-center"><b>You do not have any current prescription order</b></div>
                     {% endfor %}
                     <div class="float-right mt-3">
-                        {% if prescription %}
+                        {% if prescription_item %}
                             <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
                         {% endif %}
                     </div>
@@ -423,7 +424,7 @@
                             <div >
                                 <div>
                                     <p class="text-muted mb-n2"><i>You are ordering a prescription from...</i></p>
-                                    {% for x in prescription %}
+                                    {% for x in prescription_item %}
                                     <b> {{ x.selected_surgery }}</b>
                                     <hr class="featurette-divider">
                                     <h3>{{ x.medicine_item.quantity }} <span class="ml-4">{{ x.medicine_item.item }}</span></h3>
