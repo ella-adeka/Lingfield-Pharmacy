@@ -125,7 +125,7 @@ class HospitalList(models.Model):
         super(HospitalList, self).save(*args, **kwargs)
 
 class AddSurgery(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, related_name="addsurgery")
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name="addsurgery")
     surgery_name = models.CharField(max_length=1000)
     country = CountryField()
     uk_postcode_lookup = models.CharField(max_length=100)
@@ -168,12 +168,25 @@ class MedicineItems(models.Model): #SingleInstanceMixin,
     def __str__(self):
         return "{} of {}".format(self.quantity,self.item)
 
-
-
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE)
     medicine_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE)
+    ordered = models.BooleanField(default=False)
+
+    class Meta():
+        verbose_name = 'Prescription Item'
+        verbose_name_plural = 'Prescription Items'
+
+    def __str__(self):
+        return "{}".format(self.medicine_item)
+
+    def get_surgery(self):
+        return self.surgery
+
+class Prescription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(PrescriptionItem)
     receival = models.CharField(choices=RECEIVAL_CHOICES, max_length=30, default='Courier')
     prescription_note = models.CharField(max_length=1000)
     delivery_note = models.CharField(max_length=1000)
@@ -181,14 +194,7 @@ class PrescriptionItem(models.Model):
     ordered = models.BooleanField(default=False)
     complete = models.BooleanField(default=False)
 
-    class Meta():
-        verbose_name = 'Prescription Item'
-        verbose_name_plural = 'Prescription Items'
-
     def __str__(self):
-        return "{}".format(self.user)
-
-    def get_surgery(self):
-        return self.surgery
+        return self.user.username
 
 
