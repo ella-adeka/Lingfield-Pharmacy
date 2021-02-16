@@ -171,7 +171,7 @@ class MedicineItemsForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     receival = forms.ChoiceField(label='Remind me to order this item',required=True, choices=RECEIVAL_CHOICES, initial='N')
     class Meta():
-        model = PrescriptionItem
+        model = Prescription
         fields = {'receival','prescription_note','delivery_note'}
 
     def __init__(self, *args, **kwargs):
