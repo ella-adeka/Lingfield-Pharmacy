@@ -186,7 +186,7 @@ class PrescriptionItem(models.Model):
 
 class Prescription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField(PrescriptionItem)
+    items = models.ForeignKey(PrescriptionItem, on_delete=models.CASCADE)
     receival = models.CharField(choices=RECEIVAL_CHOICES, max_length=30, default='Courier')
     prescription_note = models.CharField(max_length=1000)
     delivery_note = models.CharField(max_length=1000)
