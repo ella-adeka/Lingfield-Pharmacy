@@ -281,6 +281,7 @@ main div.container h1.welcome span {
   -webkit-transition: all 2s ease-out;
   -webkit-transition: all .5s ease-in-out;
   transition: all .5s ease-in-out;
+  margin-top: -30%;
 }
 
 .home-page-header span:hover {
@@ -288,23 +289,50 @@ main div.container h1.welcome span {
   transition: all .5s ease-in-out;
   -webkit-transform: scale(1.2);
           transform: scale(1.2);
-  font-size: 25vh;
+  font-size: 5vh;
   zoom: 100%;
   cursor: pointer;
   color: #182628;
 }
 
-@media screen and (min-width: 480px) {
+@media (min-width: 200px) {
   .home-page-header {
-    font-size: 120px;
+    font-size: 6.8vh;
     word-break: break-all;
-    margin-top: -50px;
+    margin-top: 20%;
+    text-align: center;
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 300px) {
+  .home-page-header {
+    font-size: 8vh;
+    word-break: break-all;
+    margin-top: 25%;
+    text-align: center;
+  }
+}
+
+@media (min-width: 480px) {
+  .home-page-header {
+    font-size: 13vh;
+    word-break: break-all;
+    margin-top: 5%;
+    text-align: center;
+  }
+}
+
+@media (min-width: 768px) {
   .home-page-header {
     font-size: 120px;
+    margin-top: -30%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .home-page-header {
+    font-size: 120px;
+    margin-top: -30%;
   }
 }
 
@@ -336,11 +364,67 @@ main div.container-2 {
 
 .index-page-text {
   text-shadow: 0px 15px 5px rgba(0, 0, 0, 0.1), 10px 20px 5px rgba(0, 0, 0, 0.05), -10px 20px 5px rgba(0, 0, 0, 0.05);
+  width: 100%;
+}
+
+@media (min-width: 200px) {
+  .index-page-text {
+    text-align: center;
+  }
+}
+
+@media (min-width: 300px) {
+  .index-page-text {
+    text-align: center;
+  }
+}
+
+@media (min-width: 480px) {
+  .index-page-text {
+    text-align: center;
+  }
+}
+
+@media (min-width: 900px) {
+  .index-page-text {
+    text-align: justify;
+  }
 }
 
 .index-page-img {
   z-index: 999;
   width: 90%;
+  display: inline;
+}
+
+@media (min-width: 200px) {
+  .index-page-img {
+    display: none;
+  }
+}
+
+@media (min-width: 300px) {
+  .index-page-img {
+    display: none;
+  }
+}
+
+@media (min-width: 480px) {
+  .index-page-img {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .index-page-img {
+    display: inline;
+  }
+}
+
+@media (min-width: 1024px) {
+  .index-page-img {
+    display: inline;
+  }
 }
 
 .each-page-header {
@@ -410,6 +494,7 @@ a.category-detail:hover {
 
 div.news-months ul li {
   list-style: none;
+  display: inline-block;
 }
 
 div.news-months ul li a {
@@ -420,9 +505,33 @@ div .news-months ul li a:hover {
   color: #182628;
 }
 
-@media only screen and (max-width: 768px) {
+@media (min-width: 200px) {
   div.news-months ul li {
     display: inline;
+  }
+}
+
+@media (min-width: 300px) {
+  div.news-months ul li {
+    display: inline;
+  }
+}
+
+@media (min-width: 480px) {
+  div.news-months ul li {
+    display: inline;
+  }
+}
+
+@media (min-width: 768px) {
+  div.news-months ul li {
+    display: inline;
+  }
+  .health-news-months {
+    position: absolute;
+  }
+  .health-news-row {
+    margin-top: 5%;
   }
 }
 
@@ -430,19 +539,34 @@ div .news-months ul li a:hover {
   div.news-months ul li {
     display: block;
   }
-}
-
-@media (max-width: 650px) {
-  .health-news-months {
-    position: absolute;
-  }
-}
-
-@media (min-width: 900px) {
   .health-news-months {
     position: fixed;
     margin-left: -25px;
   }
+  .health-news-row {
+    margin-top: 2px;
+  }
+}
+
+@media (min-width: 1024px) {
+  div.news-months ul li {
+    display: block;
+  }
+  .health-news-months {
+    position: fixed;
+    margin-left: -25px;
+  }
+  .health-news-row {
+    margin-top: 2px;
+  }
+}
+
+.health-news-months {
+  margin-bottom: 5%;
+}
+
+.health-news-row {
+  margin-top: 2%;
 }
 
 .loading-screen {
@@ -1023,25 +1147,6 @@ h2.active {
 
 .item.list-group-item:after {
   clear: both;
-}
-
-.health-news-column {
-  float: left;
-  width: 100%;
-  padding: 5px;
-}
-
-/* Clear floats after the columns */
-.health-news-row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-@media only screen and (max-width: 700px) {
-  .health-news-column {
-    width: 100%;
-  }
 }
 
 /* The heart of the matter */
