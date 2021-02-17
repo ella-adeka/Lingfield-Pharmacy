@@ -51,9 +51,10 @@ class DashboardView(LoginRequiredMixin, View):
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.filter(user=request.user)
             medicines = Medicine.objects.all()
-            medicine_items = MedicineItems.objects.filter(user=request.user, added=False)
-            selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=False)
+            medicine_items = MedicineItems.objects.filter(user=request.user, added=True)
+            selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=True)
             prescription_item = PrescriptionItem.objects.filter(user=self.request.user, ordered=False)
+            prescription = Prescription.objects.filter(user=self.request.user)
             context = {
                 'u_form': u_form,
                 'b_form': b_form,
@@ -68,6 +69,7 @@ class DashboardView(LoginRequiredMixin, View):
                 'medicine_items' : medicine_items,
                 'selected_surgeries' :selected_surgeries,
                 'prescription_item' : prescription_item,
+                'prescription' : prescription
             }
             return render(self.request, "registration/dashboard.html", context)
         except ObjectDoesNotExist:
@@ -109,7 +111,7 @@ class DashboardView(LoginRequiredMixin, View):
                     item=item,
                     quantity=quantity,
                     reminder=reminder,
-                    added=False
+                    added=True
                 )
                 if (MedicineItems.objects.filter(user=request.user).count() > 1):
                     medicine_item.delete()
@@ -131,9 +133,10 @@ class DashboardView(LoginRequiredMixin, View):
                 receival = order_form.cleaned_data.get('receival')
                 prescription_note = order_form.cleaned_data.get('prescription_note')
                 delivery_note = order_form.cleaned_data.get('delivery_note')
+                items = get_object_or_404(PrescriptionItem, user=request.user)
                 prescription = Prescription.objects.create(
                     user=request.user,
-                    # items=items,
+                    items=items,
                     receival=receival,
                     prescription_note=prescription_note,
                     delivery_note=delivery_note
@@ -152,6 +155,7 @@ class DashboardView(LoginRequiredMixin, View):
             'dependent_form' : dependent_form,
             'saved_surgery' : saved_surgery,
             'selected_surgeries' :selected_surgeries,
+            'prescription' : prescription
         }
         return render(request, self.template_name,context)
                 
@@ -207,9 +211,10 @@ def surgery(request,slug):
         the_surgery, created = SelectSurgery.objects.get_or_create(
             user=request.user,
             surgery=surgery,
-            added=False,
+            added=True,
         )
         surgery_qs=SelectSurgery.objects.filter(user=request.user, added=False)
+        surgery.added=True
         surgery.save()
         print(surgery)
         messages.info(request, "Your surgery has been selected!")
@@ -234,8 +239,8 @@ def delete_prescription(request, id):
 
 def new_prescription(request):
     try:
-        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=False)
-        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)[0]
+        selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=True)
+        medicine_item = MedicineItems.objects.filter(user=request.user, added=True)[0]
         date_ordered = timezone.now()
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
@@ -247,6 +252,8 @@ def new_prescription(request):
         print(selected_surgery)
         print(medicine_item)
         messages.success(request,"Order Created!")
+        # if prescription_item.exists():
+
     except ObjectDoesNotExist:
         messages.warning(request,"Order Not Created!")
         return redirect("accounts:dashboard")
