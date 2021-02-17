@@ -154,18 +154,6 @@ class MedicineItemsForm(forms.ModelForm):
                
 # ---------------------------------------------------------------   END OF MEDICINE FORM    ----------------------------------------------------------------------------------#
 
-
-
-# ---------------------------------------------------------------   PRESCRIPTION ITEM FROM    ----------------------------------------------------------------------------------#
-
-# class PrescriptionItemForm(forms.ModelForm):
-#     reminder = forms.ChoiceField(label='Remind me to order this item',required=True, choices=REMINDER_CHOICES, initial='N')
-#     class Meta():
-#         model = PrescriptionItem
-#         fields = {'prescription_item','prescription_quantity','reminder'}
-        
-# ---------------------------------------------------------------   END OF PRESCRIPTION FORM    ----------------------------------------------------------------------------------#
-
 # ---------------------------------------------------------------   ORDER FORM    ----------------------------------------------------------------------------------#
 
 class OrderForm(forms.ModelForm):
