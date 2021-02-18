@@ -133,6 +133,8 @@ class DashboardView(LoginRequiredMixin, View):
                 receival = order_form.cleaned_data.get('receival')
                 prescription_note = order_form.cleaned_data.get('prescription_note')
                 delivery_note = order_form.cleaned_data.get('delivery_note')
+                # items = PrescriptionItem.objects.filter(user=request.user)
+                # items = PrescriptionItem.objects.get(user=request.user)
                 items = get_object_or_404(PrescriptionItem, user=request.user)
                 prescription = Prescription.objects.create(
                     user=request.user,
@@ -144,7 +146,9 @@ class DashboardView(LoginRequiredMixin, View):
                 # prescription.ordered = True
                 prescription.complete = True
                 prescription.save()
-                print(prescription, "just placed and order.")
+                # prescription.items.remove(prescription_item)
+                # prescription.items.clear()
+                print(prescription, "just placed an order.")
                 messages.info(request,  f'Order Confirmed!')
                 return redirect('accounts:dashboard')  
         context = {
@@ -248,6 +252,7 @@ def new_prescription(request):
             medicine_item=medicine_item,
             ordered=False,
         )
+        prescription.complete=False
         prescription_item.save()
         print(selected_surgery)
         print(medicine_item)
