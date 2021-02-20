@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'lingfield_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lingfieldDB',
+        'NAME': 'lingfield2DB',
         'USER': 'postgres',
         'PASSWORD': 'november1899',
         'HOST':'localhost'
