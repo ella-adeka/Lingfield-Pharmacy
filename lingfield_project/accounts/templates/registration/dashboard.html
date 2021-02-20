@@ -59,7 +59,7 @@
             </div>
           
 
-            <div id="MyInfo" class="TableBody  mt-4" style="display:none">
+            <div id="MyInfo" class="TableBody  mt-4" style="display:none;margin-bottom: 50px;">
                 <h3>INFO</h3>
                 <form enctype="multipart/form-data" method="POST" id="formOne">
                     {% csrf_token %}
@@ -145,7 +145,7 @@
                 </form>           
             </div>
             
-            <div id="Order" class="TableBody  mt-4">
+            <div id="Order" class="TableBody  mt-4" style="display:none;">
                 <h3 class=" text-center"><strong>ORDER</strong></h3>
                 <br>
                 
@@ -282,7 +282,7 @@
                                     </div>
                                     <div class="col-lg-4 col-md-12 col-sm-12" >
                                         <!-- LINK TRIGGER FOR MODAL FOR SELECTING A SURGERY -->
-                                        <a href="#" data-toggle="modal" data-target=".meds"><button class="btn btn-info mt-3" >ADD AN ITEM</button></a>
+                                        <a href="#" data-toggle="modal" data-target=".meds"><button class="btn btn-info mt-3 mb-3" >ADD AN ITEM</button></a>
 
                                     
                                     <!-- MODAL FOR SELECTING MEDICINE -->
@@ -371,19 +371,43 @@
                        
                        <span><small class="text-muted">*Note: Deleting a MedicineItem will delete a PrescriptionItem if created!</small></span>
                        <div class="row float-right " style="margin-top: 30px;">
-                            <button class="btn btn-outline-info order-sm-first order-lg-last mr-sm-3" type="submit" >SAVE</button>
-                            <button class="btn btn-outline-info mr-3" type="submit"><a href="{% url 'accounts:new_prescription' %}" style="text-decoration: none;color: #F2F2F2;">SAVE AND ORDER</a></button>
+                            <button class="btn btn-outline-info order-sm-first order-lg-last mr-3" type="submit" >SAVE</button>
+                            <button class="btn btn-outline-info  mr-3" type="submit"><a href="{% url 'accounts:new_prescription' %}" style="text-decoration: none;color: #F2F2F2;">SAVE AND ORDER</a></button>
                             <button class="btn btn-outline-info order-lg-first order-sm-last mr-lg-3" type="submit" ><a href="{% url 'lingfield:home' %}" style="text-decoration: none;color: #F2F2F2;">CANCEL</a></button>
                         </div>
                     </div>
                 
             </div>
+            
 
-
-            <div id="MyOrders" class="TableBody mt-4" style="display:none">
-                <h3 class="text-center"><strong>MY ORDER</strong></h3>    
+            <div id="MyOrders" class="TableBody mt-4" >
                 <div style="margin-bottom: 60px;">
-                    {% if  prescription_item and prescription.complete == True %}
+                    
+ 
+                    {% if prescription %}
+                        <h3 class="text-center"><strong>CONFIRMED ORDER</strong></h3>   
+                        <div style="margin-bottom: 50px;">
+                            {% for x in prescription %}
+                                <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
+                                    <div class="row ">
+                                        <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
+                                            <b>
+                                                {{ x.items }}
+                                            </b>
+                                            
+                                        </div>
+                                        <div class="col-lg-5 col-sm-12">
+                                            <span><a href="{% url 'accounts:delete_prescription' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            {% empty %}
+                                <br>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <h3 class="text-center"><strong>MY ORDER</strong></h3>   
                         {% for x in prescription_item %}
                             <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
                                 <div class="row ">
@@ -394,7 +418,7 @@
                                         {{ x.medicine_item }}
                                     </div>
                                     <div class="col-lg-1 col-sm-12">
-                                        <span><a href="{% url 'accounts:delete_prescription' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
+                                        <span><a href="{% url 'accounts:delete_prescription_item' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
                                     </div>
                                 </div>
                             </div>
@@ -402,30 +426,16 @@
                         {% empty %}
                             <div class="text-center"><b>You do not have any current prescription order</b></div>
                         {% endfor %}
-                        <div class="float-right mt-3">
-                            <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
-                        </div>
+                        {% if prescription_item %}
+                            <div class="float-right mt-3">
+                                <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
+                            </div>
+                        {% else %}
+                            <br>
+                        {% endif %}
                     {% endif %}
                 </div>
 
-                <h3 class="text-center"><strong>CONFIRMED ORDER</strong></h3>   
-                <div style="margin-bottom: 50px;">
-                    {% for x in prescription %}
-                        <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
-                            <div class="row ">
-                                <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
-                                    {{ x.items }}
-                                </div>
-                                <div class="col-lg-5 col-sm-12">
-                                    <span><a href="{% url 'accounts:delete_prescription' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                    {% empty %}
-                        <br>
-                    {% endfor %}
-                </div>
 
                 
                 <!-- MODAL FOR CONFIRMING ORDER -->
