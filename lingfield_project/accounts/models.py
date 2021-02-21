@@ -171,7 +171,8 @@ class MedicineItems(models.Model): #SingleInstanceMixin,
 class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE)
-    medicine_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE)
+    medicine_items = models.ManyToManyField(MedicineItems)
+    # medicine_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
 
     class Meta():
@@ -179,7 +180,7 @@ class PrescriptionItem(models.Model):
         verbose_name_plural = 'Prescription Items'
 
     def __str__(self):
-        return "{}".format(self.medicine_item)
+        return "{}".format(self.user)
 
     def get_surgery(self):
         return self.surgery
