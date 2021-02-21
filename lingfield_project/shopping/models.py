@@ -48,7 +48,6 @@ class SubCategory(models.Model):
 
 
 class Shop(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE,related_name='shops',)
     subcategory = models.ForeignKey(SubCategory, on_delete=models.CASCADE,related_name='shops',)
     title = models.CharField(max_length=1000,unique=False)
     image = models.ImageField(upload_to='shop_products')
