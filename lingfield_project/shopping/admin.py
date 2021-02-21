@@ -9,7 +9,7 @@ class SubCategoryAdmin(admin.ModelAdmin):
     list_display = ("title","category",)
 
 class ShopAdmin(admin.ModelAdmin):
-    list_display = ("title","category","subcategory")
+    list_display = ("title","subcategory")
 
 
 
