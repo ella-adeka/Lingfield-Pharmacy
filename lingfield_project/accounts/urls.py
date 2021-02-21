@@ -21,8 +21,8 @@ urlpatterns = [
     path('dashboard/delete/prescription-item/<int:id>/', views.delete_prescription_item, name="delete_prescription_item"),
     path('dashboard/delete/prescription/<int:id>/', views.delete_prescription, name="delete_prescription"),
 
-    path('dashboard/new_prescription/', views.new_prescription, name="new_prescription"),
-    path('dashboard/new_prescription/<int:item_id>/', views.new_prescription, name="new_prescription"),
+    path('dashboard/new_prescription//', views.new_prescription, name="new_prescription"),
+    path('dashboard/new_prescription/<int:medicineitems_id>/', views.new_prescription, name="new_prescription"),
 
         # path('dashboard/select_surgery/<int:id>/',views.select_surgery, name='select_surgery')
 
