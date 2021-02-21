@@ -53,7 +53,7 @@ class DashboardView(LoginRequiredMixin, View):
             medicines = Medicine.objects.all()
             medicine_items = MedicineItems.objects.filter(user=request.user, added=True)
             selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=True)
-            prescription_item = PrescriptionItem.objects.filter(user=self.request.user, ordered=False)
+            prescription_item = PrescriptionItem.objects.filter(user=request.user, ordered=False)
             prescription = Prescription.objects.filter(user=self.request.user)
             context = {
                 'u_form': u_form,
@@ -113,12 +113,13 @@ class DashboardView(LoginRequiredMixin, View):
                     reminder=reminder,
                     added=True
                 )
-                if (MedicineItems.objects.filter(user=request.user).count() > 1):
-                    medicine_item.delete()
-                    messages.info(request,  f'Delete previously selected item in order to save a new one!')
-                    return redirect('accounts:dashboard')
-                else:
-                    medicine_item.save()
+                # if (MedicineItems.objects.filter(user=request.user).count() > 1):
+                #     medicine_item.delete()
+                #     messages.info(request,  f'Delete previously selected item in order to save a new one!')
+                #     return redirect('accounts:dashboard')
+                # else:
+                #     medicine_item.save()
+                medicine_item.save()
                 messages.info(request,  f'Item saved!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFour':
@@ -232,8 +233,8 @@ def surgery(request,slug):
         return redirect("accounts:dashboard")
 
 
-def delete_medicine(request, id):
-    item = get_object_or_404(MedicineItems, id=id)
+def delete_medicine(request):
+    item = get_object_or_404(MedicineItems)
     item.delete()
     messages.info(request, "Item was deleted.")
     return redirect("accounts:dashboard")
@@ -254,15 +255,18 @@ def delete_prescription(request, id):
 def new_prescription(request):
     try:
         selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=True)
-        medicine_item = MedicineItems.objects.filter(user=request.user, added=True)[0]
+        medicine_item = MedicineItems.objects.filter(user=request.user, added=True)
+        # medicine_item = MedicineItems.objects.filter(user=request.user, added=True)[0]
         date_ordered = timezone.now()
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
-            medicine_item=medicine_item,
+            # medicine_item=medicine_item,
             ordered=False,
         )
-        prescription_item.save()
+        for item in medicine_item:
+            prescription_item.medicine_items.add(item)
+        # prescription_item.save()
         print(selected_surgery)
         print(medicine_item)
         messages.success(request,"Order Created!")
