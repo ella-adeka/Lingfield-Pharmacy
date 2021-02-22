@@ -172,7 +172,6 @@ class PrescriptionItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     selected_surgery = models.ForeignKey(SelectSurgery, on_delete=models.CASCADE)
     medicine_items = models.ManyToManyField(MedicineItems)
-    # medicine_item = models.ForeignKey(MedicineItems, on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
 
     class Meta():
@@ -187,7 +186,7 @@ class PrescriptionItem(models.Model):
 
 class Prescription(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = models.ForeignKey(PrescriptionItem, on_delete=models.CASCADE)
+    items = models.ManyToManyField(PrescriptionItem)
     receival = models.CharField(choices=RECEIVAL_CHOICES, max_length=30, default='Courier')
     prescription_note = models.CharField(max_length=1000)
     delivery_note = models.CharField(max_length=1000)
