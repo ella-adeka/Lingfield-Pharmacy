@@ -119,7 +119,7 @@ class DashboardView(LoginRequiredMixin, View):
                 #     return redirect('accounts:dashboard')
                 # else:
                 #     medicine_item.save()
-                medicine_item.save()
+                # medicine_item.save()
                 messages.info(request,  f'Item saved!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFour':
@@ -134,28 +134,26 @@ class DashboardView(LoginRequiredMixin, View):
                 receival = order_form.cleaned_data.get('receival')
                 prescription_note = order_form.cleaned_data.get('prescription_note')
                 delivery_note = order_form.cleaned_data.get('delivery_note')
-                # items = PrescriptionItem.objects.filter(user=request.user)
-                # items = PrescriptionItem.objects.get(user=request.user)
-                items = get_object_or_404(PrescriptionItem, user=request.user)
+                ordered_item = PrescriptionItem.objects.filter(user=request.user)
                 prescription = Prescription.objects.create(
                     user=request.user,
-                    items=items,
+                    # items=items,
                     receival=receival,
                     prescription_note=prescription_note,
                     delivery_note=delivery_note
                 ) 
-                # item = PrescriptionItem.objects.filter(user=request.user)
-                # for item in items:
-                #     prescription.items.add(item) # 'PrescriptionItem' object is not iterable
-                # prescription.items.add(prescription_item)
-                # prescription.ordered = True
+                for item in ordered_item:
+                    prescription.items.add(item)
                 prescription.complete = True
                 prescription.save()
                 # prescription.items.remove(prescription_item)
                 # medicine_items.clear()
                 print(prescription, "just placed an order.")
                 messages.info(request,  f'Order Confirmed!')
-                return redirect('accounts:dashboard')  
+                return redirect('accounts:dashboard') 
+            if prescription.complete ==True:
+                selected_surgery.clear()
+                medicine_items.clear()
         context = {
             'u_form': u_form,
             'b_form': b_form,
@@ -233,8 +231,8 @@ def surgery(request,slug):
         return redirect("accounts:dashboard")
 
 
-def delete_medicine(request):
-    item = get_object_or_404(MedicineItems)
+def delete_medicine(request, id):
+    item = get_object_or_404(MedicineItems, id=id)
     item.delete()
     messages.info(request, "Item was deleted.")
     return redirect("accounts:dashboard")
@@ -256,26 +254,19 @@ def new_prescription(request):
     try:
         selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=True)
         medicine_item = MedicineItems.objects.filter(user=request.user, added=True)
-        # medicine_item = MedicineItems.objects.filter(user=request.user, added=True)[0]
-        date_ordered = timezone.now()
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
-            # medicine_item=medicine_item,
             ordered=False,
         )
         for item in medicine_item:
             prescription_item.medicine_items.add(item)
-        # prescription_item.save()
         print(selected_surgery)
         print(medicine_item)
         messages.success(request,"Order Created!")
+        if medicine_item == " ":
+            prescription_item.delete()
     except ObjectDoesNotExist:
-        messages.warning(request,"Order Not Created!")
-        return redirect("accounts:dashboard")
-    except MultipleObjectsReturned:
-        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
-        print(medicine_item)
         messages.warning(request,"Order Not Created!")
         return redirect("accounts:dashboard")
     except ValueError:
@@ -287,8 +278,3 @@ def new_prescription(request):
         messages.warning(request,"Please select an Item!")
         return redirect("accounts:dashboard")
     return redirect("accounts:dashboard")
-
-
-# IntegrityError at /accounts/dashboard/
-# null value in column "items_id" violates not-null constraint
-# DETAIL:  Failing row contains (2, Courier, , , 2021-02-20 21:34:44.209582+00, f, f, 1, null).
