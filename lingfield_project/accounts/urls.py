@@ -12,10 +12,6 @@ urlpatterns = [
 
     path('dashboard/hospital/<slug:slug>/', DashboardView.as_view(), name="dashboard-with-surgery"),
     path('dashboard/surgery/<slug:slug>/', views.surgery, name="surgery"),
-    # path('dashboard/surgery/<int:surgery_id>/', views.surgery, name="surgery"),
-    
-    # path('dashboard/item/', views.item, name="item"),
-    # path('dashboard/item/<slug:slug>/', views.item, name="item"),
 
     path('dashboard/delete/medicine-item/<int:id>/', views.delete_medicine, name="delete_medicine"),
     path('dashboard/delete/prescription-item/<int:id>/', views.delete_prescription_item, name="delete_prescription_item"),
@@ -24,7 +20,6 @@ urlpatterns = [
     path('dashboard/new_prescription//', views.new_prescription, name="new_prescription"),
     path('dashboard/new_prescription/<int:medicineitems_id>/', views.new_prescription, name="new_prescription"),
 
-        # path('dashboard/select_surgery/<int:id>/',views.select_surgery, name='select_surgery')
 
 ]
 
