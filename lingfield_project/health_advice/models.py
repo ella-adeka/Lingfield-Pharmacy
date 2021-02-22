@@ -26,7 +26,7 @@ class HealthAdvice(models.Model):
     category = models.ForeignKey(Category, verbose_name="Category",on_delete=models.CASCADE)
     title = models.CharField(max_length=1000,unique=False)
     list_description = models.CharField(max_length=1000)
-    detail_description =  RichTextField()
+    detail_description =  models.TextField(max_length=100000000)
     slug = models.SlugField()
 
     class Meta():
