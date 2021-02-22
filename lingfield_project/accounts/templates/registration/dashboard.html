@@ -145,7 +145,7 @@
                 </form>           
             </div>
             
-            <div id="Order" class="TableBody  mt-4" style="display:none;">
+            <div id="Order" class="TableBody  mt-4">
                 <h3 class=" text-center"><strong>ORDER</strong></h3>
                 <br>
                 
@@ -304,12 +304,10 @@
                                                     {{ medicine_form.item|as_crispy_field }}
                                                     {{ medicine_form.quantity|as_crispy_field }}
                                                     {{ medicine_form.reminder|as_crispy_field }}
-                                                    <button class="btn btn-primary" type="submit" name="submit">SAVE</button>
+                                                    <div class="float-right mt-3">
+                                                        <button class="btn btn-primary" type="submit" name="submit">SAVE</button>
+                                                    </div>
                                                 </form> 
-                                            </div>
-                                            
-                                            <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                             </div>
                                         </div>
                                         </div>
@@ -372,7 +370,11 @@
                        <span><small class="text-muted">*Note: Deleting a MedicineItem will delete a PrescriptionItem if created!</small></span>
                        <div class="row float-right " style="margin-top: 30px;">
                             <button class="btn btn-outline-info order-sm-first order-lg-last mr-3" type="submit" >SAVE</button>
-                            <button class="btn btn-outline-info  mr-3" type="submit"><a href="{% url 'accounts:new_prescription' %}" style="text-decoration: none;color: #F2F2F2;">SAVE AND ORDER</a></button>
+                            {% if prescription_item %}
+                                <span></span>
+                            {% else %}
+                                <button class="btn btn-outline-info  mr-3" type="submit"><a href="{% url 'accounts:new_prescription' %}" style="text-decoration: none;color: #F2F2F2;">SAVE AND ORDER</a></button>
+                            {% endif %}
                             <button class="btn btn-outline-info order-lg-first order-sm-last mr-lg-3" type="submit" ><a href="{% url 'lingfield:home' %}" style="text-decoration: none;color: #F2F2F2;">CANCEL</a></button>
                         </div>
                     </div>
@@ -380,14 +382,8 @@
             </div>
             
 
-            <div id="MyOrders" class="TableBody mt-4" >
-                <div style="margin-bottom: 60px;">
-                    
-                    
-                {% for x in prescription_item.medicine_items.all %}
-                    {{ x.medicine_item.title }}
-                {% endfor %}
-
+            <div id="MyOrders" class="TableBody mt-4" style="display:none;">
+                <div style="margin-bottom: 60px;">                    
                     {% if prescription %}
                         <h3 class="text-center"><strong>CONFIRMED ORDER</strong></h3>   
                         <div style="margin-bottom: 50px;">
@@ -396,9 +392,8 @@
                                     <div class="row ">
                                         <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
                                             <b>
-                                                {{ x.items }}
+                                                You have ordered {{ prescription.count }} prescription(s).
                                             </b>
-                                            
                                         </div>
                                         <div class="col-lg-5 col-sm-12">
                                             <span><a href="{% url 'accounts:delete_prescription' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
@@ -418,8 +413,11 @@
                                     <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
                                         {{ x.selected_surgery }}
                                     </div>
-                                    <div class="col-lg-4 col-sm-12">
-                                        {{ x.medicine_items }}
+                                    <div class="col-lg-4 col-sm-12">                                        
+                                        {% for item in x.medicine_items.all %}
+                                            {{ item }}
+                                            <br>
+                                        {% endfor %}
                                     </div>
                                     <div class="col-lg-1 col-sm-12">
                                         <span><a href="{% url 'accounts:delete_prescription_item' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
@@ -458,12 +456,14 @@
                                 <div>
                                     <p class="text-muted mb-n2"><i>You are ordering a prescription from...</i></p>
                                     {% for x in prescription_item %}
-                                    <b> {{ x.selected_surgery }}</b>
-                                    <hr class="featurette-divider">
-                                    <h3>{{ x.medicine_item.quantity }} <span class="ml-4">{{ x.medicine_item.item }}</span></h3>
+                                        <b> {{ x.selected_surgery }}</b>
+                                        <!-- <hr class="featurette-divider"> -->
+                                        {% for item in x.medicine_items.all %}
+                                                <h3>{{ item.quantity }} <span class="ml-4">{{ item.item }}</span></h3>
+                                        {% endfor %}
+                                        <hr class="featurette-divider">
                                     {% endfor %}
                                 </div>
-                                <hr class="featurette-divider mb-4">
                                 <form enctype="multipart/form-data" method="POST" id="formFive" class="mt-4"> <!-- -->
                                     {% csrf_token %}
                                     <input type="hidden" name="form_type" value="formFive"> <!-- -->
