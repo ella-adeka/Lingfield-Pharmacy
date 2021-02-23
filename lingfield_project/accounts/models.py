@@ -198,11 +198,3 @@ class Prescription(models.Model):
 
     def __str__(self):
         return self.user.username
-
-
-# @receiver(post_delete, sender=MedicineItems)
-# def cascade_delete_prescripionitem(sender, instance, **kwargs):
-#     # user = instance
-#     if instance:
-#         prescription_item = PrescriptionItem(user=user)
-#         prescription_item.delete()
