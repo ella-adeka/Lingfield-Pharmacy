@@ -88,8 +88,8 @@
                                     <img class=" grid-group-img" src="{{ x.image.url }}" width="100%" height="200px" style="object-fit: cover; border-radius: 2px 60px 0px 0px;">
                                 </div>
                                 <div class="grid-group-text" style="background-color: #65CCB8;padding: 2px 1px 5px 5px;height: 150px;border-radius: 0px 0px  5px 60px;color: #182628"> <!-- #212529 -->
-                                    <h4 style="color: #1e4247">{{ x.title }} </h4>
-                                    <h6 class="mt-2" style="color: #1e4247">£{{ x.price|intcomma }} <span class="ml-2"><del><small>£{{ x.old_price|intcomma }}</small></del></span></h6>  
+                                    <h4 style="color: #1e4247">{{ x.title }} - <span style="font-size: 20px;"><small>£{{ x.price|intcomma }} <del><small class="ml-1">£{{ x.old_price|intcomma }}</small></del></small></span></h4>
+                                    <!-- <h6 class="mt-2" style="color: #1e4247">£{{ x.price|intcomma }} <span class="ml-2"><del><small>£{{ x.old_price|intcomma }}</small></del></span></h6>   -->
                                     {% if user.is_authenticated %}
                                     <a href="{{ x.get_add_to_cart_url }}"  style="padding-right: 15px;position: absolute;bottom: 10px;right: 10px;color: #F2F2F2;text-decoration: none;">Add to Cart</a>
                                     {% else %}
