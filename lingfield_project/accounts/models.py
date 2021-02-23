@@ -6,6 +6,8 @@ from medicines.models import Medicine
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 import datetime
+from django.db.models.signals import post_delete
+from django.dispatch import receiver
 
 # Create your choices here
 GENDER_CHOICES = (
@@ -198,3 +200,9 @@ class Prescription(models.Model):
         return self.user.username
 
 
+# @receiver(post_delete, sender=MedicineItems)
+# def cascade_delete_prescripionitem(sender, instance, **kwargs):
+#     # user = instance
+#     if instance:
+#         prescription_item = PrescriptionItem(user=user)
+#         prescription_item.delete()
