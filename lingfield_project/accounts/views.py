@@ -146,6 +146,9 @@ class DashboardView(LoginRequiredMixin, View):
                     prescription.items.add(item)
                 prescription.complete = True
                 prescription.save()
+                if (prescription.complete == True):
+                    for item in ordered_item:
+                        prescription.items.remove(item)
                 # prescription.items.remove(ordered_item)
                 # medicine_items.clear()
                 print(prescription, "just placed an order.")
@@ -282,17 +285,25 @@ def new_prescription(request):
 def delete_medicine(request, id):
     item = get_object_or_404(MedicineItems, id=id)
     item.delete()
-    prescription_item = PrescriptionItem.objects.filter(user=request.user, ordered=False)
-    # prescription_item.medicine_items.remove(item)
-    prescription_item.delete()
-    # if (PrescriptionItem.objects.count() > 0):
-    #     prescription_item = PrescriptionItem.objects.filter(user=request.user, ordered=False)
+    # prescription_item = PrescriptionItem.objects.filter(user=request.user, ordered=False)
+    # if prescription_item.exists():
     #     prescription_item.medicine_items.remove(item)
     #     prescription_item.delete()
-    #     messages.info(request,  f'Delete previously selected item!')
-    #     return redirect('accounts:dashboard')
-    # elif (PrescriptionItem.objects.count() == 0):
-    #     prescription_item = PrescriptionItem.objects.get(user=request.user, ordered=False)
-    #     prescription_item.delete()
+    #     return redirect("accounts:dashboard")
+    # prescription_item.medicine_items.remove(item)
+    # prescription_item.delete()
+    prescription_item = PrescriptionItem.objects.filter(user=request.user, ordered=False)
+    if (prescription_item.medicine_items.count() < 1):
+        prescription_item = PrescriptionItem.objects.get(user=request.user, ordered=False)
+        prescription_item.delete()
+        return redirect("accounts:dashboard")
+    else:
+        pres_item = prescription_item.medicine_items.remove(item)
+        pres_item.delete()
+        messages.info(request,  f'Delete previously selected item!')
+        return redirect('accounts:dashboard')
     messages.info(request, "Item was deleted.")
     return redirect("accounts:dashboard")
+
+# AttributeError at /accounts/dashboard/delete/medicine-item/63/
+# 'QuerySet' object has no attribute 'medicine_items'
