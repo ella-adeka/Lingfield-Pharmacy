@@ -147,18 +147,10 @@
             
             <div id="Order" class="TableBody  mt-4">
                 {% if prescription %}
-                    {% for x in prescription %}
-                        <div class="text-left" style="color: #182628;">
-                            <div class="row ">
-                                <div class="col-lg-7 col-sm-12">
-                                    <b>
-                                        You have ordered {{ prescription.count }} prescription(s).  <span class="ml-4"><a href="{% url 'accounts:delete_prescription' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
-                                    </b>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                    {% endfor %}
+                <b>
+                    You have ordered {{ prescription.count }} prescription(s).  <span class="ml-4"><a href="#"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
+                </b>
+                    
                 {% endif %}
                 <h3 class=" text-center"><strong>ORDER</strong></h3>
                 <br>
@@ -399,35 +391,35 @@
 
             <div id="MyOrders" class="TableBody mt-4" style="display:none;">
                 <div style="margin-bottom: 60px;">                    
-                        <h3 class="text-center"><strong>MY ORDER</strong></h3>   
-                        {% for x in prescription_item %}
-                            <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
-                                <div class="row ">
-                                    <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
-                                        {{ x.selected_surgery }}
-                                    </div>
-                                    <div class="col-lg-4 col-sm-12">                                        
-                                        {% for item in x.medicine_items.all %}
-                                            {{ item }}
-                                            <br>
-                                        {% endfor %}
-                                    </div>
-                                    <div class="col-lg-1 col-sm-12">
-                                        <span><a href="{% url 'accounts:delete_prescription_item' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
-                                    </div>
+                    <h3 class="text-center"><strong>MY ORDER</strong></h3>   
+                    {% for x in prescription_item %}
+                        <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
+                            <div class="row ">
+                                <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
+                                    {{ x.selected_surgery }}
+                                </div>
+                                <div class="col-lg-4 col-sm-12">                                        
+                                    {% for item in x.medicine_items.all %}
+                                        {{ item }}
+                                        <br>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-lg-1 col-sm-12">
+                                    <span><a href="{% url 'accounts:delete_prescription_item' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
                                 </div>
                             </div>
-                            <br>
-                        {% empty %}
-                            <div class="text-center"><b>You do not have any current prescription order</b></div>
-                        {% endfor %}
-                        {% if prescription_item %}
-                            <div class="float-right mt-3">
-                                <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
-                            </div>
-                        {% else %}
-                            <br>
-                        {% endif %}
+                        </div>
+                        <br>
+                    {% empty %}
+                        <div class="text-center"><b>You do not have any current prescription order</b></div>
+                    {% endfor %}
+                    {% if prescription_item %}
+                        <div class="float-right mt-3">
+                            <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
+                        </div>
+                    {% else %}
+                        <br>
+                    {% endif %}
                 </div>
 
 
