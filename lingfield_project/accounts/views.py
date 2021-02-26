@@ -51,7 +51,7 @@ class DashboardView(LoginRequiredMixin, View):
             hospital_list = HospitalList.objects.all() 
             saved_surgery = AddSurgery.objects.filter(user=request.user)
             medicines = Medicine.objects.all()
-            medicine_items = MedicineItems.objects.filter(user=request.user, added=True)
+            med_items = MedicineItems.objects.filter(user=request.user, added=False)
             selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=True)
             prescription_item = PrescriptionItem.objects.filter(user=request.user, ordered=False)
             prescription = Prescription.objects.filter(user=self.request.user)
@@ -66,7 +66,7 @@ class DashboardView(LoginRequiredMixin, View):
                 'order_form' : order_form,
                 'hospital_list' : hospital_list,
                 'medicines' : medicines,
-                'medicine_items' : medicine_items,
+                'med_items' : med_items,
                 'selected_surgeries' :selected_surgeries,
                 'prescription_item' : prescription_item,
                 'prescription' : prescription
@@ -111,7 +111,7 @@ class DashboardView(LoginRequiredMixin, View):
                     item=item,
                     quantity=quantity,
                     reminder=reminder,
-                    added=True
+                    added=False
                 )
                 # if (MedicineItems.objects.filter(user=request.user).count() > 1):
                 #     medicine_item.delete()
@@ -252,7 +252,7 @@ def delete_prescription(request, id):
 def new_prescription(request):
     try:
         selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=True)
-        medicine_item = MedicineItems.objects.filter(user=request.user, added=True)
+        medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
@@ -260,6 +260,8 @@ def new_prescription(request):
         )
         for item in medicine_item:
             prescription_item.medicine_items.add(item)
+            item.added = True
+        prescription_item.save()
         if not medicine_item.exists():
             # prescription_item.medicine_items.remove(item)
             prescription_item.delete()
@@ -359,3 +361,27 @@ def delete_medicine(request, id):
 
 # AttributeError at /accounts/dashboard/delete/medicine-item/63/
 # 'QuerySet' object has no attribute 'medicine_items'
+
+
+# class SalesTask(models.Model):
+#     salesExtra = models.ManyToManyField('SalesExtra', through='SalesTaskExtra')
+
+
+# class SalesExtra(models.Model):
+#     pass
+
+
+# class SalesTaskExtra(models.Model):
+#     task = models.ForeignKey(SalesTask, on_delete=models.CASCADE)
+#     extra = models.ForeignKey(SalesExtra, on_delete=models.CASCADE)
+
+
+# def CreateTaskNotification(sender, **kwargs):
+#     if kwargs['created']:
+#         Notifications.objects.create(
+#             user=kwargs['instance'].extra.username,
+#             message='You have been assigned a new task',
+#             object_url=kwargs['instance'].task.get_absolute_url()
+#         )
+
+# post_save.connect(CreateTaskNotification, sender=SalesTaskExtra)
