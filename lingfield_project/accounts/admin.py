@@ -12,7 +12,7 @@ class PrescriptionAdmin(admin.ModelAdmin):
     list_display = ("user","get_prescription_items")
 
     def get_prescription_items(self, obj):
-        return "\n".join([str(i)for i in obj.items.all()])
+        return "\n".join([str(i) for i in obj.items.all()])
 
 
 
