@@ -402,7 +402,9 @@
                                     {% for item in x.medicine_items.all %}
                                         {{ item }}
                                         <br>
-                                    {% endfor %}
+                                        {% empty %}
+                                            <br>
+                                        {% endfor %}
                                 </div>
                                 <div class="col-lg-1 col-sm-12">
                                     <span><a href="{% url 'accounts:delete_prescription_item' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
@@ -472,6 +474,17 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+
+                    {% for prescription in prescription.items.all|slice:":4" %}
+                        {{ prescription.item.medicine_item }}
+                        {{ prescription.medicine_item }}
+                        
+                                        <div class="media mb-2 border-bottom">
+                                            <div class="media-body"> <a href="{{ order.item.get_absolute_url }}" style="color: black;text-decoration: none;"> <b>{{ order.item.title }}</b></a>
+                                                <div class="small text-muted">Price: £{{ order.item.price}} <span class="mx-2">|</span> Qty: {{ order.item_quantity }}<span class="mx-2">|</span> Subtotal: £{{ order.get_total_items_price }}</div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
                 </div>
 
 
