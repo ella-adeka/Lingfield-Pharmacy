@@ -54,7 +54,7 @@ class DashboardView(LoginRequiredMixin, View):
             med_items = MedicineItems.objects.filter(user=request.user, added=False)
             selected_surgeries = SelectSurgery.objects.filter(user=request.user, added=True)
             prescription_item = PrescriptionItem.objects.filter(user=request.user, ordered=False)
-            prescription = Prescription.objects.filter(user=self.request.user)
+            prescription = Prescription.objects.filter(user=self.request.user, ordered=False)
             context = {
                 'u_form': u_form,
                 'b_form': b_form,
@@ -137,7 +137,6 @@ class DashboardView(LoginRequiredMixin, View):
                 ordered_item = PrescriptionItem.objects.filter(user=request.user)
                 prescription = Prescription.objects.create(
                     user=request.user,
-                    # items=items,
                     receival=receival,
                     prescription_note=prescription_note,
                     delivery_note=delivery_note
@@ -235,12 +234,34 @@ def surgery(request,slug):
 
 
 
-
 def delete_prescription_item(request, id):
     pres_item = get_object_or_404(PrescriptionItem, id=id)
-    pres_item.delete()
-    messages.info(request, "Order was deleted.")
-    return redirect("accounts:dashboard")
+    prescription_qs = Prescription.objects.filter(
+        user=request.user, 
+        ordered=False
+    )
+    if prescription_qs.exists():
+        prescription = prescription_qs[0]
+        if (prescription.items.count() > 1):
+            prescription.items.remove(pres_item)
+            pres_item.delete()
+            messages.info(request, "The specific order was deleted.")
+            return redirect("accounts:dashboard")
+        elif (prescription.items.count() == 1):
+            pres_item.delete()
+            # prescription.delete()
+            messages.info(request, "The prescription item was deleted.")
+            return redirect("accounts:dashboard")
+        else:
+            pres_item.delete()
+            prescription.delete()
+            messages.info(request, "All orders were deleted.")
+            return redirect("accounts:dashboard")
+    else:
+        pres_item.delete()
+        messages.info(request, "Order was deleted.")
+        return redirect("accounts:dashboard")
+
 
 def delete_prescription(request, id):
     pres= get_object_or_404(Prescription, id=id)
@@ -261,15 +282,9 @@ def new_prescription(request):
         for item in medicine_item:
             prescription_item.medicine_items.add(item)
             item.added = True
-        prescription_item.save()
         if not medicine_item.exists():
-            # prescription_item.medicine_items.remove(item)
             prescription_item.delete()
-        print(selected_surgery)
-        print(medicine_item)
         messages.success(request,"Order Created!")
-        if medicine_item == "":
-            prescription_item.delete()
     except ObjectDoesNotExist:
         messages.warning(request,"Order Not Created!")
         return redirect("accounts:dashboard")
@@ -283,52 +298,52 @@ def new_prescription(request):
         return redirect("accounts:dashboard")
     return redirect("accounts:dashboard")
 
+
 def delete_medicine(request, id):
     item = get_object_or_404(MedicineItems, id=id)
-    item.delete()
     prescription_item_qs = PrescriptionItem.objects.filter(
         user=request.user,
         ordered=False
     )
     if prescription_item_qs.exists():
         prescription_item = prescription_item_qs[0]
-        if prescription_item.medicine_items.filter(item_id=item.id).exists():
+        if (prescription_item.medicine_items.count() > 1):
             prescription_item.medicine_items.remove(item)
+            item.delete()
+            messages.info(request, "The specific item was deleted.")
+            return redirect("accounts:dashboard")
+        else:
+            item.delete()
             prescription_item.delete()
-            messages.info(request, "Item was deleted.")
+            messages.info(request, "All items were deleted.")
+            return redirect("accounts:dashboard")
+    else:
+        item.delete()
         messages.info(request, "Item was deleted.")
         return redirect("accounts:dashboard")
-    else:
-        messages.warning(request, "Item was not deleted.")
-        return redirect("accounts:dashboard")
-
-# item = get_object_or_404(Shop, slug=slug)
-#     order_qs = Order.objects.filter(
+# def delete_medicine(request, id):
+#     item = get_object_or_404(MedicineItems, id=id)
+#     prescription_item_qs = PrescriptionItem.objects.filter(
 #         user=request.user,
 #         ordered=False
 #     )
-#     if order_qs.exists():
-#         order = order_qs[0]
-#         # check if the order item is in the order
-#         if order.items.filter(item__slug=item.slug).exists():
-#             order_item = OrderItem.objects.filter(
-#                 item=item,
-#                 user=request.user,
-#                 ordered=False
-#             )[0]
-#             if order_item.item_quantity > 1:
-#                 order_item.item_quantity -= 1
-#                 order_item.save()
-#             else:
-#                 order.items.remove(order_item)
-#             messages.info(request, "This item quantity was updated.")
-#             return redirect("shopping:cart")
+#     if prescription_item_qs.exists():
+#         prescription_item = prescription_item_qs[0]
+#         if (prescription_item.medicine_items.count() > 1):
+#             prescription_item.medicine_items.remove(item)
+#             item.delete()
+#             messages.info(request, "The specific item was deleted.")
+#             return redirect("accounts:dashboard")
 #         else:
-#             messages.info(request, "This item was not in your cart")
-#             return redirect("shopping:product_list", slug=slug)
+#             item.delete()
+#             prescription_item.delete()
+#             messages.info(request, "All items were deleted.")
+#             return redirect("accounts:dashboard")
 #     else:
-#         messages.info(request, "You do not have an active order")
-#         return redirect("shopping:product_list", slug=slug)
+#         item.delete()
+#         messages.info(request, "Item was deleted.")
+#         return redirect("accounts:dashboard")
+
 
 # def delete_medicine(request, id):
 #     try:
