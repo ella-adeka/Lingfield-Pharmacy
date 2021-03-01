@@ -184,7 +184,9 @@ def add_to_cart(request, slug):
     else:
         date_ordered = timezone.now()
         order = Order.objects.create(
-            user=request.user, date_ordered=date_ordered)
+            user=request.user, 
+            date_ordered=date_ordered
+        )
         order.items.add(order_item)
         messages.info(request, "This item was added to your cart.")
         return redirect("shopping:cart")
