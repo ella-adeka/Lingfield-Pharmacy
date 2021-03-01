@@ -435,6 +435,12 @@
                                             <b>
                                                 Order {{ forloop.counter }}
                                                 <!-- {{ x.items }} -->
+                                                {% for item in x.ordered_item.all %}
+                                                    {{ item }}
+                                                    <br>
+                                                    {% empty %}
+                                                        <br>
+                                                    {% endfor %}
                                                 {% for ordered_item in x.items.all %}
                                                     {% for item in ordered_item %}
                                                         <h5>{{ item }} <span class="ml-4">{{ item.item }}</span></h5>
