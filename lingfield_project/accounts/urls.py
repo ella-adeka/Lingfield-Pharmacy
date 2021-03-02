@@ -20,7 +20,6 @@ urlpatterns = [
 
     path('dashboard/new_prescription//', views.new_prescription, name="new_prescription"),
     path('dashboard/new_prescription/<int:id>/', views.new_prescription, name="new_prescription"),
-    path('dashboard/set_pres_item_true/<int:id>/', views.set_pres_item_true, name="set_pres_item_true"),
 
 
 ]
