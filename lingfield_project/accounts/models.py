@@ -180,13 +180,13 @@ class PrescriptionItem(models.Model):
         verbose_name = 'Prescription Item'
         verbose_name_plural = 'Prescription Items'
 
-    def __str__(self):
-        for i in self.medicine_items.all():
-            return "{}".format(i.item)
+    # def __str__(self):
+    #     for i in self.medicine_items.all():
+    #         return "{}".format(i.item)
         # return "{}".format(self.medicine_items)
 
-    # def __str__(self):
-    #     return "{}".format(self.user)
+    def __str__(self):
+        return "{}".format(self.user)
 
         
 
