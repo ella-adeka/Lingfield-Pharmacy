@@ -28,7 +28,6 @@ urlpatterns = [
     path('category/', views.health_advice_category_list, name='health-advice-category-list'),
     
     path('category/detail/<slug:slug>/', HealthAdviceDetailView.as_view(),  name='health-advice-detail'),
-    # path('healthadvice-list/', HealthAdviceListView.as_view(), name='health-advice-list'),
     
     path('search/', SearchResultsView.as_view(), name="search"),
 ]
