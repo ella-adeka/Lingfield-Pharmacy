@@ -16,24 +16,10 @@ class HealthAdviceDetailView(DetailView):
 class HealthAdviceListView(ListView):
     model = HealthAdvice
     template_name = "health_advice/health-advice-list.html"
-
-    # def get_queryset(self):
-    #     return HealthAdvice.objects.filter(categories__slug=self.kwargs['slug'])
-
     
 class CategoryListView(ListView):
     model = HealthAdvice
     template_name = "health_advice/health-advice-category-list.html"
-
-    # def get_queryset(self):
-    #     self.category = get_object_or_404(Category, pk=self.kwargs['pk'])
-    #     return HealthAdvice.objects.filter(category=self.category)
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(Category, self).get_context_data(**kwargs)
-    #     context['category'] = self.category
-    #     return context
-
     
 
 class SearchResultsView(ListView):
@@ -76,6 +62,5 @@ def health_advice_list(request):
 def health_advice_detail(request,pk):
     categories = Category.objects.filter()
     healthadvices = get_object_or_404(HealthAdvice, pk=pk)
-    # print(healthadvicecategories)
     return render(request, 'health_advice/health-advice-detail.html', {'healthadvices':healthadvices, 'categories':categories})
 
