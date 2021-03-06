@@ -11,19 +11,6 @@
             <h1 class="text-center each-page-header" style="font-family: IM Fell DW Pica SC;">DASHBOARD</h1>
            
         </div>
-       
-        <!-- <div class="container"> -->
-            <!-- Block level -->
-          <!-- <div class="row"> 
-                <div class="col-2 text-truncate">
-                Praeterea iter est quasdam res quas ex communi.
-                </div>
-            </div>
-
-            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                Praeterea iter est quasdam res quas ex communi.
-              </span>
-        </div>  -->
 
         <div class="container">
            <div class="col-lg-6 offset-lg-3">
@@ -425,49 +412,19 @@
 
                     {% if prescription %}
                         <h3 class="text-center" style="margin-top: 3em;"><strong>CONFIRMED ORDER</strong></h3>   
-                        <div style="margin-bottom: 50px;">
-                            
+                        <div style="margin-bottom: 50px;">                            
                             {% for x in prescription %}
-                            {{ x.count }}
                                 <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
                                     <div class="row ">
                                         <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
                                             <b>
-                                                Order {{ forloop.counter }}
-                                                <!-- {{ x.items }} -->
-                                                {% for item in x.ordered_item.all %}
-                                                    {{ item }}
-                                                    <br>
-                                                    {% empty %}
+                                                {% for pres_item in x.items.all %}
+                                                    {% for item in pres_item.medicine_items.all %}
+                                                        {{item}}
                                                         <br>
-                                                    {% endfor %}
-                                                {% for ordered_item in x.items.all %}
-                                                    {% for item in ordered_item %}
-                                                        <h5>{{ item }} <span class="ml-4">{{ item.item }}</span></h5>
-                                                    {% endfor %}
-                                                {% endfor %}
-                                                <!-- {{ prescription_item.count }} -->
-                                                {% for item in x.items.all %}
-                                                    {{ item.medicine_item }}
-                                                    <br>
-                                                {% endfor %}
-                                                {% for item in x.ordered_item.all %}
-                                                    {{ item }}
-                                                    <br>
-                                                {% endfor %}
-                                                {% for item in ordered_item %}
-                                                    {{ item }}
-                                                    <br>
-                                                {% endfor %}
-                                                {% for ordered_item in x.items.all %}
-                                                    {% for item in ordered_item %}
-                                                    {{ item }}
-                                                    <br>
                                                     {% endfor %}
                                                 {% endfor %}
                                             </b>
-                                           
-                                            
                                         </div>
                                         <div class="col-lg-5 col-sm-12">
                                             <span><a href="{% url 'accounts:delete_prescription' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
@@ -480,17 +437,6 @@
                             {% endfor %}
                         </div>
                     {% endif %}
-
-                    {% for prescription in prescription.items.all|slice:":4" %}
-                        {{ prescription.item.medicine_item }}
-                        {{ prescription.medicine_item }}
-                        
-                                        <div class="media mb-2 border-bottom">
-                                            <div class="media-body"> <a href="{{ order.item.get_absolute_url }}" style="color: black;text-decoration: none;"> <b>{{ order.item.title }}</b></a>
-                                                <div class="small text-muted">Price: £{{ order.item.price}} <span class="mx-2">|</span> Qty: {{ order.item_quantity }}<span class="mx-2">|</span> Subtotal: £{{ order.get_total_items_price }}</div>
-                                            </div>
-                                        </div>
-                                        {% endfor %}
                 </div>
 
 
