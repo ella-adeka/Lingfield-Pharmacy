@@ -15,7 +15,6 @@ class Category(models.Model):
     slug = models.SlugField(max_length=1000, unique=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # parent_category = models.ForeignKey('self', null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta():
         ordering = ['title']
