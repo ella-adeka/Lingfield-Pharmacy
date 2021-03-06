@@ -146,7 +146,6 @@ class DependentForm(forms.ModelForm):
 
 
 class MedicineItemsForm(forms.ModelForm):
-    # item = models.ForeignKey(Medicine, on_delete=models.CASCADE)
     reminder = forms.ChoiceField(label='Remind me to order this item',required=True, choices=REMINDER_CHOICES, initial='N')
     class Meta():
         model = MedicineItems
