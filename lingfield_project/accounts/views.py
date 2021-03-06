@@ -1,19 +1,18 @@
 from django.shortcuts import render,redirect, get_object_or_404, get_list_or_404
-from django.contrib.auth.forms import UserCreationForm
-from django.urls import reverse_lazy
-from django.views import generic
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.views.generic import View, ListView, DetailView,  TemplateView, FormView
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from django.urls import reverse_lazy
+from django.views import generic
+from django.views.generic import View, ListView, DetailView, TemplateView, FormView
+
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
 
 from .forms import *
 from .models import *
-
 from medicines.models import Medicine
 
 from operator import attrgetter
@@ -127,7 +126,6 @@ class DashboardView(LoginRequiredMixin, View):
                 receival = order_form.cleaned_data.get('receival')
                 prescription_note = order_form.cleaned_data.get('prescription_note')
                 delivery_note = order_form.cleaned_data.get('delivery_note')
-                ordered_item = PrescriptionItem.objects.filter(user=request.user, ordered=False)
                 prescription = Prescription.objects.create(
                     user=request.user,
                     receival=receival,
@@ -135,10 +133,11 @@ class DashboardView(LoginRequiredMixin, View):
                     delivery_note=delivery_note,
                     ordered=True
                 ) 
-                for item in ordered_item:
+                # Add each PrescriptionItem object set to ordered=False
+                for item in PrescriptionItem.objects.filter(user=request.user, ordered=False):
                     prescription.items.add(item)
-                    # messages.info(request,  f'Order Added!')
 
+                # After prescription is created, get all PrescriptionItem objects set to ordered=False and set them to ordered=True
                 prescription_item_qs = PrescriptionItem.objects.filter(
                     user=request.user,
                     ordered=False,
@@ -146,27 +145,24 @@ class DashboardView(LoginRequiredMixin, View):
                 if prescription_item_qs.exists():
                     prescription_item = prescription_item_qs[0]
                     if(prescription.items.count() > 1):
-                        for item in ordered_item:
+                        # If items in Prescription are more than 1, get each one and set ordered=True
+                        for item in PrescriptionItem.objects.filter(user=request.user, ordered=False):
                             item.ordered = True
                             item.save()
                     else:
                         prescription_item.ordered = True
                         prescription_item.save()
                 else:
+                    # Warning Message if PrescriptionItem does not exist
                     messages.warning(request,"Ordered == False!")
-
+                
+                # Set complete=True in Prescription after it is created
                 prescription.complete = True
                 prescription.save()
-                if (prescription.complete == True):
-                    for item in ordered_item:
-                        prescription.items.remove(item)
                 print(prescription, "just placed an order.")
                 print(prescription.items.count())
-                messages.info(request,  f'Order Confirmed!')
+                messages.info(request,  f'You have confirmed your order!')
                 return redirect('accounts:dashboard') 
-            if prescription.complete ==True:
-                selected_surgery.clear()
-                medicine_items.clear()
             
         context = {
             'u_form': u_form,
@@ -247,94 +243,42 @@ def surgery(request,slug):
         return redirect("accounts:dashboard")
 
 
-
-# def delete_prescription(request, id):
-#     pres= get_object_or_404(Prescription, id=id)
-#     prescription_qs = Prescription.objects.filter(
-#         user=request.user, 
-#         ordered=True
-#     )
-#     prescription_item_qs = PrescriptionItem.objects.filter(
-#         user=request.user, 
-#         ordered=True
-#     )
-#     if prescription_qs.exists():
-#         pres = prescription_qs[0]
-#         if prescription_item_qs.exists():
-#             pres_item = prescription_item_qs[0]
-#             if (pres.items.count() > 1):
-#                 if (pres_item.medicine_items.count() > 1):
-#                     for item in pres_item.medicine_items.all():
-#                         item.delete()
-#                 elif (pres_item.medicine_items.count() == 1):
-#                     for item in pres_item.medicine_items.all():
-#                         item.delete()
-#                 for i in pres.items.all():
-#                     pres.items.remove(i)
-#                     i.delete()
-#                 pres_item.delete()
-#                 pres.delete()
-#                 messages.info(request, "The specific prescriptionitem was deleted.")
-#                 return redirect("accounts:dashboard")
-#             elif (pres.items.count() == 1):
-#                 if (pres_item.medicine_items.count() > 1):
-#                     for item in pres_item.medicine_items.all():
-#                         item.delete()
-#                 elif (pres_item.medicine_items.count() == 1):
-#                     for item in pres_item.medicine_items.all():
-#                         item.delete()
-#                 pres.items.remove(pres_item)
-#                 pres_item.delete()
-#                 pres.delete()
-#                 messages.info(request, "The prescription item was deleted.")
-#                 return redirect("accounts:dashboard")
-#             else:
-#                 if (pres_item.medicine_items.count() > 1):
-#                     for item in pres_item.medicine_items.all():
-#                         item.delete()
-#                 elif (pres_item.medicine_items.count() == 1):
-#                     for item in pres_item.medicine_items.all():
-#                         item.delete()
-#                 pres_item.delete()
-#                 pres.delete()
-#                 messages.info(request, "All orders were deleted.")
-#                 return redirect("accounts:dashboard")
-#         else:
-#             messages.info(request, "PrescriptionItem not deleted.")
-#             return redirect("accounts:dashboard")
-#     else:
-#         pres.delete()
-#         messages.info(request, "Prescription was deleted.")
-#         return redirect("accounts:dashboard")
-
-
 def new_prescription(request):
     try:
         selected_surgery = get_object_or_404(SelectSurgery, user=request.user, added=True)
+        # Get all medicine_item with added = False
         medicine_item = MedicineItems.objects.filter(user=request.user, added=False)
+        # Create prescription item without medicine_item
         prescription_item = PrescriptionItem.objects.create(
             user=request.user,
             selected_surgery=selected_surgery,
             ordered=False,
         )
+        # for item in medicine_item with added=False, add item to prescription_item
         for item in medicine_item:
             prescription_item.medicine_items.add(item)
-            item.added = True
-                
+
+        # After prescription_item is created, get all MedicineItems objects set to added=False and set them to added=True and save it
         med_item_qs = MedicineItems.objects.filter(user=request.user)
         if med_item_qs.exists():
             med_item = med_item_qs[0]
             if (prescription_item.medicine_items.count() > 1):
+                # If items in PrescriptionItems are more than 1, get each one and set added=True
                 for item in medicine_item:
                     item.added = True
                     item.save()
             else:
+                # If items in PrescriptionItems are not more than 1, get each one and set added=True
                 item.added = True
                 item.save()
-        messages.success(request,"Order Created!")
+        messages.success(request,"You just placed an order!")
         prescription_item.save()
     except ObjectDoesNotExist:
         messages.warning(request,"Order Not Created!")
+        return redirect("accounts:dashboard")
+    except UnboundLocalError:
+        prescription_item.delete()
+        messages.warning(request,"No item selected!")
         return redirect("accounts:dashboard")
     except MultipleObjectsReturned:
         messages.warning(request,"MultipleObjectsReturned!")
@@ -360,40 +304,47 @@ def delete_medicine(request, id):
         user=request.user,
         ordered=False
     )
+    # If prescription is created, target prescription_item in it
     if prescription_qs.exists():
         prescription = prescription_qs[0]
+        # Targets item in prescription_item and deletes it
         if prescription_item_qs.exists():
             prescription_item = prescription_item_qs[0]
             if (prescription_item.medicine_items.count() > 1):
                 prescription_item.medicine_items.remove(item)
                 prescription.items.remove(prescription_item)
                 item.delete()
-                messages.info(request, "The specific item was deleted.")
+                print("The specific item was deleted.")
                 return redirect("accounts:dashboard")
             else:
                 item.delete()
                 prescription_item.delete()
                 prescription.delete()
-                messages.info(request, "All items were deleted.")
+                print("All items were deleted.")
                 return redirect("accounts:dashboard")
         else:
+            # If prescription is not created, target item in it and delete it
             item.delete()
-            messages.info(request, "Item was deleted.")
+            print("Item was deleted.")
             return redirect("accounts:dashboard")
     else:
+        # If prescription does not exist yet, but prescription_item is created, target item in it and delete it
         if prescription_item_qs.exists():
             prescription_item = prescription_item_qs[0]
             if (prescription_item.medicine_items.count() > 1):
+                # If medicine_items in prescription_item is more than 1, delete each item
                 prescription_item.medicine_items.remove(item)
                 item.delete()
-                messages.info(request, "The specific item was deleted.")
+                print("The specific item was deleted.")
                 return redirect("accounts:dashboard")
             else:
+                # delete selected items
                 item.delete()
                 prescription_item.delete()
-                messages.info(request, "All items were deleted.")
+                print("All items were deleted.")
                 return redirect("accounts:dashboard")
         else:
+            # If prescription_item is not created, target item in it and delete it
             item.delete()
             messages.info(request, "Item was deleted.")
             return redirect("accounts:dashboard")
@@ -412,173 +363,37 @@ def delete_prescription_item(request, id):
             pres_item.medicine_items.remove(the_item)
             the_item.delete()
             pres_item.delete()
-            messages.info(request, "The specific order was deleted.")
+            print("The specific order was deleted.")
             return redirect("accounts:dashboard")
         elif (prescription.items.count() == 1):
             pres_item.medicine_items.remove(the_item)
             the_item.delete()
             pres_item.delete()
-            messages.info(request, "The prescription item was deleted.")
+            print("The prescription item was deleted.")
             return redirect("accounts:dashboard")
         else:
             item.delete()
             pres_item.delete()
             prescription.delete()
-            messages.info(request, "All orders were deleted.")
+            print("All orders were deleted.")
             return redirect("accounts:dashboard")
     else:
         if (pres_item.medicine_items.count() > 1):
             medicine_item = MedicineItems.objects.filter(user=request.user,  added=True)[0]
             for i in pres_item.medicine_items.all():
                 i.delete()
-            messages.info(request, "Items were deleted.")
+            print("Items were deleted.")
         elif (pres_item.medicine_items.count() == 1):
             for i in pres_item.medicine_items.all():
                 i.delete()
-            messages.info(request, "Item was deleted.")
+            print("Item was deleted.")
         else:
             i.delete()
-            messages.info(request, "All orders were deleted.")
+            print("All orders were deleted.")
             return redirect("accounts:dashboard")
         pres_item.delete()
         messages.info(request, "Order was deleted.")
         return redirect("accounts:dashboard")
-
-
-
-# def delete_prescription(request, id):
-#     pres= get_object_or_404(Prescription, id=id)
-#     prescription_item_qs = PrescriptionItem.objects.filter(
-#         user=request.user, 
-#         ordered=True
-#     )
-#     pres_item = prescription_item_qs[0]
-#     if (pres.items.count() > 1):
-#         for item in pres_items.medicine_items.all():
-#             if (pres_item.medicine_items.count() > 1):
-#                 for i in pres_item.medicine_items.all():
-#                     pres_item.medicine_items.remove(i)
-#                     i.delete()
-#                     messages.info(request, "The items were deleted.")
-#             elif (pres_item.medicine_items.count() == 1):
-#                 for i in pres_item.medicine_items.all():
-#                     pres_item.medicine_items.remove(i)
-#                     i.delete()
-#                     messages.info(request, "The specific prescriptionitem was deleted.")
-#             else:
-#                 pres_item.medicine_items.remove(i)
-#                 i.delete()
-#                 messages.info(request, "The item was deleted.")
-#             pres.items.remove(item)
-#             item.delete()
-#         pres.delete()
-#         messages.success(request,"Items were deleted")
-#         return redirect("accounts:dashboard")
-#     elif (pres.items.count() == 1):
-#         for item in pres_items.medicine_items.all():
-#             if (pres_item.medicine_items.count() > 1):
-#                 for i in pres_item.medicine_items.all():
-#                     pres_item.medicine_items.remove(i)
-#                     i.delete()
-#             elif (pres_item.medicine_items.count() == 1):
-#                 i.delete()
-#             else:
-#                 pres_item.medicine_items.remove(i)
-#                 i.delete()
-#             pres.items.remove(item)
-#             item.delete()
-#         pres.delete()
-#         messages.success(request, "Item was deleted")
-#         return redirect("accounts:dashboard")
-#     else:
-#         for i in pres_item.medicine_items.all():
-#             if (pres_item.medicine_items.count() > 1):
-#                 for i in pres_item.medicine_items.all():
-#                     pres_item.medicine_items.remove(i)
-#                     i.delete()
-#             elif (pres_item.medicine_items.count() == 1):
-#                 i.delete()
-#             else:
-#                 pres_item.medicine_items.remove(item)
-#                 item.delete()
-#             pres.items.remove(i)
-#             i.delete()
-#         pres.delete()
-#         messages.success(request, "Item deleted")
-#         return redirect("accounts:dashboard")
-#     # else:
-#     #     pres.delete()
-#     #     messages.info(request, "Prescription was deleted.")
-#     #     return redirect("accounts:dashboard")
-
-
-# def delete_prescription(request, id):
-#     pres= get_object_or_404(Prescription, id=id)
-#     prescription_item_qs = PrescriptionItem.objects.filter(
-#         user=request.user, 
-#         ordered=True
-#     )
-#     if prescription_item_qs.exists():
-#         pres_item = prescription_item_qs[0]
-#         for pres_item in pres.items.all():
-#             pres.items.remove(pres_item)
-#             for i in pres_item.medicine_items.all():
-#                 if (i.medicine_items.count() > 1):
-#                     for med_item in i.medicine_items.all():
-#                         i.medicine_items.remove(med_item)
-#                         med_item.delete()
-#                         messages.info(request, "The items were deleted.")
-#                 elif (i.medicine_items.count() == 1):
-#                     for med_item in i.medicine_items.all():
-#                         i.medicine_items.remove(med_item)
-#                         med_item.delete()
-#                         messages.info(request, "The specific prescriptionitem was deleted.")
-#                 else:
-#                     i.medicine_items.remove(med_item)
-#                     med_item.delete()
-#                     messages.info(request, "The item was deleted.")
-#             pres.items.remove(item)
-#             item.delete()
-#         pres.delete()
-#         messages.success(request, "Item deleted")
-#         return redirect("accounts:dashboard")
-#     else:
-#         for pres_item in pres.items.all():
-#             pres.items.remove(pres_item)
-#             for i in pres_item.medicine_items.all():
-#                 if (i.medicine_items.count() > 1):
-#                     for med_item in i.medicine_items.all():
-#                         i.medicine_items.remove(med_item)
-#                         med_item.delete()
-#                         messages.info(request, "The items were deleted.")
-#                 elif (i.medicine_items.count() == 1):
-#                     for med_item in i.medicine_items.all():
-#                         i.medicine_items.remove(med_item)
-#                         med_item.delete()
-#                         messages.info(request, "The specific prescriptionitem was deleted.")
-#                 else:
-#                     i.medicine_items.remove(med_item)
-#                     med_item.delete()
-#                     messages.info(request, "The item was deleted.")
-#             pres.items.remove(pres_item)
-#             pres_item.delete()
-#         pres.delete()
-#         messages.success(request, "Item deleted 2")
-#         return redirect("accounts:dashboard")
-
-# def delete_prescription(request, id):
-#     pres= get_object_or_404(Prescription, id=id)
-#     if (pres.items.all()):
-#         for i in pres.items.all():
-#             pres.items.remove(i)
-#             i.delete()
-#         messages.info(request, "Item was deleted.")
-#     else:
-#         messages.info(request, "Item not deleted.")
-#     pres.delete()
-#     messages.info(request, "Prescription was deleted.")
-#     return redirect("accounts:dashboard")
-
 
 def delete_prescription(request, id=id):
     pres = get_object_or_404(Prescription, id=id)
@@ -586,23 +401,26 @@ def delete_prescription(request, id=id):
         user=request.user, 
         ordered=True
     )[0]
+    med_item =  MedicineItems.objects.filter(
+        user=request.user, 
+        added=True
+    )[0]
     if (pres.items.count() > 1):
         for pres_item in pres.items.all():
-            if (pres_item.count() > 1):
                 pres.items.remove(pres_item)
+                for med_item in pres_item.medicine_items.all():
+                    pres_item.medicine_items.remove(med_item)
+                    med_item.delete()
                 pres_item.delete()
-                messages.info(request, "PrescriptionItems were deleted!")
-            else:
-                pres.items.remove(pres_item)
-                pres_item.delete()
+        print("PrescriptionItems were deleted!")
     elif (pres.items.count() == 1):
-        if (pres_item.count() > 1):
-            pres.items.remove(pres_item)
-            pres_item.delete()
-            messages.info(request, "PrescriptionItems was deleted!")
-        else:
-            pres.items.remove(pres_item)
-            pres_item.delete()
+        for pres_item in pres.items.all():
+                pres.items.remove(pres_item)
+                for med_item in pres_item.medicine_items.all():
+                    pres_item.medicine_items.remove(med_item)
+                    med_item.delete()
+                pres_item.delete()
+        print("PrescriptionItems was deleted!")
     pres.delete()
     messages.info(request, "Prescription was deleted!")
     return redirect("accounts:dashboard")
