@@ -28,6 +28,7 @@ from django.dispatch import receiver
 
 # Create your views here.
 class DashboardView(LoginRequiredMixin, View):
+    # form_class: Form handling in class-based views.
     u_form_class = UpdateForm
     b_form_class = UserBirthDateForm
     p_form_class = UserProfileForm
@@ -76,9 +77,12 @@ class DashboardView(LoginRequiredMixin, View):
             return redirect("accounts:dashboard")
 
 
-    def post(self, request,id=id, slug=None, *args, **kwargs):  
+    def post(self, request,id=id, slug=None, *args, **kwargs):
+        # form_type is used to specify which form is being saved at the moment. Using it will save each information to its respected form without affeting all the forms.  
+        # form_type is added as a name on an input field in a form
         
-        if request.POST.get("form_type") == 'formOne':  
+        if request.POST.get("form_type") == 'formOne': 
+            # All three forms are for updating the user's info 
             u_form = UpdateForm(request.POST,instance=request.user, prefix='info')
             b_form = UserBirthDateForm(request.POST, request.FILES, instance=request.user.userbirthdate, prefix='info')
             p_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile, prefix='info')
@@ -89,6 +93,7 @@ class DashboardView(LoginRequiredMixin, View):
                 messages.info(request,  f'Your information has been updated!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formTwo':
+            # This form is for adding more hospitals for the surgery
             surgery_form = AddSurgeryForm(request.POST, prefix='addsurgery')
             if surgery_form.is_valid():
                 saved_surgery = surgery_form.cleaned_data.get('surgery_name')
@@ -100,8 +105,10 @@ class DashboardView(LoginRequiredMixin, View):
                 }
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formThree':
+            # Form for selecting the quantity of medicine for the prescription.
             medicine_form = MedicineItemsForm(request.POST, prefix='medicineitems')
             if medicine_form.is_valid():
+                # item is gotten from the Medicine Model in medicine.models.
                 item = medicine_form.cleaned_data.get('item')
                 quantity = medicine_form.cleaned_data.get('quantity')
                 reminder = medicine_form.cleaned_data.get('reminder')
@@ -121,11 +128,17 @@ class DashboardView(LoginRequiredMixin, View):
                 messages.info(request,  f'Dependent details updated!')
                 return redirect('accounts:dashboard')
         elif request.POST.get("form_type") == 'formFive':
+            # Form for confirming prescription order
             order_form = OrderForm(request.POST, prefix='prescription')
             if order_form.is_valid():
+                # All three instances (receival, prescription_note, and deleivery_note) are optional fields(as stated in accounts.forms.py).
                 receival = order_form.cleaned_data.get('receival')
                 prescription_note = order_form.cleaned_data.get('prescription_note')
                 delivery_note = order_form.cleaned_data.get('delivery_note')
+                # Prescription is created with the three instances above(excluding items, which is a ManyToManyField)
+                # items is already created and saved at this stage(in PrescriptionItem).
+                # Hence, it will just be added to Prescription with the .add() method.
+                # items is a ManyToManyField because each item created should have an id, and this can be created automatically with ManyToManyField and no ForeignKey.
                 prescription = Prescription.objects.create(
                     user=request.user,
                     receival=receival,
@@ -133,6 +146,9 @@ class DashboardView(LoginRequiredMixin, View):
                     delivery_note=delivery_note,
                     ordered=True
                 ) 
+
+                # Since the number of PrescriptionItems to be created cannot be estimated/known
+                # A for loop is used, each item in PrescriptionItem will be added to Prescription, once a Precription is confirmed.
                 # Add each PrescriptionItem object set to ordered=False
                 for item in PrescriptionItem.objects.filter(user=request.user, ordered=False):
                     prescription.items.add(item)
@@ -254,6 +270,8 @@ def new_prescription(request):
             selected_surgery=selected_surgery,
             ordered=False,
         )
+        # Since the number of MedicineItems to be created cannot be estimated/known
+        # A for loop is used, each item in MedicineItems will be added to PrescriptionItem, once a PrescriptionItem is confirmed.
         # for item in medicine_item with added=False, add item to prescription_item
         for item in medicine_item:
             prescription_item.medicine_items.add(item)
@@ -277,6 +295,7 @@ def new_prescription(request):
         messages.warning(request,"Order Not Created!")
         return redirect("accounts:dashboard")
     except UnboundLocalError:
+        # If an empty order is created
         prescription_item.delete()
         messages.warning(request,"No item selected!")
         return redirect("accounts:dashboard")
@@ -284,11 +303,13 @@ def new_prescription(request):
         messages.warning(request,"MultipleObjectsReturned!")
         return redirect("accounts:dashboard")
     except ValueError:
+        # Using ForeignKey to relate MedicineItems to PrecriptionItem. This error will occur. 
         print(selected_surgery)
         print(medicine_item)
         messages.warning(request,"Cannot assign 'QuerySet [<MedicineItems: item>]': 'PrescriptionItem.medicine_item' must be a 'MedicineItems' instance.!")
         return redirect("accounts:dashboard")
     except IndexError:
+        # If an empty order is created
         messages.warning(request,"Please select an Item!")
         return redirect("accounts:dashboard")
     return redirect("accounts:dashboard")
@@ -356,9 +377,14 @@ def delete_prescription_item(request, id):
         user=request.user, 
         ordered=True
     )
+    # If a Precription exists
     if prescription_qs.exists():
         prescription = prescription_qs[0]
         if (prescription.items.count() > 1):
+            # If items in Precription > 1, 
+            # remove each PrecriptionItem in Prescription,
+            # remove each MedicineItems in PrecriptionItem
+            # Delete both
             prescription.items.remove(pres_item)
             pres_item.medicine_items.remove(the_item)
             the_item.delete()
@@ -366,6 +392,9 @@ def delete_prescription_item(request, id):
             print("The specific order was deleted.")
             return redirect("accounts:dashboard")
         elif (prescription.items.count() == 1):
+            # remove each PrecriptionItem in Prescription,
+            # remove each MedicineItems in PrecriptionItem
+            # Delete both
             pres_item.medicine_items.remove(the_item)
             the_item.delete()
             pres_item.delete()
@@ -378,12 +407,16 @@ def delete_prescription_item(request, id):
             print("All orders were deleted.")
             return redirect("accounts:dashboard")
     else:
+        # If Prescription does not exists, target only PrescriptionItems.
         if (pres_item.medicine_items.count() > 1):
+            # If medicine_items in PrecriptionItem > 1, 
+            # for each item in medicine_items, delete each.
             medicine_item = MedicineItems.objects.filter(user=request.user,  added=True)[0]
             for i in pres_item.medicine_items.all():
                 i.delete()
             print("Items were deleted.")
         elif (pres_item.medicine_items.count() == 1):
+            # for each item in medicine_items, delete each.
             for i in pres_item.medicine_items.all():
                 i.delete()
             print("Item was deleted.")
@@ -405,7 +438,13 @@ def delete_prescription(request, id=id):
         user=request.user, 
         added=True
     )[0]
+    #  If items in Precription > 1, 
     if (pres.items.count() > 1):
+        # for PrecriptionItem in Precription.items,
+        # Remove each from Prescription
+        # for med_item in PrecriptionItem.medicine_item
+        # remove each from PrescriptionItem
+        # Delete both
         for pres_item in pres.items.all():
                 pres.items.remove(pres_item)
                 for med_item in pres_item.medicine_items.all():
