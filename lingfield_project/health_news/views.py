@@ -4,15 +4,9 @@ from django.views.generic import View, ListView, DetailView
 from django.views.generic.list import MultipleObjectMixin
 from django.db.models import Q
 from django.views.generic.dates import DayArchiveView
-# Create your views here.
-# class HealthNewsDetailView(DetailView):
-#     model = HealthNews
-#     template_name = "health_news/health-news-detail.html"
-#     def get_context_data(self, *args, **kwargs):
-#         context = super(HealthNewsDetailView, self).get_context_data(*args, **kwargs)
-#         context['health_news_list'] = Category.objects.all()
-#         return context
 
+
+# Create your views here.
 class HealthNewsListView(ListView):
     template_name = "health_news/health-news-list.html"
 
@@ -40,6 +34,8 @@ def health_news_list(request,category_slug=None):
     categories = Category.objects.all()
     healthnews = HealthNews.objects.all()
     if category_slug:
+        # 1 Category = Many HealthNews not Many Categories = 1 HealthNews
+        # Only post the healthnews in a specific category
         category = get_object_or_404(Category,slug=category_slug)
         healthnews = healthnews.filter(category=category)
     context = {'categories':categories,'category':category,'healthnews': healthnews}
