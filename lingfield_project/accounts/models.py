@@ -28,20 +28,6 @@ RECEIVAL_CHOICES = (
 )
 
 
-def validate_only_one_instance(obj):
-    model = obj.__class__
-    if (model.objects.count() > 0 and obj.id != model.objects.get().id):
-        raise ValidationError("Can only create 1 %s instance" % model.__name__)
-
-class SingleInstanceMixin(object):
-    """Makes sure that no more than one instance of a given model is created."""
-
-    def clean(self):
-        model = self.__class__
-        if (model.objects.count() > 0 and self.id != model.objects.get().id):
-            raise ValidationError("Can only create 1 %s instance" % model.__name__)
-        super(SingleInstanceMixin, self).clean()
-
 # Create your models here.
 class UserBirthDate(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,null=True, related_name="userbirthdate")
@@ -156,7 +142,8 @@ class SelectSurgery(models.Model):
     def __str__(self):
         return self.surgery.clinic_name
 
-class MedicineItems(models.Model): #SingleInstanceMixin,
+class MedicineItems(models.Model):
+    # inherits from Medicine.models
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     item = models.ForeignKey(Medicine,null=True, on_delete=models.CASCADE)
     quantity =  models.IntegerField(default=1)
@@ -180,15 +167,8 @@ class PrescriptionItem(models.Model):
         verbose_name = 'Prescription Item'
         verbose_name_plural = 'Prescription Items'
 
-    # def __str__(self):
-    #     for i in self.medicine_items.all():
-    #         return "{}".format(i.item)
-        # return "{}".format(self.medicine_items)
-
     def __str__(self):
         return "{}".format(self.user)
-
-        
 
     def get_surgery(self):
         return self.surgery
