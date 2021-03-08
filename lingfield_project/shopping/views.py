@@ -146,7 +146,9 @@ def product_list(request, category_slug=None, subcategory_slug=None):
 
     shop = Shop.objects.all()
     if subcategory_slug:
-        subcategory = get_object_or_404(SubCategory, slug=subcategory_slug) #subcategories.filter(category=category) #parent_category__id=target_category.id
+        # 1 SubCategory = Many Shop not Many SubCategories = 1 Shop
+        # Only post the shop in a specific subcategory
+        subcategory = get_object_or_404(SubCategory, slug=subcategory_slug)
         shop = shop.filter(subcategory=subcategory)
     context = {'categories':categories, 'category':category,'subcategories':subcategories,'subcategory':subcategory, 'shop': shop}
     return render(request, 'shopping/product_list.html', context)
