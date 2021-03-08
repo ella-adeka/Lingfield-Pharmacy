@@ -9,42 +9,50 @@
     <main data-barba="container" data-barba-namespace='prescriptions'>
         <div class="container">
             <h1 class="text-center each-page-header" style="font-family: IM Fell DW Pica SC;">DASHBOARD</h1>
-           
+
         </div>
 
         <div class="container">
-           <div class="col-lg-6 offset-lg-3">
+            <div class="col-lg-6 offset-lg-3">
                 {% for message in messages %}
                 <div class="alert {{ message.tags }} alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" style="background-color: transparent;">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true"
+                        style="background-color: transparent;">&times;</button>
                     {{ message | safe }}
                 </div>
                 {% endfor %}
-           </div>
+            </div>
         </div>
 
         <div class="container">
-            <div class="container testimonial-group" >
+            <div class="container testimonial-group">
                 <div class="row" style="padding:0 1rem 1rem 1rem;scrollbar-width: none;">
-                    <div class=" col-xs-4 mr-4  mt-3 dashboard-sub-header" onclick="togglediv('MyInfo')"  style="background: url('/static/images/pharmacy/medicine/adam-niescioruk-hWzrJsS8gwI-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 40px 5px;padding: 1rem;">
-                        <h5 class="text-center"  style="vertical-align: middle;"><a><b>MY INFO</b></a></h5>
+                    <div class=" col-xs-4 mr-4  mt-3 dashboard-sub-header" onclick="togglediv('MyInfo')"
+                        style="background: url('/static/images/pharmacy/medicine/adam-niescioruk-hWzrJsS8gwI-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 40px 5px;padding: 1rem;">
+                        <h5 class="text-center" style="vertical-align: middle;"><a><b>MY INFO</b></a></h5>
                     </div>
-                    <div class="  col-xs-4 mr-4 mt-3  dashboard-sub-header" onclick="togglediv('Order')"  style="background: url('/static/images/pharmacy/medicine/christina-victoria-craft-ZHys6xN7sUE-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 40px 5px;padding: 1rem;">
+                    <div class="  col-xs-4 mr-4 mt-3  dashboard-sub-header" onclick="togglediv('Order')"
+                        style="background: url('/static/images/pharmacy/medicine/christina-victoria-craft-ZHys6xN7sUE-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 40px 5px;padding: 1rem;">
                         <h5 class="text-center"><a><b>ORDER</b></a></h5>
                     </div>
-                    <div class="col-xs-4 mr-4 mt-3  dashboard-sub-header" onclick="togglediv('MyOrders')"  style="background: url('/static/images/pharmacy/medicine/halacious-_jbClosDsD4-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 40px 5px;padding: 1rem;">
-                        <h5 class="text-center"><a><b>MY ORDERS</b></a></h5> 
+                    <div class="col-xs-4 mr-4 mt-3  dashboard-sub-header" onclick="togglediv('MyOrders')"
+                        style="background: url('/static/images/pharmacy/medicine/halacious-_jbClosDsD4-unsplash.jpg') no-repeat;background-size: cover;display: flex;justify-content: start;align-items: center;width: 100%;height: 150px;cursor: pointer;box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 40px 5px;padding: 1rem;">
+                        <h5 class="text-center"><a><b>MY ORDERS</b></a></h5>
                     </div>
-                    <div class="col-xs-4 mt-3  dashboard-sub-header"  style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 40px 5px;width: 100%;height: 150px;padding: 1rem;cursor: pointer;"> <!--rgb(189, 234, 245) , rgb(32, 192, 192))-->
-                        <h5 class="text-center">ACCOUNT INFORMATION<br><span style="font-size: 15px;">Change between your account and your dependents</span></h5> 
-                        <h6 class="text-center"><b>{{ user.username }}</b><h6>
-                        <div class="text-center" onclick="togglediv('AddDependent')">
-                            <button class="btn btn-info" >ADD DEPENDENT</button>
-                        </div>  
+                    <div class="col-xs-4 mt-3  dashboard-sub-header"
+                        style="background-image: linear-gradient(to bottom, rgb(93, 211, 187) , rgb(35, 202, 202));box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.2);border-radius: 5px 40px 5px;width: 100%;height: 150px;padding: 1rem;cursor: pointer;">
+                        <!--rgb(189, 234, 245) , rgb(32, 192, 192))-->
+                        <h5 class="text-center">ACCOUNT INFORMATION<br><span style="font-size: 15px;">Change between
+                                your account and your dependents</span></h5>
+                        <h6 class="text-center"><b>{{ user.username }}</b>
+                            <h6>
+                                <div class="text-center" onclick="togglediv('AddDependent')">
+                                    <button class="btn btn-info">ADD DEPENDENT</button>
+                                </div>
                     </div>
                 </div>
             </div>
-          
+
 
             <div id="MyInfo" class="TableBody  mt-4" style="display:none;margin-bottom: 50px;">
                 <h3>INFO</h3>
@@ -55,7 +63,7 @@
                         <div class="col-lg-6 col-md-12 col-sm-12">
                             {{ u_form.username|as_crispy_field }}
                         </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12" >
+                        <div class="col-lg-6 col-md-12 col-sm-12">
                             {{ u_form.email|as_crispy_field }}
                         </div>
                     </div>
@@ -92,7 +100,9 @@
                     </div>
                     <div class="mt-n2">
                         {{ p_form.like_to_receive_email|as_crispy_field}}
-                        <small class="text-muted">* We will occasionally send you email updates with information from the pharmacy including changes to opening hours, changes to services, alerts for seasonal services (such as nhs flu vaccinations) public health warnings and pharmacy offers.
+                        <small class="text-muted">* We will occasionally send you email updates with information from
+                            the pharmacy including changes to opening hours, changes to services, alerts for seasonal
+                            services (such as nhs flu vaccinations) public health warnings and pharmacy offers.
                             Change Your Password</small>
                     </div>
 
@@ -129,72 +139,83 @@
                         <button class="btn btn-outline-info" type="submit" name="info">SAVE</button>
                     </div>
 
-                </form>           
+                </form>
             </div>
-            
+
             <div id="Order" class="TableBody  mt-4">
                 {% if prescription %}
                 <b>
                     You have ordered {{ prescription.count }} prescription(s).</span>
                 </b>
-                    
+
                 {% endif %}
                 <h3 class=" text-center"><strong>ORDER</strong></h3>
                 <br>
-                
-                    <!-- <div class="row">
+
+                <!-- <div class="row">
                         <div class="col-lg-6 col-md-12 col-sm-12t">
                             <p><i>Click 'New Prescription' to setup the items you order on your prescription</i></p>
                         </div>
                         <div class="col-lg-6 col-md-12 col-sm-12 text-lg-left text-sm-center" > -->
-                            <!-- <button class="btn btn-info mt-3"><a href="#" style="text-decoration: none;color: #F2F2F2;">NEW PRESCRIPTION</a></button> -->
-                            <!-- <button class="btn btn-info mt-3" onclick="ShowPrescriptionTable()" >NEW PRESCRIPTION</button>
+                <!-- <button class="btn btn-info mt-3"><a href="#" style="text-decoration: none;color: #F2F2F2;">NEW PRESCRIPTION</a></button> -->
+                <!-- <button class="btn btn-info mt-3" onclick="ShowPrescriptionTable()" >NEW PRESCRIPTION</button>
                         </div>
                     </div>
                     <br> -->
-                   
-                    <!-- <div id="PrescriptionTable" class=" PresciptionBody" style="margin-bottom: 50px;"> -->
-                    <div id="PrescriptionTable" class=" PresciptionBody" style="margin-bottom: 50px;">
-                        <p class="text-muted ">You are creating a new prescription...</p>
-                        
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12"> 
-                                <h5><strong>1 ) SELECT YOUR SURGERY</strong></h5>                       
-                                <div class="row" style="display: flex;justify-content: start;align-items: flex-start;">
-                                    <div class="col-1">
-                                        <h1><b>+</b></h1>
-                                    </div>
-                                    <div class="col-10 ">
-                                        <!-- LINK TRIGGER FOR MODAL FOR SELECTING A SURGERY -->
-                                        <a href="#" class="text-left" data-toggle="modal" data-target=".bd-example-modal-lg"><i><u>Select Your Surgery</u></i></a>
-                                        
-                                        <!-- MODAL FOR SELECTING A SURGERY -->
-                                        <div class="modal fade bd-example-modal-lg" id="hospitalList" tabindex="-1" role="dialog" aria-labelledby="hospitalListTitle" aria-hidden="true">
-                                            <div class="modal-dialog modal-lg" role="document">
+
+                <!-- <div id="PrescriptionTable" class=" PresciptionBody" style="margin-bottom: 50px;"> -->
+                <div id="PrescriptionTable" class=" PresciptionBody" style="margin-bottom: 50px;">
+                    <p class="text-muted ">You are creating a new prescription...</p>
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 col-sm-12">
+                            <h5><strong>1 ) SELECT YOUR SURGERY</strong></h5>
+                            <div class="row" style="display: flex;justify-content: start;align-items: flex-start;">
+                                <div class="col-1">
+                                    <h1><b>+</b></h1>
+                                </div>
+                                <div class="col-10 ">
+                                    <!-- LINK TRIGGER FOR MODAL FOR SELECTING A SURGERY -->
+                                    <a href="#" class="text-left" data-toggle="modal"
+                                        data-target=".bd-example-modal-lg"><i><u>Select Your Surgery</u></i></a>
+
+                                    <!-- MODAL FOR SELECTING A SURGERY -->
+                                    <div class="modal fade bd-example-modal-lg" id="hospitalList" tabindex="-1"
+                                        role="dialog" aria-labelledby="hospitalListTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="hospitalListTitle"><b>SELECT A SURGERY</b></h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <h5 class="modal-title" id="hospitalListTitle"><b>SELECT A
+                                                            SURGERY</b></h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                
+
                                                 <div class="modal-body">
                                                     <!-- LINK FOR MODAL FOR SELECTING A SURGERY -->
-                                                    <div style="background-color: whitesmoke;padding: 10px 0px 1px 2px;border-radius: 10px;">
-                                                        <p><i class="fas fa-question-circle ml-3 mr-3"></i><a href="#" style="color: black;" data-toggle="modal" data-target="#addSurgery" data-dismiss="modal"><em>Can't find surgery. Click Here !!!</em></a></p>
+                                                    <div
+                                                        style="background-color: whitesmoke;padding: 10px 0px 1px 2px;border-radius: 10px;">
+                                                        <p><i class="fas fa-question-circle ml-3 mr-3"></i><a href="#"
+                                                                style="color: black;" data-toggle="modal"
+                                                                data-target="#addSurgery" data-dismiss="modal"><em>Can't
+                                                                    find surgery. Click Here !!!</em></a></p>
                                                     </div>
-    
+
                                                     <div style="margin-top: 30px;">
                                                         {% for h in hospital_list %}
-                                                            <a href="{% url 'accounts:surgery' h.slug %}" style="color: black;text-decoration: none;">
-                                                                    <p ><b>{{ h.clinic_name }}</b><br>{{ h.hospital }} {{ h.hospital_street }}, {{ h.district }}, {{ h.city }}, {{ h.postal_code }}</p>
-                                                                    <hr>
-                                                            </a>
+                                                        <a href="{% url 'accounts:surgery' h.slug %}"
+                                                            style="color: black;text-decoration: none;">
+                                                            <p><b>{{ h.clinic_name }}</b><br>{{ h.hospital }} {{
+                                                                h.hospital_street }}, {{ h.district }}, {{ h.city }}, {{
+                                                                h.postal_code }}</p>
+                                                            <hr>
+                                                        </a>
                                                         {% empty %}
-                                                            <p>No Clinics Available.</p>
+                                                        <p>No Clinics Available.</p>
                                                         {% endfor %}
-                                                            
+
                                                         <div>
                                                             <h5><b>SAVED SURGERY</b></h5>
                                                         </div>
@@ -202,272 +223,304 @@
                                                         <div>
                                                             {{ saved_surgeries.surgery_name}}
                                                             {% for s in saved_surgery %}
-                                                                <a  href="#" style="color: black;text-decoration: none;">
-                                                                    <p> {{ s.surgery_name }}</p>
-                                                                    <hr>
-                                                                </a>
+                                                            <a href="#" style="color: black;text-decoration: none;">
+                                                                <p> {{ s.surgery_name }}</p>
+                                                                <hr>
+                                                            </a>
                                                             {% empty %}
-                                                                <p>No Saved Surgeries.</p>
+                                                            <p>No Saved Surgeries.</p>
                                                             {% endfor %}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-dismiss="modal">Close</button>
                                                 </div>
                                             </div>
-                                            </div>
                                         </div>
-                                        <!-- END OF MODAL FOR SELECTING A SURGERY -->
-    
-                                        <!-- MODAL  FOR  ADDING SURGERY-->
-                                        <div class="modal fade" id="addSurgery" tabindex="-1" role="dialog" aria-labelledby="addSurgeryLabel" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
+                                    </div>
+                                    <!-- END OF MODAL FOR SELECTING A SURGERY -->
+
+                                    <!-- MODAL  FOR  ADDING SURGERY-->
+                                    <div class="modal fade" id="addSurgery" tabindex="-1" role="dialog"
+                                        aria-labelledby="addSurgeryLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                <h5 class="modal-title" id="addSurgeryLabel">ADD SURGERY</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
+                                                    <h5 class="modal-title" id="addSurgeryLabel">ADD SURGERY</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
                                                 </div>
                                                 <div class="modal-body">
                                                     <form enctype="multipart/form-data" method="POST" id="formTwo">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="form_type" value="formTwo">
-                                                            {{ surgery_form.surgery_name|as_crispy_field }}
-                                                            {{ surgery_form.country|as_crispy_field }}
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    {{ surgery_form.uk_postcode_lookup|as_crispy_field }}
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    {{ surgery_form.house_number|as_crispy_field }}
-                                                                </div>
+                                                        {{ surgery_form.surgery_name|as_crispy_field }}
+                                                        {{ surgery_form.country|as_crispy_field }}
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                {{ surgery_form.uk_postcode_lookup|as_crispy_field }}
                                                             </div>
-                                                            {{ surgery_form.address|as_crispy_field }}
-                                                            <button class="btn btn-primary" type="submit" name="addsurgery">SAVE</button>
+                                                            <div class="col-6">
+                                                                {{ surgery_form.house_number|as_crispy_field }}
+                                                            </div>
+                                                        </div>
+                                                        {{ surgery_form.address|as_crispy_field }}
+                                                        <button class="btn btn-primary" type="submit"
+                                                            name="addsurgery">SAVE</button>
                                                     </form>
                                                 </div>
                                             </div>
-                                            </div>
                                         </div>
-                                        <!-- END OF MODAL  FOR  ADDING SURGERY-->
-    
-                                        <div>
-                                            {% for s in selected_surgeries %}
-                                            <h5><strong>{{ s.surgery.clinic_name }}</strong></h5>
-                                            <p>{{ s.surgery.hospital }},{{ s.surgery.hospital_street }},<br>{{ s.surgery.city }},<br>{{ s.surgery.postal_code }}</p>    
-                                            {% empty %}
-                                                <p>No Clinics Selected.</p>
-                                            {% endfor %}
-                                        </div>      
-                                        <a href="#"><i>Print Surgery Nomination Form</i></a>
                                     </div>
+                                    <!-- END OF MODAL  FOR  ADDING SURGERY-->
+
+                                    <div>
+                                        {% for s in selected_surgeries %}
+                                        <h5><strong>{{ s.surgery.clinic_name }}</strong></h5>
+                                        <p>{{ s.surgery.hospital }},{{ s.surgery.hospital_street }},<br>{{
+                                            s.surgery.city }},<br>{{ s.surgery.postal_code }}</p>
+                                        {% empty %}
+                                        <p>No Clinics Selected.</p>
+                                        {% endfor %}
+                                    </div>
+                                    <a href="#"><i>Print Surgery Nomination Form</i></a>
                                 </div>
                             </div>
-    
-                            <div class="col-lg-6 col-md-12 col-sm-12 mt-lg-n1 mt-sm-4">
-                                <h5><strong>2 ) SETUP PRESCRIPTION ITEMS</strong></h5>                     
-                                <div class="row">
-                                    <br>
-                                    <div class="col-lg-8 col-md-12 col-sm-12">
-                                        <p><i>You can add orders to you order by clicking the 'add' button. Adding items not approved by your surgery may cause delays to processing your prescription</i></p>
-                                    </div>
-                                    <div class="col-lg-4 col-md-12 col-sm-12" >
-                                        <!-- LINK TRIGGER FOR MODAL FOR SELECTING A SURGERY -->
-                                        <a href="#" data-toggle="modal" data-target=".meds"><button class="btn btn-info mt-3 mb-3" >ADD AN ITEM</button></a>
+                        </div>
 
-                                    
-                                    <!-- MODAL FOR SELECTING MEDICINE -->
-                                    <div class="modal fade meds" id="medicineList" tabindex="-1" role="dialog" aria-labelledby="medicineListTitle" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="medicineListTitle"><b>SELECT AN ITEM</b></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            
-                                            <div class="modal-body">
-                                                <!-- LINK FOR MODAL FOR SELECTING A PRESCRIPTION ITEMS -->    
-                                                <form  enctype="multipart/form-data" method="POST" id="formThree">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="form_type" value="formThree">
-                                                    {{ medicine_form.item|as_crispy_field }}
-                                                    {{ medicine_form.quantity|as_crispy_field }}
-                                                    {{ medicine_form.reminder|as_crispy_field }}
-                                                    <div class="float-right mt-3">
-                                                        <button class="btn btn-primary" type="submit" name="submit">SAVE</button>
-                                                    </div>
-                                                </form> 
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <!-- END OF MODAL FOR SELECTING A SURGERY -->
-    
-                                    
-                                    </div>
+                        <div class="col-lg-6 col-md-12 col-sm-12 mt-lg-n1 mt-sm-4">
+                            <h5><strong>2 ) SETUP PRESCRIPTION ITEMS</strong></h5>
+                            <div class="row">
+                                <br>
+                                <div class="col-lg-8 col-md-12 col-sm-12">
+                                    <p><i>You can add orders to you order by clicking the 'add' button. Adding items not
+                                            approved by your surgery may cause delays to processing your
+                                            prescription</i></p>
                                 </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    <!-- LINK TRIGGER FOR MODAL FOR SELECTING A SURGERY -->
+                                    <a href="#" data-toggle="modal" data-target=".meds"><button
+                                            class="btn btn-info mt-3 mb-3">ADD AN ITEM</button></a>
 
-                                {% if med_items %}
-                                <div class="cart-box-main mt-sm-4">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="table-main table-responsive">
-                                                    <table class="table">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Medicine</th>
-                                                                <th>Quantity</th>
-                                                                <th>Reminder</th>
-                                                                <th>Delete</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {% for x in med_items %}
-                                                            <tr>
-                                                                <td class="name-pr">
-                                                                    <a href="{{ x.item.get_absolute_url }}" style="text-decoration: none;color: #212529;">
-                                                                        <b>{{ x.item }}</b>
-                                                                    </a>
-                                                                </td>
-                                                                <td class="price-pr">
-                                                                    <p>{{ x.quantity }}</p>
-                                                                </td>
-                                                                <td class="total-pr">
-                                                                    <p>{{ x.reminder }}</p>
-                                                                </td>
-                                                                <td>
-                                                                    <p><a href="{% url 'accounts:delete_medicine' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></p>
-                                                                </td>
-                                                            </tr>
-                                                            {% empty %}
-                                                            <tr>
-                                                                <td colspan='12' class="text-center"><h4 style="font-family: IM Fell DW Pica SC;">You have not added any items yet</h4></td>
-                                                            </tr>
-                                                            {% endfor %}
-                                                        </tbody>
-                                                    </table>
+
+                                    <!-- MODAL FOR SELECTING MEDICINE -->
+                                    <div class="modal fade meds" id="medicineList" tabindex="-1" role="dialog"
+                                        aria-labelledby="medicineListTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="medicineListTitle"><b>SELECT AN ITEM</b>
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="modal-body">
+                                                    <!-- LINK FOR MODAL FOR SELECTING A PRESCRIPTION ITEMS -->
+                                                    <form enctype="multipart/form-data" method="POST" id="formThree">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="form_type" value="formThree">
+                                                        {{ medicine_form.item|as_crispy_field }}
+                                                        {{ medicine_form.quantity|as_crispy_field }}
+                                                        {{ medicine_form.reminder|as_crispy_field }}
+                                                        <div class="float-right mt-3">
+                                                            <button class="btn btn-primary" type="submit"
+                                                                name="submit">SAVE</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- END OF MODAL FOR SELECTING A SURGERY -->
+
+
                                 </div>
-                                {% endif %}
                             </div>
-                       </div>
-                       
-                       <span><small class="text-muted">*Note: Deleting a MedicineItem will delete a PrescriptionItem if created!</small></span>
-                       <div class="row float-right " style="margin-top: 30px;">
-                            <button class="btn btn-outline-info order-sm-first order-lg-last mr-3" type="submit" >SAVE</button>
-                            <button class="btn btn-outline-info  mr-3" type="submit"><a href="{% url 'accounts:new_prescription' %}" style="text-decoration: none;color: #F2F2F2;">SAVE AND ORDER</a></button>
-                            <!-- {% if prescription_item %}
+
+                            {% if med_items %}
+                            <div class="cart-box-main mt-sm-4">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="table-main table-responsive">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Medicine</th>
+                                                            <th>Quantity</th>
+                                                            <th>Reminder</th>
+                                                            <th>Delete</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for x in med_items %}
+                                                        <tr>
+                                                            <td class="name-pr">
+                                                                <a href="{{ x.item.get_absolute_url }}"
+                                                                    style="text-decoration: none;color: #212529;">
+                                                                    <b>{{ x.item }}</b>
+                                                                </a>
+                                                            </td>
+                                                            <td class="price-pr">
+                                                                <p>{{ x.quantity }}</p>
+                                                            </td>
+                                                            <td class="total-pr">
+                                                                <p>{{ x.reminder }}</p>
+                                                            </td>
+                                                            <td>
+                                                                <p><a href="{% url 'accounts:delete_medicine' x.id %}"><i
+                                                                            class="fas fa-minus mr-lg-n2"
+                                                                            style="color: #182628;"></i></a></p>
+                                                            </td>
+                                                        </tr>
+                                                        {% empty %}
+                                                        <tr>
+                                                            <td colspan='12' class="text-center">
+                                                                <h4 style="font-family: IM Fell DW Pica SC;">You have
+                                                                    not added any items yet</h4>
+                                                            </td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <span><small class="text-muted">*Note: Deleting a MedicineItem will delete a PrescriptionItem if
+                            created!</small></span>
+                    <div class="row float-right " style="margin-top: 30px;">
+                        <button class="btn btn-outline-info order-sm-first order-lg-last mr-3"
+                            type="submit">SAVE</button>
+                        <button class="btn btn-outline-info  mr-3" type="submit"><a
+                                href="{% url 'accounts:new_prescription' %}"
+                                style="text-decoration: none;color: #F2F2F2;">SAVE AND ORDER</a></button>
+                        <!-- {% if prescription_item %}
                                 <span></span>
                             {% else %}
                                 <button class="btn btn-outline-info  mr-3" type="submit"><a href="{% url 'accounts:new_prescription' %}" style="text-decoration: none;color: #F2F2F2;">SAVE AND ORDER</a></button>
                             {% endif %} -->
-                            <button class="btn btn-outline-info order-lg-first order-sm-last mr-lg-3" type="submit" ><a href="{% url 'lingfield:home' %}" style="text-decoration: none;color: #F2F2F2;">CANCEL</a></button>
-                        </div>
+                        <button class="btn btn-outline-info order-lg-first order-sm-last mr-lg-3" type="submit"><a
+                                href="{% url 'lingfield:home' %}"
+                                style="text-decoration: none;color: #F2F2F2;">CANCEL</a></button>
                     </div>
-                
+                </div>
+
             </div>
-            
+
 
             <div id="MyOrders" class="TableBody mt-4" style="display:none;">
-                <div style="margin-bottom: 60px;">                    
-                    <h3 class="text-center"><strong>MY ORDER</strong></h3>   
+                <div style="margin-bottom: 60px;">
+                    <h3 class="text-center"><strong>MY ORDER</strong></h3>
                     {% for x in prescription_item %}
+                    <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
+                        <div class="row ">
+                            <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
+                                {{ x.selected_surgery }}
+                            </div>
+                            <div class="col-lg-4 col-sm-12">
+                                {% for item in x.medicine_items.all %}
+                                {{ item }}
+                                <br>
+                                {% empty %}
+                                <br>
+                                {% endfor %}
+                            </div>
+                            <div class="col-lg-1 col-sm-12">
+                                <span><a href="{% url 'accounts:delete_prescription_item' x.id %}"><i
+                                            class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    {% empty %}
+                    <div class="text-center"><b>You do not have any current prescription order</b></div>
+                    {% endfor %}
+                    {% if prescription_item %}
+                    <div class="float-right mt-3">
+                        <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal"
+                                data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM
+                                ORDER</a></button>
+                    </div>
+                    {% else %}
+                    <br>
+                    {% endif %}
+
+                    {% if prescription %}
+                    <h3 class="text-center" style="margin-top: 3em;"><strong>CONFIRMED ORDER</strong></h3>
+                    <div style="margin-bottom: 50px;">
+                        {% for x in prescription %}
                         <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
                             <div class="row ">
                                 <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
-                                    {{ x.selected_surgery }}
-                                </div>
-                                <div class="col-lg-4 col-sm-12">                                        
-                                    {% for item in x.medicine_items.all %}
-                                        {{ item }}
+                                    <b>
+                                        <!-- for prescription_item in precription.items -->
+                                        {% for pres_item in x.items.all %}
+                                        <!-- for item in precription_item.medicine_items.all which is in precription.items -->
+                                        {% for item in pres_item.medicine_items.all %}
+                                        {{item}}
                                         <br>
-                                        {% empty %}
-                                            <br>
                                         {% endfor %}
+                                        {% endfor %}
+                                    </b>
                                 </div>
-                                <div class="col-lg-1 col-sm-12">
-                                    <span><a href="{% url 'accounts:delete_prescription_item' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
+                                <div class="col-lg-5 col-sm-12">
+                                    <span><a href="{% url 'accounts:delete_prescription' x.id %}"><i
+                                                class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
                                 </div>
                             </div>
                         </div>
                         <br>
-                    {% empty %}
-                        <div class="text-center"><b>You do not have any current prescription order</b></div>
-                    {% endfor %}
-                    {% if prescription_item %}
-                        <div class="float-right mt-3">
-                            <button class="btn btn-outline-info" type="submit" name="order"><a href="#" data-toggle="modal" data-target=".order-modal" style="text-decoration: none;color: #F2F2F2;">CONFIRM ORDER</a></button>
-                        </div>
-                    {% else %}
+                        {% empty %}
                         <br>
-                    {% endif %}
-
-                    {% if prescription %}
-                        <h3 class="text-center" style="margin-top: 3em;"><strong>CONFIRMED ORDER</strong></h3>   
-                        <div style="margin-bottom: 50px;">                            
-                            {% for x in prescription %}
-                                <div class="jumbotron text-center" style="background: #64c1ae;color: #182628;">
-                                    <div class="row ">
-                                        <div class="col-lg-7 col-sm-12" style="border-right: 1px solid gray">
-                                            <b>
-                                                {% for pres_item in x.items.all %}
-                                                    {% for item in pres_item.medicine_items.all %}
-                                                        {{item}}
-                                                        <br>
-                                                    {% endfor %}
-                                                {% endfor %}
-                                            </b>
-                                        </div>
-                                        <div class="col-lg-5 col-sm-12">
-                                            <span><a href="{% url 'accounts:delete_prescription' x.id %}"><i class="fas fa-minus mr-lg-n2" style="color: #182628;"></i></a></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                            {% empty %}
-                                <br>
-                            {% endfor %}
-                        </div>
+                        {% endfor %}
+                    </div>
                     {% endif %}
                 </div>
 
 
-                
+
                 <!-- MODAL FOR CONFIRMING ORDER -->
-                <div class="modal fade order-modal" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalTitle" aria-hidden="true">
+                <div class="modal fade order-modal" id="orderModal" tabindex="-1" role="dialog"
+                    aria-labelledby="orderModalTitle" aria-hidden="true">
                     <div class="modal-dialog modal-lg" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="orderModalTitle"><b>CONFIRM ORDER</b></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        
-                        <div class="modal-body">
-                            <div >
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="orderModalTitle"><b>CONFIRM ORDER</b></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
                                 <div>
-                                    <p class="text-muted mb-n2"><i>You are ordering a prescription from...</i></p>
-                                    {% for x in prescription_item %}
+                                    <div>
+                                        <p class="text-muted mb-n2"><i>You are ordering a prescription from...</i></p>
+                                        {% for x in prescription_item %}
                                         <b> {{ x.selected_surgery }}</b>
                                         <!-- <hr class="featurette-divider"> -->
                                         {% for item in x.medicine_items.all %}
-                                                <h3>{{ item.quantity }} <span class="ml-4">{{ item.item }}</span></h3>
+                                        <h3>{{ item.quantity }} <span class="ml-4">{{ item.item }}</span></h3>
                                         {% endfor %}
                                         <hr class="featurette-divider">
-                                    {% endfor %}
-                                </div>
-                                <form enctype="multipart/form-data" method="POST" id="formFive" class="mt-4"> <!-- -->
-                                    {% csrf_token %}
-                                    <input type="hidden" name="form_type" value="formFive"> <!-- -->
+                                        {% endfor %}
+                                    </div>
+                                    <form enctype="multipart/form-data" method="POST" id="formFive" class="mt-4">
+                                        <!-- -->
+                                        {% csrf_token %}
+                                        <input type="hidden" name="form_type" value="formFive"> <!-- -->
                                         {{order_form.receival|as_crispy_field }}
                                         <div class="row">
                                             <div class="col-lg-6 col-md-12 col-sm-12">
@@ -480,130 +533,134 @@
                                         <div class="modal-footer">
                                             <button class="btn btn-primary" type="submit" name="submit">ORDER</button>
                                         </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    </div>
                 </div>
                 <!-- END OF MODAL FOR CONFIRMING ORDER -->
-               
+
             </div>
 
             <div id="AddDependent" class="TableBody  mt-4" style="display:none">
                 <h3 class="text-center"><strong>ACCOUNT INFORMATION</strong></h3>
-                <h5 class="text-center"><strong>{{ user.first_name }} {{ user.last_name }}</strong><h5>
-                
-                
-                <hr class="featurette-divider">
-                <form class="mt-lg-4 mt-sm-2" enctype="multipart/form-data" method="POST" id="formFour"  style="margin-bottom: 100px;">
-                    {% csrf_token %}
-                    <input type="hidden" name="form_type" value="formFour">
-                    <div>
-                        {{ dependent_form.relation|as_crispy_field}}
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            {{ dependent_form.first_name|as_crispy_field}}
-                        </div>
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            {{ dependent_form.middle_names|as_crispy_field}}
-                        </div>
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            {{ dependent_form.last_name|as_crispy_field}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12 col-sm-12">
-                            {{ dependent_form.birth_date|as_crispy_field}}
-                        </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12">
-                            <!-- <label for="gender">Gender</label>
+                <h5 class="text-center"><strong>{{ user.first_name }} {{ user.last_name }}</strong>
+                    <h5>
+
+
+                        <hr class="featurette-divider">
+                        <form class="mt-lg-4 mt-sm-2" enctype="multipart/form-data" method="POST" id="formFour"
+                            style="margin-bottom: 100px;">
+                            {% csrf_token %}
+                            <input type="hidden" name="form_type" value="formFour">
+                            <div>
+                                {{ dependent_form.relation|as_crispy_field}}
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    {{ dependent_form.first_name|as_crispy_field}}
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    {{ dependent_form.middle_names|as_crispy_field}}
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    {{ dependent_form.last_name|as_crispy_field}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    {{ dependent_form.birth_date|as_crispy_field}}
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <!-- <label for="gender">Gender</label>
                             <select id="gender" class="form-control">
                                 <option>Female</option>
                                 <option>Male</option>
                                 <option selected>Not Set</option>
                                 <option>Other</option>
                             </select> -->
-                            {{ dependent_form.gender|as_crispy_field}}
-                        </div>
-                    </div>
-                    <div>
-                        {{ dependent_form.vulnerable_patient|as_crispy_field}}
-                    </div>
-                    <div>
-                        {{ dependent_form.housebound_patient|as_crispy_field}}
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            {{ dependent_form.landline_telephone_no|as_crispy_field}}
-                        </div>
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            {{ dependent_form.mobile_no|as_crispy_field}}
-                        </div>
-                        <div class="col-lg-4 col-md-12 col-sm-12">
-                            {{ dependent_form.nhs_no|as_crispy_field}}
-                        </div>
-                    </div>
-                    <div >
-                        {{ dependent_form.notes|as_crispy_field}}
-                    </div>
+                                    {{ dependent_form.gender|as_crispy_field}}
+                                </div>
+                            </div>
+                            <div>
+                                {{ dependent_form.vulnerable_patient|as_crispy_field}}
+                            </div>
+                            <div>
+                                {{ dependent_form.housebound_patient|as_crispy_field}}
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    {{ dependent_form.landline_telephone_no|as_crispy_field}}
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    {{ dependent_form.mobile_no|as_crispy_field}}
+                                </div>
+                                <div class="col-lg-4 col-md-12 col-sm-12">
+                                    {{ dependent_form.nhs_no|as_crispy_field}}
+                                </div>
+                            </div>
+                            <div>
+                                {{ dependent_form.notes|as_crispy_field}}
+                            </div>
 
-                    <h3 class="mt-2">ADDRESS</h3>
-                    <div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-12 col-sm-12"> 
-                                {{ dependent_form.country|as_crispy_field }}
+                            <h3 class="mt-2">ADDRESS</h3>
+                            <div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        {{ dependent_form.country|as_crispy_field }}
+                                    </div>
+                                    <div class="col-lg-6 col-md-12 col-sm-12">
+                                        {{ dependent_form.street|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                        {{ dependent_form.town|as_crispy_field }}
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                        {{ dependent_form.county|as_crispy_field }}
+                                    </div>
+                                    <div class="col-lg-4 col-md-12 col-sm-12">
+                                        {{ dependent_form.postcode|as_crispy_field }}
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12"> 
-                                {{ dependent_form.street|as_crispy_field }}
+                            <div class="row float-right mt-3">
+                                <button class="btn btn-outline-info mr-4" type="submit">CANCEL</button>
+                                <button class="btn btn-outline-info " type="submit" name="dependent">SAVE</button>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-12 col-sm-12"> 
-                                {{ dependent_form.town|as_crispy_field }}
-                            </div>
-                            <div class="col-lg-4 col-md-12 col-sm-12"> 
-                                {{ dependent_form.county|as_crispy_field }}
-                            </div>
-                            <div class="col-lg-4 col-md-12 col-sm-12"> 
-                                {{ dependent_form.postcode|as_crispy_field }}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row float-right mt-3">
-                        <button class="btn btn-outline-info mr-4" type="submit" >CANCEL</button>
-                        <button class="btn btn-outline-info " type="submit" name="dependent">SAVE</button>
-                    </div>
-                </form>
+                        </form>
 
 
-                
+
             </div>
 
-        </div>      
+        </div>
     </main>
     <br>
     <br>
     <br>
 </div>
 
-<p class="text-right fixed-bottom"><a href="#" style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i class="fas fa-arrow-up"></i></strong></a></p>
+<p class="text-right fixed-bottom"><a href="#"
+        style="border: 10px solid #182628;background-color: #182628;color: white;"><strong><i
+                class="fas fa-arrow-up"></i></strong></a></p>
 
 
 
 <script type="text/javascript">
     function togglediv(id) {
-        document.querySelectorAll(".TableBody").forEach(function(div) {
+        document.querySelectorAll(".TableBody").forEach(function (div) {
             if (div.id == id) {
-            // Toggle specified DIV
-            div.style.display = div.style.display == "none" ? "block" : "none";
+                // Toggle specified DIV
+                div.style.display = div.style.display == "none" ? "block" : "none";
             } else {
-            // Hide other DIVs
-            div.style.display = "none";
+                // Hide other DIVs
+                div.style.display = "none";
             }
         });
-        }
+    }
 
     function ShowPrescriptionTable() {
         var x = document.getElementById("PrescriptionTable");
@@ -612,7 +669,7 @@
         } else {
             x.style.display = "none";
         }
-        }
+    }
 
 </script>
 {% endblock content %}
