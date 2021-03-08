@@ -8,7 +8,9 @@ from django.db.models import Q
 class HealthAdviceDetailView(DetailView):
     model = HealthAdvice
     template_name = "health_advice/health-advice-detail.html"
+
     def get_context_data(self, *args, **kwargs):
+        # Get all details of a specific category(A, B, C, E...) when clicked and returns it.
         context = super(HealthAdviceDetailView, self).get_context_data(*args, **kwargs)
         context['health_advice_list'] = Category.objects.all()
         return context
@@ -18,6 +20,7 @@ class HealthAdviceListView(ListView):
     template_name = "health_advice/health-advice-list.html"
     
 class CategoryListView(ListView):
+    # List all the categories.
     model = HealthAdvice
     template_name = "health_advice/health-advice-category-list.html"
     
